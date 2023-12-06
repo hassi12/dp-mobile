@@ -17,8 +17,21 @@ import {useNavigation} from '@react-navigation/native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import CartPage from './cartpage';
+import {useState} from 'react';
 
 const ProductPage = () => {
+  const [quantity, setQuantity] = useState(1);
+
+  const handleIncrement = () => {
+    setQuantity(quantity + 1);
+  };
+
+  const handleDecrement = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
   const images = [
     require('../assets/dog1.jpg'),
     require('../assets/cat1.jpg'),
@@ -63,7 +76,7 @@ const ProductPage = () => {
           </TouchableOpacity>
           <TouchableOpacity>
             <Image
-              source={require('../assets/food1.jpeg')}
+              source={require('../assets/petfood32.png')}
               style={styles.image}
             />
           </TouchableOpacity>
@@ -120,6 +133,18 @@ const ProductPage = () => {
               }}>
               Quantity
             </Text>
+
+            <View style={styles.container}>
+              <TouchableOpacity style={styles.button} onPress={handleDecrement}>
+                <Text style={styles.buttonText}>-</Text>
+              </TouchableOpacity>
+              <Text style={styles.quantityText}>{quantity}</Text>
+              <TouchableOpacity style={styles.button} onPress={handleIncrement}>
+                <Text style={styles.buttonText}>+</Text>
+              </TouchableOpacity>
+            </View>
+
+            {/* 
             <View style={styles.quantityContainer}>
               <TouchableOpacity>
                 <FontAwesome name="minus" size={20} color="black" />
@@ -128,7 +153,7 @@ const ProductPage = () => {
               <TouchableOpacity>
                 <FontAwesome name="plus" size={20} color="black" />
               </TouchableOpacity>
-            </View>
+            </View> */}
           </View>
         </View>
         <View style={{borderRadius: 10, width: wp(94), height: hp(11)}}>
@@ -199,7 +224,7 @@ const ProductPage = () => {
       </View>
 
       <View style={styles.verifedagent}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigate.navigate(CartPage)}>
           <Text style={styles.verfiedagenttext}>
             <FontAwesome5 name="shopping-bag" size={20} /> Add to Cart
           </Text>
@@ -236,7 +261,7 @@ const styles = StyleSheet.create({
   container111: {
     flexDirection: 'row', // Horizontal arrangement
     justifyContent: 'space-between', // Equal spacing between views
-    padding: 10,
+    margin: 12,
   },
   parallelView1: {
     width: wp(50),
@@ -255,8 +280,6 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
   },
 
-  // Review comment secion style
-
   review: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -270,11 +293,11 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   firstImage: {
-    marginLeft: wp(2), // Adjust the spacing for the first image
+    marginLeft: wp(2),
   },
   verifedagent: {
-    marginTop: 25,
-    backgroundColor: '#87b83b',
+    marginTop: 15,
+    backgroundColor: '#0e4183',
     borderWidth: 0.5,
     borderRadius: 20,
     width: wp(80),
@@ -329,12 +352,12 @@ const styles = StyleSheet.create({
   priceText: {
     fontSize: 24, // Adjust the font size as needed
     fontWeight: 'bold',
-    color: 'green', // Adjust the color as needed
+    color: 'black', // Adjust the color as needed
   },
 
   // review text style
   ReviewText3: {
-    paddingLeft: 35,
+    paddingLeft: 25,
     width: wp(90),
   },
 
@@ -350,6 +373,30 @@ const styles = StyleSheet.create({
   quantityText: {
     marginHorizontal: 11,
     fontSize: 17,
+  },
+
+  buttonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  quantityText: {
+    fontSize: 18,
+    marginHorizontal: 10,
+  },
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 5,
+  },
+  button: {
+    width: 30,
+    height: 30,
+    backgroundColor: '#00599D',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 5,
+    marginHorizontal: 4,
   },
 });
 export default ProductPage;

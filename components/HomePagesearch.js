@@ -47,7 +47,6 @@ export default function HomePageSearch() {
           name="filter-outline"
           size={25}
           color={'white'}
-          
         />
       </TouchableOpacity>
     </View>
@@ -67,7 +66,6 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     paddingVertical: wp(2),
-    
   },
   whatsapp_style: {
     alignItems: 'flex-end',
@@ -84,6 +82,5 @@ const styles = StyleSheet.create({
   searchfilter_icon: {
     marginRight: wp(2.5),
     marginBottom: wp(2.2),
-    
   },
 });

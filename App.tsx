@@ -8,7 +8,10 @@ import ProfilePage from './screens/ProfilePage';
 import ChatPage from './screens/ChatPage';
 import DetailPage from './screens/DetailPage';
 import ProductPage from './screens/productPage';
-
+import CartPage from './screens/cartpage';
+import CheckoutPage from './screens/CheckoutPage';
+import AddressPage from './screens/AddressPage';
+import Sucessfullorder from './screens/Sucessfullorder';
 
 
 const Stack = createNativeStackNavigator();
@@ -27,7 +30,10 @@ const App = () => {
         <Stack.Screen name="chat" component={ChatPage} />
         <Stack.Screen name="DetailPage" component={DetailPage}/>
         <Stack.Screen name="ProductPage" component={ProductPage}/>
-        
+        <Stack.Screen name="CartPage" component={CartPage} />
+        <Stack.Screen name="CheckoutPage" component={CheckoutPage} />
+        <Stack.Screen name="AddressPage" component={AddressPage} />
+        <Stack.Screen name="Sucessfullorder" component={Sucessfullorder} />
         </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>

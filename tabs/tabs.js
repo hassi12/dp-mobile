@@ -24,7 +24,7 @@ const Tabs = () => {
         position: 'absolute',
         tabBarHideOnKeyboard: true,
         tabBarStyle: {
-          height: 55,
+          height: 50,
           backgroundColor: '#0e4183',
           borderTopLeftRadius: 15,
           borderTopRightRadius: 15,
