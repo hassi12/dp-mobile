@@ -91,13 +91,13 @@ const HomePage = () => {
         <View style={styles.horizontalView}>
           <View
             style={{
-              backgroundColor: '#f2f2f2',
+              backgroundColor: 'white',
               borderRadius: 20,
-              width: wp(48),
+              width: wp(44),
               marginRight: 5,
               position: 'relative',
             }}>
-            <TouchableOpacity onPress={() => navigate.navigate(ProductPage)}>
+            <TouchableOpacity>
               <TouchableOpacity
                 onPress={() => navigate.navigate(ProductPage)}
                 style={{
@@ -136,105 +136,12 @@ const HomePage = () => {
           <View />
           <View
             style={{
-              backgroundColor: '#f2f2f2',
+              backgroundColor: 'white',
               borderRadius: 20,
               width: wp(48),
               marginRight: 5,
             }}>
-            <TouchableOpacity onPress={() => navigate.navigate(ProductPage)}>
-              <TouchableOpacity
-                onPress={() => navigate.navigate(ProductPage)}
-                style={{
-                  position: 'absolute',
-                  top: 10,
-                  right: 6,
-                  backgroundColor: 'white',
-                  borderRadius: 20,
-                  padding: 2,
-                }}>
-                <AntDesign name="heart" size={15} color="red" />
-              </TouchableOpacity>
-              <Image
-                source={require('../assets/petfood32.png')}
-                style={styles.image}
-              />
-            </TouchableOpacity>
-            <Text style={styles.priceText}>Pedigree Vital</Text>
-            <Text style={{paddingLeft: 15, fontSize: 13}}>
-              Beef & Vegetables
-            </Text>
-            <Text style={styles.priceText}>Rs. 230</Text>
-            <TouchableOpacity
-              onPress={() => navigate.navigate(ProductPage)}
-              style={{
-                position: 'absolute',
-                bottom: 5,
-                right: 5,
-                backgroundColor: '#eb2d1c',
-                borderRadius: 20,
-                padding: 5,
-              }}>
-              <AntDesign name="plus" size={25} color="white" />
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
-      <View style={{padding: 5}}></View>
-      <View style={styles.container11}>
-        <View style={styles.horizontalView}>
-          <View
-            style={{
-              backgroundColor: '#f2f2f2',
-              borderRadius: 20,
-              width: wp(48),
-              marginRight: 5,
-              position: 'relative',
-            }}>
-            <TouchableOpacity onPress={() => navigate.navigate(ProductPage)}>
-              <TouchableOpacity
-                onPress={() => navigate.navigate(ProductPage)}
-                style={{
-                  position: 'absolute',
-                  top: 10,
-                  right: 6,
-                  backgroundColor: 'white',
-                  borderRadius: 20,
-                  padding: 2,
-                }}>
-                <AntDesign name="heart" size={15} color="red" />
-              </TouchableOpacity>
-              <Image
-                source={require('../assets/petfood32.png')}
-                style={styles.image}
-              />
-            </TouchableOpacity>
-            <Text style={styles.priceText}>Pedigree Vital</Text>
-            <Text style={{paddingLeft: 15, fontSize: 13}}>
-              Beef & Vegetables
-            </Text>
-            <Text style={styles.priceText}>Rs. 230</Text>
-            <TouchableOpacity
-              onPress={() => navigate.navigate(ProductPage)}
-              style={{
-                position: 'absolute',
-                bottom: 5,
-                right: 5,
-                backgroundColor: '#eb2d1c',
-                borderRadius: 20,
-                padding: 5,
-              }}>
-              <AntDesign name="plus" size={25} color="white" />
-            </TouchableOpacity>
-          </View>
-          <View />
-          <View
-            style={{
-              backgroundColor: '#f2f2f2',
-              borderRadius: 20,
-              width: wp(48),
-              marginRight: 5,
-            }}>
-            <TouchableOpacity onPress={() => navigate.navigate(ProductPage)}>
+            <TouchableOpacity>
               <TouchableOpacity
                 onPress={() => navigate.navigate(ProductPage)}
                 style={{
@@ -279,7 +186,7 @@ const HomePage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f2f2f2',
+    backgroundColor: 'white',
     margin: 8,
     borderTopLeftRadius: 17,
     borderTopRightRadius: 17,
@@ -320,13 +227,12 @@ const styles = StyleSheet.create({
   },
   horizontalView: {
     flexDirection: 'row',
-    backgroundColor: '#f0f0f0',
-    width: wp(97),
+    backgroundColor: 'white',
+    width: wp(93.5),
   },
   image: {
     width: wp(40),
     height: hp(21),
-
     borderRadius: 15,
   },
 
