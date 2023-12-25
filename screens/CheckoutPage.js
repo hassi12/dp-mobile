@@ -21,6 +21,7 @@ import {useState} from 'react';
 import CartPage from './cartpage';
 import AddressPage from './AddressPage';
 import Sucessfullorder from './Sucessfullorder';
+import AddressList from './AddressList';
 
 const CheckoutPage = () => {
   const navigate = useNavigation();
@@ -85,7 +86,7 @@ const CheckoutPage = () => {
             <Text
               style={{
                 marginLeft: 20,
-                fontSize: 25,
+                fontSize: 15,
                 fontWeight: '900',
                 color: 'black',
               }}>
@@ -94,7 +95,7 @@ const CheckoutPage = () => {
             <Text
               style={{
                 marginLeft: 20,
-                fontSize: 20,
+                fontSize: 15,
                 fontWeight: '900',
                 color: 'black',
               }}>
@@ -122,18 +123,27 @@ const CheckoutPage = () => {
             }}>
             1. Shipping Information
           </Text>
-
-          <View style={style.container}>
-            <Text
-              style={{
-                marginLeft: 20,
-                fontSize: 15,
-                fontWeight: '900',
-                width: wp(85),
-              }}>
-              Atif Badini , lake city Lahore near zargoon city, quetta nushki ,
-              balochistan{' '}
-            </Text>
+          <View>
+            <TouchableOpacity>
+              <AntDesign
+                name="right"
+                style={{marginLeft: 330, fontSize: 20, color: 'black'}}
+                onPress={() => navigate.navigate(AddressList)}
+              />
+            </TouchableOpacity>
+          </View>
+          <View>
+            <TouchableOpacity>
+              <Text
+                style={{
+                  fontSize: 15,
+                  fontWeight: '900',
+                  width: wp(85),
+                }}>
+                Atif Badini , lake city Lahore near zargoon city, quetta nushki
+                , balochistan{' '}
+              </Text>
+            </TouchableOpacity>
           </View>
           <TouchableOpacity>
             <Text
@@ -156,10 +166,9 @@ const CheckoutPage = () => {
             2. Payment Method
           </Text>
 
-          <View style={style.container}>
+          <View>
             <Text
               style={{
-                marginLeft: 20,
                 fontSize: 15,
                 fontWeight: '900',
                 width: wp(85),
@@ -177,7 +186,7 @@ const CheckoutPage = () => {
           borderTopRightRadius: 25,
           borderTopLeftRadius: 25,
           backgroundColor: '#ffffff',
-          borderWidth: 0.2,
+          borderWidth: 0.6,
         }}>
         <View>
           <Text
@@ -253,7 +262,7 @@ const CheckoutPage = () => {
 const style = StyleSheet.create({
   base: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: 'white',
   },
   cart1: {
     marginTop: 5,

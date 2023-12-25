@@ -13,6 +13,7 @@ import {useNavigation} from '@react-navigation/native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import OrderPage from './OrderPage';
 
 const Sucessfullorder = () => {
   const navigate = useNavigation();
@@ -49,7 +50,7 @@ const Sucessfullorder = () => {
       </Text>
 
       <TouchableOpacity>
-        <Text style={{marginTop: 80, color: 'red', fontSize: 20}}>
+        <Text onPress={() => navigate.navigate(OrderPage)} style={{marginTop: 80, color: 'red', fontSize: 20}}>
           track your order <AntDesign name="arrowright" size={20} />
         </Text>
       </TouchableOpacity>
