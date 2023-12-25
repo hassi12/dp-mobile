@@ -1,12 +1,21 @@
 import React from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Import the icon library
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import ProfilePage from './ProfilePage';
+import {useNavigation} from '@react-navigation/native';
 
 const SignUp = () => {
+  const navigate = useNavigation();
   return (
     <View style={styles.mainview}>
       <View>
@@ -20,7 +29,7 @@ const SignUp = () => {
           placeholderTextColor="#808080"
           style={styles.input}
         />
-         <Text style={styles.label}>Number</Text>
+        <Text style={styles.label}>Number</Text>
         <TextInput
           placeholder="Enter your phone number"
           placeholderTextColor="#808080"
@@ -34,8 +43,12 @@ const SignUp = () => {
           style={styles.input}
         />
       </View>
-      <TouchableOpacity style={styles.signInButton} >
-        <Text style={styles.signInButtonText}>Sign Up</Text>
+      <TouchableOpacity style={styles.signInButton}>
+        <Text
+          style={styles.signInButtonText}
+          onPress={() => navigate.navigate(ProfilePage)}>
+          Sign Up
+        </Text>
       </TouchableOpacity>
       <View style={styles.iconContainer}>
         <TouchableOpacity style={styles.icon}>
@@ -49,10 +62,10 @@ const SignUp = () => {
         </TouchableOpacity>
       </View>
     </View>
-  )
-}
+  );
+};
 
-export default SignUp
+export default SignUp;
 
 const styles = StyleSheet.create({
   mainview: {

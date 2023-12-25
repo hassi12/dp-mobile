@@ -45,28 +45,31 @@ const ProductPage = () => {
   };
   return (
     <View style={styles.container1}>
-      <View>
-        <SafeAreaView
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            paddingTop: 10,
-          }}>
-          <TouchableOpacity
-            onPress={handleBackPress}
-            style={{flexDirection: 'row', alignItems: 'center'}}>
-            <AntDesign
-              name="left"
-              size={20}
-              style={{color: 'black', marginRight: 100}}
-            />
-            <Text style={styles.seeAllText}>Product Details</Text>
-          </TouchableOpacity>
-        </SafeAreaView>
-      </View>
+      <SafeAreaView
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          paddingTop: 10,
+        }}>
+        <TouchableOpacity
+          onPress={handleBackPress}
+          style={{flexDirection: 'row', alignItems: 'center'}}>
+          <AntDesign
+            name="left"
+            size={25}
+            style={{color: 'black', marginRight: 80}}
+          />
+          <Text style={styles.seeAllText}>Product Details</Text>
+        </TouchableOpacity>
+      </SafeAreaView>
 
       <View style={styles.productview}>
-        <View style={{marginTop: 10, position: 'relative'}}>
+        <View
+          style={{
+            position: 'relative',
+            borderRadius: 10,
+            height: hp(34),
+          }}>
           <TouchableOpacity style={{position: 'absolute', top: 0, right: 0}}>
             <AntDesign
               name="heart"
@@ -74,12 +77,10 @@ const ProductPage = () => {
               style={{color: 'red', paddingRight: 15}}
             />
           </TouchableOpacity>
-          <TouchableOpacity>
-            <Image
-              source={require('../assets/petfood32.png')}
-              style={styles.image}
-            />
-          </TouchableOpacity>
+          <Image
+            source={require('../assets/petfood32.png')}
+            style={styles.image}
+          />
         </View>
 
         <View style={styles.container111}>
@@ -88,13 +89,15 @@ const ProductPage = () => {
               style={{
                 fontWeight: 'bold',
                 color: 'black',
+                fontSize: 20,
+                marginLeft: 10,
               }}>
               Pedigree
             </Text>
-            <Text>Beef and vegitables</Text>
-            <View style={styles.priceContainer}>
-              <Text style={styles.priceText}>RS. 230</Text>
+            <Text style={{marginLeft: 10}}>Beef and vegitables</Text>
+            <Text style={styles.priceText}>RS. 230</Text>
 
+            <View style={styles.priceContainer}>
               <View style={styles.stars}>
                 <MaterialIcons
                   name="star"
@@ -128,8 +131,9 @@ const ProductPage = () => {
             <Text
               style={{
                 fontWeight: 'bold',
-                paddingLeft: 40,
+                paddingLeft: 15,
                 color: 'black',
+                fontSize: 20,
               }}>
               Quantity
             </Text>
@@ -143,78 +147,75 @@ const ProductPage = () => {
                 <Text style={styles.buttonText}>+</Text>
               </TouchableOpacity>
             </View>
-
-            {/* 
-            <View style={styles.quantityContainer}>
-              <TouchableOpacity>
-                <FontAwesome name="minus" size={20} color="black" />
-              </TouchableOpacity>
-              <Text style={styles.quantityText}>1</Text>
-              <TouchableOpacity>
-                <FontAwesome name="plus" size={20} color="black" />
-              </TouchableOpacity>
-            </View> */}
           </View>
         </View>
-        <View style={{borderRadius: 10, width: wp(94), height: hp(11)}}>
+        <View
+          style={{
+            width: wp(95),
+            height: hp(17),
+            borderRadius: 10,
+          }}>
           <Text
             style={{
               fontWeight: 'bold',
               color: 'black',
-              paddingLeft: 15,
+              paddingLeft: 12,
+              marginTop: 10,
             }}>
             Product Discription
           </Text>
-          <Text style={{paddingLeft: 15}}>
-            this product is called prdigree whhich is fond and made by itlay{' '}
+          <Text style={{paddingLeft: 5, marginTop: 5}}>
+            This product is called prdigree whhich is fond and made by itlay.
+            The italian based company.
           </Text>
         </View>
       </View>
 
-      {/* comments section with view */}
-      <View style={styles.review}>
-        <View style={styles.container111}>
-          <View style={styles.reviewView1}>
-            <Text
-              style={{
-                fontWeight: 'bold',
-                color: 'black',
-              }}>
-              Atif Badini
-            </Text>
-          </View>
-          <View style={styles.reviewView2}>
-            <View style={styles.stars}>
-              <MaterialIcons
-                name="star"
-                size={20}
-                style={styles.starUnselected}
-              />
-              <MaterialIcons
-                name="star"
-                size={20}
-                style={styles.starUnselected}
-              />
-              <MaterialIcons
-                name="star"
-                size={20}
-                style={styles.starUnselected}
-              />
-              <MaterialIcons
-                name="star-half"
-                size={20}
-                style={styles.starhalf}
-              />
-              <MaterialIcons
-                name="star-outline"
-                size={20}
-                style={styles.starouline}
-              />
+      <View
+        style={{borderWidth: 0.2, borderRadius: 10, width: wp(95), margin: 5}}>
+        <View style={styles.review}>
+          <View style={styles.container111}>
+            <View style={styles.reviewView1}>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  color: 'black',
+                  marginLeft: 10,
+                }}>
+                Atif Badini
+              </Text>
+            </View>
+            <View style={styles.reviewView2}>
+              <View style={styles.stars}>
+                <MaterialIcons
+                  name="star"
+                  size={20}
+                  style={styles.starUnselected}
+                />
+                <MaterialIcons
+                  name="star"
+                  size={20}
+                  style={styles.starUnselected}
+                />
+                <MaterialIcons
+                  name="star"
+                  size={20}
+                  style={styles.starUnselected}
+                />
+                <MaterialIcons
+                  name="star-half"
+                  size={20}
+                  style={styles.starhalf}
+                />
+                <MaterialIcons
+                  name="star-outline"
+                  size={20}
+                  style={styles.starouline}
+                />
+              </View>
             </View>
           </View>
         </View>
-      </View>
-      <View>
         <ScrollView>
           <Text style={styles.ReviewText3}>
             I have found this product very good please buy as much as you can.
@@ -237,31 +238,31 @@ const ProductPage = () => {
 const styles = StyleSheet.create({
   container1: {
     flex: 1,
-    backgroundColor: '#f3f3f3',
+    backgroundColor: 'white',
   },
   seeAllText: {
     fontWeight: 'bold',
-    fontSize: 15,
+    fontSize: 20,
     color: 'black',
     marginRight: 130,
   },
   productview: {
-    marginTop: 15,
+    marginTop: 5,
     width: wp(95),
     height: hp(68),
     marginLeft: 8,
     borderRadius: 5,
   },
   image: {
-    width: 270,
-    height: 270,
-    resizeMode: 'cover',
-    marginLeft: wp(15),
+    width: wp(50),
+    height: hp(32),
+    marginLeft: wp(20),
+    marginBottom: 4,
+    marginTop: 4,
   },
   container111: {
-    flexDirection: 'row', // Horizontal arrangement
-    justifyContent: 'space-between', // Equal spacing between views
-    margin: 12,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   parallelView1: {
     width: wp(50),
@@ -277,13 +278,13 @@ const styles = StyleSheet.create({
   reviewView2: {
     marginHorizontal: 8,
     width: wp(30),
-    paddingLeft: 20,
+    paddingLeft: 50,
   },
 
   review: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
   },
   reviewimage: {
     width: wp(15),
@@ -300,9 +301,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#0e4183',
     borderWidth: 0.5,
     borderRadius: 20,
-    width: wp(80),
+    width: wp(50),
     height: hp(6),
-    marginLeft: wp(10),
+    marginLeft: wp(25),
   },
   verfiedagenttext: {
     marginTop: 8,
@@ -348,20 +349,19 @@ const styles = StyleSheet.create({
   },
   priceContainer: {
     marginTop: 5,
+    marginLeft: 6,
   },
   priceText: {
-    fontSize: 24, // Adjust the font size as needed
+    fontSize: 24,
     fontWeight: 'bold',
-    color: 'black', // Adjust the color as needed
+    color: 'black',
+    marginLeft: 10,
   },
 
-  // review text style
   ReviewText3: {
-    paddingLeft: 25,
-    width: wp(90),
+    paddingLeft: 10,
+    width: wp(95),
   },
-
-  // quantity button style
   quantityContainer: {
     flexDirection: 'row',
     borderRadius: 20,
@@ -396,7 +396,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 5,
-    marginHorizontal: 4,
+    marginHorizontal: 6,
+  },
+  card: {
+    backgroundColor: 'white',
+    borderRadius: 8,
+    width: wp(95),
+    marginLeft: 5,
+  },
+  shadowProp: {
+    shadowColor: '#171717',
+    shadowOffset: {width: -2, height: 4},
+    shadowOpacity: 1,
+    shadowRadius: 10,
   },
 });
 export default ProductPage;

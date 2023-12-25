@@ -42,7 +42,7 @@ const CartPage = () => {
   };
 
   return (
-    <View style={{flex: 1, backgroundColor: '#e4e8f1'}}>
+    <View style={{flex: 1, backgroundColor: 'white'}}>
       <View style={{flexDirection: 'row', marginBottom: 10}}>
         <TouchableOpacity
           style={{
@@ -53,6 +53,7 @@ const CartPage = () => {
           <AntDesign
             name="left"
             size={25}
+            Color="black"
             onPress={() => navigate.navigate(Tabs)}
           />
         </TouchableOpacity>
@@ -62,7 +63,7 @@ const CartPage = () => {
               textAlign: 'center',
               fontWeight: 'bold',
               color: '#00599d',
-              fontSize: 30,
+              fontSize: 25,
               marginLeft: 40,
             }}>
             MY CART{' '}
@@ -74,11 +75,11 @@ const CartPage = () => {
         <View style={styles.cart1}>
           <View
             style={{
-              height: 130,
+              height: 128,
               width: 100,
-              borderTopLeftRadius: 10,
-              borderBottomLeftRadius: 10,
-              backgroundColor: '#e9eef7',
+              borderTopLeftRadius: 30,
+              borderBottomLeftRadius: 30,
+              backgroundColor: 'white',
             }}>
             <Image
               source={require('../assets/petfood32.png')}
@@ -136,11 +137,11 @@ const CartPage = () => {
         <View style={styles.cart1}>
           <View
             style={{
-              height: 130,
+              height: 128,
               width: 100,
-              borderTopLeftRadius: 10,
-              borderBottomLeftRadius: 10,
-              backgroundColor: '#e9eef7',
+              borderTopLeftRadius: 30,
+              borderBottomLeftRadius: 30,
+              backgroundColor: 'white',
             }}>
             <Image
               source={require('../assets/petfood32.png')}
@@ -202,6 +203,7 @@ const CartPage = () => {
           borderTopRightRadius: 25,
           borderTopLeftRadius: 25,
           backgroundColor: '#ffffff',
+          borderWidth: 0.5,
         }}>
         <View>
           <Text
@@ -254,15 +256,15 @@ const CartPage = () => {
 
 const styles = StyleSheet.create({
   cart1: {
-    marginTop: 5,
     height: 130,
     alignContent: 'center',
     width: wp(90),
     margin: 5,
-    marginHorizontal: 25,
+    marginHorizontal: 20,
     backgroundColor: '#ffffff',
     flexDirection: 'row',
     borderRadius: 30,
+    borderWidth: 0.4,
   },
   container: {
     flexDirection: 'row',
@@ -303,8 +305,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   itemimage: {
-    width: wp(27),
-    height: hp(18),
+    width: wp(26),
+    height: hp(16),
+    marginTop: 5,
   },
 });
 

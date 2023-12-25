@@ -65,7 +65,7 @@ const HomePage = () => {
           dotstyle
           circleLoop={true}
           borderRadius={20}
-          resizeMode="cover" // Use "cover" to fill the container without distorting
+          resizeMode="cover"
           sliderBoxHeight={hp(25)}
         />
       </View>
@@ -94,34 +94,38 @@ const HomePage = () => {
               backgroundColor: 'white',
               borderRadius: 20,
               width: wp(44),
-              marginRight: 5,
+              marginRight: 12,
               position: 'relative',
+              borderColor: 'gray',
+              borderWidth: 1,
             }}>
-            <TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => navigate.navigate(ProductPage)}
-                style={{
-                  position: 'absolute',
-                  top: 10,
-                  right: 6,
-                  backgroundColor: 'white',
-                  borderRadius: 20,
-                  padding: 2,
-                }}>
-                <AntDesign name="heart" size={15} color="red" />
-              </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                position: 'absolute',
+                top: 10,
+                right: 6,
+                backgroundColor: 'white',
+                borderRadius: 20,
+                padding: 2,
+              }}>
+              <AntDesign name="heart" size={15} color="red" />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => navigate.navigate(ProductPage)}
+              style={{width: wp(35)}}>
               <Image
                 source={require('../assets/petfood32.png')}
                 style={styles.image}
               />
             </TouchableOpacity>
+
             <Text style={styles.priceText}>Pedigree Vital</Text>
             <Text style={{paddingLeft: 15, fontSize: 13}}>
               Beef & Vegetables
             </Text>
             <Text style={styles.priceText}>Rs. 230</Text>
             <TouchableOpacity
-              onPress={() => navigate.navigate(ProductPage)}
               style={{
                 position: 'absolute',
                 bottom: 5,
@@ -130,42 +134,48 @@ const HomePage = () => {
                 borderRadius: 20,
                 padding: 5,
               }}>
-              <AntDesign name="plus" size={25} color="white" />
+              <AntDesign name="plus" size={20} color="white" />
             </TouchableOpacity>
           </View>
           <View />
+
           <View
             style={{
               backgroundColor: 'white',
               borderRadius: 20,
-              width: wp(48),
+              width: wp(44),
               marginRight: 5,
+              position: 'relative',
+              borderColor: 'gray',
+              borderWidth: 1,
             }}>
-            <TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => navigate.navigate(ProductPage)}
-                style={{
-                  position: 'absolute',
-                  top: 10,
-                  right: 6,
-                  backgroundColor: 'white',
-                  borderRadius: 20,
-                  padding: 2,
-                }}>
-                <AntDesign name="heart" size={15} color="red" />
-              </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                position: 'absolute',
+                top: 10,
+                right: 6,
+                backgroundColor: 'white',
+                borderRadius: 20,
+                padding: 2,
+              }}>
+              <AntDesign name="heart" size={15} color="red" />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => navigate.navigate(ProductPage)}
+              style={{width: wp(35)}}>
               <Image
                 source={require('../assets/petfood32.png')}
                 style={styles.image}
               />
             </TouchableOpacity>
+
             <Text style={styles.priceText}>Pedigree Vital</Text>
             <Text style={{paddingLeft: 15, fontSize: 13}}>
               Beef & Vegetables
             </Text>
             <Text style={styles.priceText}>Rs. 230</Text>
             <TouchableOpacity
-              onPress={() => navigate.navigate(ProductPage)}
               style={{
                 position: 'absolute',
                 bottom: 5,
@@ -174,9 +184,10 @@ const HomePage = () => {
                 borderRadius: 20,
                 padding: 5,
               }}>
-              <AntDesign name="plus" size={25} color="white" />
+              <AntDesign name="plus" size={20} color="white" />
             </TouchableOpacity>
           </View>
+          <View />
         </View>
       </View>
     </ScrollView>
@@ -200,7 +211,7 @@ const styles = StyleSheet.create({
     width: wp(99.5),
     height: hp(20),
     borderColor: 'black',
-    paddingTop: 15,
+    paddingTop: 12,
   },
   petstyle: {
     fontSize: 15,
@@ -215,9 +226,9 @@ const styles = StyleSheet.create({
   },
 
   sliderviewstyle: {
-    height: hp(25),
+    height: hp(24.5),
     width: wp(95),
-    borderRadius: 15, // Add this line to set the border radius
+    borderRadius: 15,
     overflow: 'hidden',
   },
   container11: {
@@ -228,12 +239,13 @@ const styles = StyleSheet.create({
   horizontalView: {
     flexDirection: 'row',
     backgroundColor: 'white',
-    width: wp(93.5),
+    width: wp(90),
   },
   image: {
-    width: wp(40),
-    height: hp(21),
+    width: wp(35),
+    height: hp(20),
     borderRadius: 15,
+    marginTop: 2,
   },
 
   containertext: {
@@ -245,6 +257,7 @@ const styles = StyleSheet.create({
   titleText: {
     fontWeight: 'bold',
     color: 'black',
+    marginLeft: 10,
   },
   seeAllText: {
     fontWeight: 'bold',
@@ -253,7 +266,7 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   priceText: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
     color: 'black',
     paddingLeft: 15,

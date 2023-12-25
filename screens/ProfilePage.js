@@ -1,20 +1,24 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import SignIn from './SignIn';
+import {useNavigation} from '@react-navigation/native';
 
 const ProfilePage = () => {
+  const navigate = useNavigation();
   return (
     <View style={styles.container}>
       <View style={styles.profileSection}>
-        <Image 
-         source={require('../assets/profile.png')} style={styles.profileImage} />
+        <Image
+          source={require('../assets/profile.png')}
+          style={styles.profileImage}
+        />
         <Text style={styles.userName}>John Doe</Text>
-        <TouchableOpacity >
+        <TouchableOpacity>
           <Text>Edit Profile</Text>
         </TouchableOpacity>
       </View>
 
-      
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Order History</Text>
       </View>
@@ -43,8 +47,10 @@ const ProfilePage = () => {
       </View>
 
       {/* Log Out Option */}
-      <TouchableOpacity style={styles.logoutButton} >
-        <Text style={styles.logoutButtonText}>Log Out</Text>
+      <TouchableOpacity
+        style={styles.logoutButton}
+        onPress={() => navigate.navigate(SignIn)}>
+        <Text style={styles.logoutButtonText}>Log In</Text>
       </TouchableOpacity>
     </View>
   );

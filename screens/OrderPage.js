@@ -14,6 +14,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
+
 const OrderPage = () => {
   return (
     <SafeAreaView style={styles.container}>
@@ -21,7 +22,7 @@ const OrderPage = () => {
         <TouchableOpacity>
           <Text style={styles.listText}>
             <AntDesign name="left" size={30} />
-            {'          '}
+            {'                   '}
             Order List
           </Text>
         </TouchableOpacity>
@@ -50,23 +51,76 @@ const OrderPage = () => {
                 }}>
                 D4 Chair
               </Text>
+              <Text
+                style={{
+                  color: 'black',
+                  marginLeft: 10,
+                  fontSize: 20,
+                }}>
+                RS. 451110
+              </Text>
             </View>
-            <TouchableOpacity></TouchableOpacity>
             <View
               style={{
                 position: 'absolute',
-                top: 88,
-                right: 20,
+                top: 0,
+                right: 10,
                 height: 40,
                 width: 90,
                 borderRadius: 10,
               }}>
               <TouchableOpacity>
-                <Text style={{color: 'red', textAlign: 'center', marginTop: 7}}>
-                  Cancel Order
+                <Text
+                  style={{
+                    color: 'red',
+                    textAlign: 'center',
+                    marginTop: 7,
+                    fontWeight: 'bold',
+                  }}>
+                  Order Status
                 </Text>
               </TouchableOpacity>
             </View>
+            <View style={{}}></View>
+            <TouchableOpacity>
+              <View
+                style={{
+                  position: 'absolute',
+                  top: 95,
+                  right: 5,
+                  height: 30,
+                  width: 100,
+                  borderWidth: 0.3,
+                  borderRadius: 5,
+                  backgroundColor: '#f7454a',
+                  borderColor: '#f7454a',
+                }}>
+                <Text
+                  style={{color: 'white', textAlign: 'center', marginTop: 5}}>
+                  Order Details
+                </Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <View
+                style={{
+                  position: 'absolute',
+                  top: 95,
+                  left: 10,
+                  height: 30,
+                  width: 100,
+                  borderWidth: 0.3,
+                  borderRadius: 5,
+                  backgroundColor: '#f7454a',
+                  borderColor: '#f7454a',
+                }}>
+                <Text
+                  style={{color: 'white', textAlign: 'center', marginTop: 5}}>
+                  Cancel Order
+                </Text>
+              </View>
+            </TouchableOpacity>
+
           </View>
         </View>
       </View>
@@ -77,6 +131,7 @@ const OrderPage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#ffffff',
   },
   mainView: {
     flex: 1,

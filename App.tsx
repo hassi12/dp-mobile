@@ -17,6 +17,7 @@ import Sucessfullorder from './screens/Sucessfullorder';
 import SignUp from './screens/SignUp';
 import SignIn from './screens/SignIn';
 import OrderPage from './screens/OrderPage';
+import AddressList from './screens/AddressList';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,12 +30,12 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{headerShown: false}}
-        initialRouteName="OrderPage">
+        initialRouteName="Tabs">
         <Stack.Group>
           <Stack.Screen name="Tabs" component={tabs} />
           <Stack.Screen name="Home" component={HomePage} />
           <Stack.Screen name="Chart" component={ChartPage} />
-          <Stack.Screen name="Profile" component={ProfilePage} />
+          <Stack.Screen name="ProfilePage" component={ProfilePage} />
           <Stack.Screen name="chat" component={ChatPage} />
           <Stack.Screen name="DetailPage" component={DetailPage} />
           <Stack.Screen name="ProductPage" component={ProductPage} />
@@ -45,6 +46,7 @@ const App = () => {
           <Stack.Screen name="SignUp" component={SignUp} />
           <Stack.Screen name="SignIn" component={SignIn} />
           <Stack.Screen name="OrderPage" component={OrderPage} />
+          <Stack.Screen name="AddressList" component={AddressList} />
         </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>

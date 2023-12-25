@@ -1,15 +1,26 @@
 import React from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Import the icon library
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import SignUp from './SignUp';
+import {useNavigation} from '@react-navigation/native';
+import ProfilePage from './ProfilePage';
 
 const SignIn = () => {
+  const navigate = useNavigation();
+
   const handleSignIn = () => {
-    // Add your sign-in logic here
-    console.log('Signing In');
+    // Use navigate.navigate with the screen name as a string
+    navigate.navigate(ProfilePage);
   };
 
   return (
@@ -47,6 +58,10 @@ const SignIn = () => {
           <Icon name="instagram" size={30} color="#c82f7c" />
         </TouchableOpacity>
       </View>
+
+      <TouchableOpacity onPress={() => navigate.navigate(SignUp)}>
+        <Text style={{textAlign: 'center', marginTop: 25}}>sign up now</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -86,7 +101,7 @@ const styles = StyleSheet.create({
     color: '#000000',
   },
   signInButton: {
-    backgroundColor: 'blue',
+    backgroundColor: '#0e4183',
     padding: 15,
     borderRadius: 15,
     alignItems: 'center',
