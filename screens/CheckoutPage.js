@@ -27,257 +27,223 @@ const CheckoutPage = () => {
   const navigate = useNavigation();
 
   return (
-    <View style={style.base}>
-      <SafeAreaView>
-        <View style={{flexDirection: 'row', marginBottom: 10}}>
-          <TouchableOpacity
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              paddingHorizontal: 40,
-            }}>
-            <AntDesign
-              name="left"
-              size={25}
-              onPress={() => navigate.navigate(CartPage)}
-            />
-          </TouchableOpacity>
-          <View style={{marginTop: 5}}>
-            <Text
-              style={{
-                textAlign: 'center',
-                fontWeight: 'bold',
-                color: '#00599d',
-                fontSize: 30,
-                marginLeft: 40,
-              }}>
-              CheckOut{' '}
-            </Text>
-          </View>
-        </View>
-      </SafeAreaView>
-
-      <View style={style.cart1}>
-        <View
-          style={{
-            height: 130,
-            width: 100,
-            borderTopLeftRadius: 10,
-            borderBottomLeftRadius: 10,
-            backgroundColor: '#e9eef7',
-          }}>
-          <Image
-            source={require('../assets/petfood32.png')}
-            style={style.itemimage}
-          />
-        </View>
-        <View>
-          <Text
-            style={{
-              marginTop: 5,
-              color: 'black',
-              marginLeft: 20,
-              fontSize: 30,
-            }}>
-            Pre Degree
-          </Text>
-
-          <View style={style.itemcontainer}>
-            <Text
-              style={{
-                marginLeft: 20,
-                fontSize: 15,
-                fontWeight: '900',
-                color: 'black',
-              }}>
-              RS.4500
-            </Text>
-            <Text
-              style={{
-                marginLeft: 20,
-                fontSize: 15,
-                fontWeight: '900',
-                color: 'black',
-              }}>
-              Quantity 3
-            </Text>
-          </View>
-          <TouchableOpacity>
-            <Text
-              style={{marginLeft: 20, marginTop: 10, color: 'blue'}}
-              onPress={() => navigate.navigate(CartPage)}>
-              Edit <AntDesign name="right"></AntDesign>{' '}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      <View style={style.cart1}>
-        <View>
-          <Text
-            style={{
-              marginTop: 5,
-              color: 'black',
-              marginLeft: 20,
-              fontSize: 20,
-            }}>
-            1. Shipping Information
-          </Text>
-          <View>
-            <TouchableOpacity>
-              <AntDesign
-                name="right"
-                style={{marginLeft: 330, fontSize: 20, color: 'black'}}
-                onPress={() => navigate.navigate(AddressList)}
-              />
-            </TouchableOpacity>
-          </View>
-          <View>
-            <TouchableOpacity>
-              <Text
-                style={{
-                  fontSize: 15,
-                  fontWeight: '900',
-                  width: wp(85),
-                }}>
-                Atif Badini , lake city Lahore near zargoon city, quetta nushki
-                , balochistan{' '}
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <TouchableOpacity>
-            <Text
-              style={{marginLeft: 20, marginTop: 10, color: 'blue'}}
-              onPress={() => navigate.navigate(AddressPage)}>
-              Edit <AntDesign name="right"></AntDesign>{' '}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      <View style={style.cart1}>
-        <View>
-          <Text
-            style={{
-              marginTop: 5,
-              color: 'black',
-              marginLeft: 20,
-              fontSize: 20,
-            }}>
-            2. Payment Method
-          </Text>
-
-          <View>
-            <Text
-              style={{
-                fontSize: 15,
-                fontWeight: '900',
-                width: wp(85),
-              }}>
-              Cash on Delevery
-            </Text>
-          </View>
-        </View>
-      </View>
-
+    <SafeAreaView style={style.base}>
       <View
         style={{
-          height: 200,
-          width: wp(100),
-          borderTopRightRadius: 25,
-          borderTopLeftRadius: 25,
-          backgroundColor: '#ffffff',
-          borderWidth: 0.6,
+          flexDirection: 'row',
+          backgroundColor: 'white',
+          height: hp(6),
+          marginBottom: 5,
         }}>
-        <View>
+        <TouchableOpacity
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            paddingHorizontal: 10,
+          }}>
+          <AntDesign
+            name="left"
+            size={25}
+            color={'black'}
+            onPress={() => navigate.navigate(CartPage)}
+          />
+        </TouchableOpacity>
+        <View style={{marginTop: 5}}>
           <Text
             style={{
-              marginTop: 15,
               color: 'black',
-              marginLeft: 50,
-              fontSize: 15,
-              marginBottom: 10,
-              fontWeight: '900',
-              color: 'black',
+              fontSize: 18,
+              marginLeft: 20,
+              marginTop: 3,
             }}>
-            Order Summary
+            CheckOut
           </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              paddingHorizontal: 50,
-            }}>
-            <View>
-              <Text
-                style={{fontWeight: '900', color: 'black', marginBottom: 10}}>
-                Sub total
-              </Text>
-              <Text
-                style={{fontWeight: '900', color: 'black', marginBottom: 10}}>
-                Shipping (standard 5-8 Days)
-              </Text>
-              <Text
-                style={{fontWeight: '900', color: 'black', marginBottom: 10}}>
-                Tax{' '}
-              </Text>
-              <Text
-                style={{fontWeight: '900', color: 'black', marginBottom: 10}}>
-                Total{' '}
-              </Text>
-            </View>
-            <View>
-              <Text
-                style={{fontWeight: '900', color: 'black', marginBottom: 10}}>
-                RS.36000
-              </Text>
-              <Text
-                style={{fontWeight: '900', color: 'black', marginBottom: 10}}>
-                RS. 150000
-              </Text>
-              <Text
-                style={{fontWeight: '900', color: 'black', marginBottom: 10}}>
-                RS. 1425000
-              </Text>
-              <Text
-                style={{fontWeight: '900', color: 'black', marginBottom: 10}}>
-                RS. 1425000
-              </Text>
-            </View>
-          </View>
-          <View style={style.verifedagent}>
-            <TouchableOpacity>
-              <Text
-                style={style.verfiedagenttext}
-                onPress={() => navigate.navigate(Sucessfullorder)}>
-                CONFIRM ORDER
-              </Text>
-            </TouchableOpacity>
-          </View>
         </View>
       </View>
-    </View>
+
+      <View style={style.cart1}>
+        <Text
+          style={{
+            marginTop: 5,
+            color: 'black',
+            fontWeight: 'bold',
+            marginLeft: 10,
+            fontSize: 15,
+          }}>
+          Deliver to: Atif Badini
+          <TouchableOpacity>
+            <AntDesign
+              name="right"
+              style={{marginLeft: 330, fontSize: 20, color: 'black'}}
+              onPress={() => navigate.navigate(AddressList)}
+            />
+          </TouchableOpacity>
+        </Text>
+
+        <Text
+          style={{
+            fontSize: 13,
+            width: wp(85),
+            color: 'black',
+            marginLeft: 10,
+          }}>
+          Atif Badini , lake city Lahore near zargoon city, quetta nushki ,
+          balochistan-
+        </Text>
+        {/* <TouchableOpacity>
+          <Text
+            style={{marginLeft: 20, marginTop: 10, color: 'blue'}}
+            onPress={() => navigate.navigate(AddressPage)}>
+            Edit <AntDesign name="right"></AntDesign>{' '}
+          </Text>
+        </TouchableOpacity> */}
+        <Text style={{width: wp(100), marginLeft: 15, fontWeight: '100'}}>
+          ____________________________________________________________
+        </Text>
+        <Text
+          style={{
+            marginTop: 10,
+            color: 'black',
+            marginLeft: 10,
+            fontSize: 15,
+            fontWeight: 'bold',
+          }}>
+          Bill to the same address
+          <AntDesign
+            name="right"
+            style={{
+              fontSize: 20,
+              color: 'black',
+            }}
+          />
+        </Text>
+      </View>
+      <View style={{height: 70, backgroundColor: 'white', margin: 10}}>
+        <Text
+          style={{
+            marginTop: 5,
+            color: 'black',
+            fontWeight: 'bold',
+            marginLeft: 10,
+            fontSize: 15,
+          }}>
+          Payment method :
+        </Text>
+        <Text style={{marginLeft: 10, marginTop: 5, justifyContent: 'center'}}>Cash on Delivery</Text>
+      </View>
+      <ScrollView>
+        <View style={style.cart2}>
+          <View
+            style={{
+              height: hp(7),
+              width: wp(94),
+            }}>
+            <Text
+              style={{
+                marginTop: 10,
+                color: 'black',
+                marginLeft: 10,
+                fontSize: 15,
+                fontWeight: 'bold',
+              }}>
+              H&J Enterprises (Karachi)
+            </Text>
+            <Text style={{width: wp(100), marginLeft: 15, fontWeight: '300'}}>
+              ________________________________________________________
+            </Text>
+          </View>
+
+          <View style={{flexDirection: 'row'}}>
+            <Image
+              source={require('../assets/petfood32.png')}
+              style={style.itemimage}
+            />
+            <View>
+              <Text
+                style={{
+                  marginLeft: 10,
+                  fontWeight: '600',
+                  color: 'black',
+                  width: wp(70),
+                }}>
+                Pack of 2 - Led style fitness band prizze is very fine
+              </Text>
+              <Text style={{marginLeft: 10, fontWeight: '600', width: wp(70)}}>
+                No band color family pack of m4 led watch.
+              </Text>
+              <Text
+                style={{
+                  marginLeft: 10,
+                  marginTop: 10,
+                  color: 'black',
+                  fontWeight: '600',
+                  width: wp(70),
+                }}>
+                RS. 427
+              </Text>
+              <Text
+                style={{
+                  marginLeft: 235,
+                  marginTop: 10,
+                  color: 'black',
+                  fontWeight: '600',
+                  width: wp(70),
+                }}>
+                Qty: 1
+              </Text>
+            </View>
+          </View>
+          <Text style={{width: wp(100), marginLeft: 15, fontWeight: '100'}}>
+            ____________________________________________________________
+          </Text>
+        </View>
+      </ScrollView>
+      <View style={style.bottomView}>
+        <View>
+          <Text>
+            Total:
+            <Text style={{color: 'red'}}>RS. 427</Text>
+          </Text>
+          <Text>VAT included where applicable</Text>
+        </View>
+        <TouchableOpacity
+          style={style.placeOrderButton}
+          onPress={() => {
+            // Handle place order action
+          }}>
+          <Text style={style.placeOrderButtonText}>Place Order</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
 };
 
 const style = StyleSheet.create({
   base: {
     flex: 1,
-    backgroundColor: 'white',
   },
   cart1: {
     marginTop: 5,
-    height: 130,
+    height: 160,
     alignContent: 'center',
-    width: wp(90),
-    margin: 5,
-    marginHorizontal: 25,
-    backgroundColor: '#ffffff',
-    flexDirection: 'row',
-    borderRadius: 30,
+    width: wp(95),
+    marginLeft: 10,
+    backgroundColor: 'white',
+    margin: 15,
+  },
+  cart2: {
+    marginTop: 5,
+    height: 250,
+    alignContent: 'center',
+    width: wp(95),
+    marginLeft: 10,
+    backgroundColor: 'white',
   },
   itemimage: {
-    width: wp(27),
-    height: hp(18),
+    width: wp(20),
+    height: hp(15),
+    marginLeft: 10,
+    marginTop: 5,
   },
   button: {
     width: 30,
@@ -312,9 +278,31 @@ const style = StyleSheet.create({
     color: 'white',
     fontSize: 20,
   },
-  itemimage: {
-    width: wp(27),
-    height: hp(18),
+  bottomView: {
+    height: hp(10),
+    borderWidth: 1,
+    flexDirection: 'row',
+  },
+  bottomView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    backgroundColor: 'white',
+    borderTopWidth: 1, // Optional: Add a border to separate from the rest of the content
+    borderTopColor: '#ccc', // Optional: Customize the border color
+    height: 80, // Adjust the height as needed
+  },
+  placeOrderButton: {
+    backgroundColor: 'red',
+    height: 50,
+    width: 100,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  placeOrderButtonText: {
+    color: 'white',
   },
 });
 
