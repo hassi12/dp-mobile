@@ -12,44 +12,15 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-export default function PetProfile() {
+export default function PetProfile({category}) {
   return (
     <View style={styles.container}>
       <View>
         <Image
-          source={require('../assets/dog2.jpg')}
+          source={{uri: category?.image_url}}
           style={[styles.image, styles.firstImage]}
         />
-
-        <Text style={styles.dogtext}>Doggs</Text>
-      </View>
-      <View>
-        <Image
-          source={require('../assets/birds2.jpg')}
-          style={[styles.image, styles.firstImage]}
-        />
-        <Text style={styles.dogtext2}>Birds</Text>
-      </View>
-      <View>
-        <Image
-          source={require('../assets/cat3.jpg')}
-          style={[styles.image, styles.firstImage]}
-        />
-        <Text style={styles.dogtext3}>Cats</Text>
-      </View>
-      <View>
-        <Image
-          source={require('../assets/rabit1.jpeg')}
-          style={[styles.image, styles.firstImage]}
-        />
-        <Text style={styles.dogtext4}>Small Pets</Text>
-      </View>
-      <View>
-        <Image
-          source={require('../assets/mix1.jpeg')}
-          style={[styles.image, styles.firstImage]}
-        />
-        <Text style={styles.dogtext5}>Others</Text>
+        <Text style={styles.dogtext}>{category.name}</Text>
       </View>
     </View>
   );
@@ -62,8 +33,8 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   image: {
-    width: wp(20),
-    height: wp(20),
+    width: wp(18),
+    height: wp(18),
     borderRadius: wp(11),
     marginRight: wp(3),
   },
@@ -71,9 +42,10 @@ const styles = StyleSheet.create({
     marginLeft: wp(1), // Adjust the spacing for the first image
   },
   dogtext: {
-    paddingLeft: 25,
+    // paddingLeft: 12,
     color: 'black',
     fontWeight: '800',
+    textAlign: 'center',
   },
   dogtext2: {
     paddingLeft: 27,

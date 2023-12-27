@@ -48,12 +48,14 @@ const HomePage = () => {
 
   useEffect(() => {
     handleProducts();
+    ProductCategoryList();
   }, []);
 
   const navigate = useNavigation();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const[category,setCategory] = useState([]);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [posts, setPosts] = useState([]);
@@ -73,7 +75,16 @@ const HomePage = () => {
       console.error(error);
       setError(error.message);
     }
-  };
+  }
+  const ProductCategoryList = async () =>{
+    try {
+      let res = await axios.get(`http://ec2-43-206-254-199.ap-northeast-1.compute.amazonaws.com/api/v1/category/`)
+      console.log('cate',res.data.results)
+      setCategory(res.data.results)
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <ScrollView style={styles.container}>
@@ -100,7 +111,13 @@ const HomePage = () => {
       <View style={styles.petsview}>
         <Text style={styles.petstyle}>Select Your Pet</Text>
         <ScrollView horizontal>
-          <PetProfile />
+          {/* <PetProfile /> */}
+          {category && category.map((category, index) =>{
+            return (
+              // <Text key={index}>{item.name}</Text>
+              <PetProfile category={category} />
+            )
+          })}
         </ScrollView>
       </View>
       {/* categories end */}
