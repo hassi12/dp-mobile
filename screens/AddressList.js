@@ -26,35 +26,102 @@ const AddressList = () => {
     <SafeAreaView style={style.container1}>
       <View
         style={{
-          width: wp(98),
-          height: 50,
+          width: wp(100),
+          height: 45,
           backgroundColor: 'white',
           borderRadius: 4,
           shadowColor: '#000',
           shadowOffset: {width: 0, height: 2},
           shadowOpacity: 0.3,
           shadowRadius: 4,
-          margin: 5,
+          borderBottomWidth: 0.2,
+          flexDirection: 'row',
         }}>
-        <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}}>
+        <TouchableOpacity style={{}}>
           <AntDesign
             name="left"
-            style={{fontSize: 25, color: 'black'}}
+            style={{
+              fontSize: 20,
+              color: 'black',
+              marginTop: 10,
+              marginLeft: 10,
+            }}
             onPress={() => navigate.navigate(CheckoutPage)}
           />
-          <Text style={{fontWeight: 'bold', color: 'black', marginLeft: 70}}>
-            Select Delivery Address
-          </Text>
-          <Text
-            style={{marginLeft: 100, fontWeight: 'bold', color: 'red'}}
-            onPress={() => navigate.navigate(AddressPage)}>
-            Add
-          </Text>
         </TouchableOpacity>
+        <Text
+          style={{
+            fontWeight: 'bold',
+            color: 'black',
+            marginLeft: 60,
+            marginTop: 10,
+          }}>
+          Select Delivery Address
+        </Text>
+        <Text
+          style={{
+            marginLeft: 100,
+            fontWeight: 'bold',
+            color: 'red',
+            marginTop: 10,
+          }}
+          onPress={() => navigate.navigate(AddressPage)}>
+          Add
+        </Text>
       </View>
 
       <View style={style.card}>
-        <View style={{position: 'absolute', top: 5, right: 5}}>
+        <View style={{position: 'absolute', top: 20, right: 10}}>
+          <Text>Edit</Text>
+        </View>
+        <View style={{position: 'absolute', top: 60, right: 10}}>
+          <CheckBox
+            isChecked={isChecked}
+            onClick={handleCheckboxToggle}
+            style={style.checkboxstyle}
+            checkBoxColor="red"
+            checkedCheckBoxColor="red"
+          />
+        </View>
+        <View style={{marginTop: 10}}>
+          <Text
+            style={{
+              fontSize: 15,
+              fontWeight: 'bold',
+              width: wp(60),
+              margin: 5,
+              color: 'black',
+              marginLeft: 10,
+            }}>
+            Atif badini
+          </Text>
+          <Text
+            style={{
+              fontSize: 15,
+              width: wp(75),
+              margin: 5,
+              marginLeft: 10,
+            }}>
+            Atif Badini, lake city Lahore near zargoon city, quetta nushki,
+            balochistan{' '}
+          </Text>
+          <Text
+            style={{
+              fontSize: 15,
+              width: wp(75),
+              margin: 5,
+              marginLeft: 10,
+            }}>
+            (+92)03337861942
+          </Text>
+        </View>
+      </View>
+
+      <View style={style.card}>
+        <View style={{position: 'absolute', top: 20, right: 10}}>
+          <Text>Edit</Text>
+        </View>
+        <View style={{position: 'absolute', top: 60, right: 10}}>
           <CheckBox
             isChecked={isChecked}
             onClick={handleCheckboxToggle}
@@ -63,42 +130,8 @@ const AddressList = () => {
             checkedCheckBoxColor="red"
           />
         </View>
-        <View style={{flex: 3, marginTop: 20}}>
-          <Text
-            style={{
-              fontSize: 15,
-              fontWeight: 'bold',
-              width: wp(60),
-              margin: 5,
-              color: 'black',
-              marginLeft: 20,
-            }}>
-            Atif badini
-          </Text>
-          <Text
-            style={{
-              fontSize: 15,
-              width: wp(60),
-              margin: 5,
-              marginLeft: 20,
-            }}>
-            Atif Badini, lake city Lahore near zargoon city, quetta nushki,
-            balochistan{' '}
-          </Text>
-        </View>
-      </View>
 
-      <View style={style.card}>
-        <View style={{position: 'absolute', top: 5, right: 5}}>
-          <CheckBox
-            isChecked={isChecked}
-            onClick={handleCheckboxToggle}
-            style={{justifyContent: 'flex-end'}} // Align the checkbox to the right
-            checkBoxColor="red"
-            checkedCheckBoxColor="red"
-          />
-        </View>
-        <View style={{flex: 3, marginTop: 20}}>
+        <View style={{marginTop: 10}}>
           <Text
             style={{
               fontSize: 15,
@@ -106,19 +139,28 @@ const AddressList = () => {
               width: wp(60),
               margin: 5,
               color: 'black',
-              marginLeft: 20,
+              marginLeft: 10,
             }}>
             Atif badini
           </Text>
           <Text
             style={{
               fontSize: 15,
-              width: wp(60),
+              width: wp(75),
               margin: 5,
-              marginLeft: 20,
+              marginLeft: 10,
             }}>
             Atif Badini, lake city Lahore near zargoon city, quetta nushki,
             balochistan{' '}
+          </Text>
+          <Text
+            style={{
+              fontSize: 15,
+              width: wp(75),
+              margin: 5,
+              marginLeft: 10,
+            }}>
+            (+92)03337861942
           </Text>
         </View>
       </View>
@@ -131,10 +173,9 @@ export default AddressList;
 const style = StyleSheet.create({
   container1: {
     flex: 1,
-    backgroundColor: 'white',
   },
   card: {
-    width: 350,
+    width: wp(94),
     height: 150,
     backgroundColor: 'white',
     borderRadius: 10,
@@ -144,10 +185,13 @@ const style = StyleSheet.create({
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.3,
     shadowRadius: 4,
-    margin: 20,
+    margin: 10,
+    flexDirection: 'row',
   },
   text: {
     fontSize: 16,
     fontWeight: 'bold',
   },
+  checkboxstyle: {},
+  borderRadius: 50,
 });
