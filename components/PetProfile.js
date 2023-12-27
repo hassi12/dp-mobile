@@ -18,8 +18,7 @@ export default function PetProfile({category}) {
       <View>
         <Image
           source={{uri: category?.image_url}}
-          style={[styles.image, styles.firstImage]}
-        />
+          style={[styles.image, styles.firstImage]} />
         <Text style={styles.dogtext}>{category.name}</Text>
       </View>
     </View>
