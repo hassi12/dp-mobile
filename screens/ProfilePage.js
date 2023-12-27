@@ -3,6 +3,8 @@ import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import SignIn from './SignIn';
 import {useNavigation} from '@react-navigation/native';
+import OrderPage from './OrderPage';
+import AddressList from './AddressList';
 
 const ProfilePage = () => {
   const navigate = useNavigation();
@@ -29,8 +31,9 @@ const ProfilePage = () => {
       </View>
 
       {/* Address Book */}
+      
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Address Book</Text>
+        <Text style={styles.sectionTitle}  onPress={() => navigate.navigate(AddressList)}>Address Book</Text>
         {/* Display address book here */}
       </View>
 
