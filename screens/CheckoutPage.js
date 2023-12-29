@@ -211,7 +211,7 @@ const CheckoutPage = () => {
           onPress={() => {
             // Handle place order action
           }}>
-          <Text style={style.placeOrderButtonText}  onPress={() => navigate.navigate(Sucessfullorder)} >Place Order</Text>
+          <Text style={style.placeOrderButtonText}  >Place Order</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

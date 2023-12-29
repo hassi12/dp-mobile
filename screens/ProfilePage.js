@@ -22,19 +22,28 @@ const ProfilePage = () => {
       </View>
 
       <View style={styles.section}>
-        <TouchableOpacity>        <Text style={styles.sectionTitle} onPress={() => navigate.navigate(OrderPage)} >Order History</Text>
-</TouchableOpacity>
+        <TouchableOpacity>
+          <Text
+            style={styles.sectionTitle}
+            onPress={() => navigate.navigate(OrderPage)}>
+            Order History
+          </Text>
+        </TouchableOpacity>
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}  >Favorite Products</Text>
+        <Text style={styles.sectionTitle}>Favorite Products</Text>
         {/* Display favorite products here */}
       </View>
 
       {/* Address Book */}
-      
+
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}  onPress={() => navigate.navigate(AddressList)}>Address Book</Text>
+        <Text
+          style={styles.sectionTitle}
+          onPress={() => navigate.navigate(AddressList)}>
+          Address Book
+        </Text>
         {/* Display address book here */}
       </View>
 
