@@ -18,6 +18,7 @@ import SignUp from './screens/SignUp';
 import SignIn from './screens/SignIn';
 import OrderPage from './screens/OrderPage';
 import AddressList from './screens/AddressList';
+import OrderDetail from './screens/OrderDetail';
 
 const Stack = createNativeStackNavigator();
 
@@ -47,6 +48,7 @@ const App = () => {
           <Stack.Screen name="SignIn" component={SignIn} />
           <Stack.Screen name="OrderPage" component={OrderPage} />
           <Stack.Screen name="AddressList" component={AddressList} />
+          <Stack.Screen name="OrderDetail" component={OrderDetail} />
         </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>
