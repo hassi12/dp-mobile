@@ -23,7 +23,13 @@ import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
-import {Alert, Modal, Pressable} from 'react-native';
+import {
+  Alert,
+  Modal,
+  Pressable,
+  FlatList,
+  ActivityIndicator,
+} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -35,11 +41,21 @@ import PetProfile from '../components/PetProfile';
 import {SliderBox} from 'react-native-image-slider-box';
 import DetailPage from './DetailPage';
 import ProductPage from './productPage';
+import {getProducts} from '../services/Products_services';
 
 const HomePage = () => {
   const {height, width} = Dimensions.get('window');
 
+  useEffect(() => {
+    handleProducts();
+    ProductCategoryList();
+  }, []);
+
   const navigate = useNavigation();
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const[category,setCategory] = useState([]);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [posts, setPosts] = useState([]);
@@ -50,6 +66,26 @@ const HomePage = () => {
     require('../assets/pets.jpg'),
   ];
 
+  const handleProducts = async () => {
+    try {
+      let res = await getProducts();
+      setProducts(res.results);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setError(error.message);
+    }
+  }
+  const ProductCategoryList = async () =>{
+    try {
+      let res = await axios.get(`http://ec2-43-206-254-199.ap-northeast-1.compute.amazonaws.com/api/v1/category/`)
+      console.log('categories',res.data.results)
+      setCategory(res.data.results)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <ScrollView style={styles.container}>
       <SafeAreaView>
@@ -57,6 +93,7 @@ const HomePage = () => {
           <HomePageSearch />
         </View>
       </SafeAreaView>
+      {/* main slider */}
       <View style={styles.sliderviewstyle}>
         <SliderBox
           images={images}
@@ -69,12 +106,21 @@ const HomePage = () => {
           sliderBoxHeight={hp(25)}
         />
       </View>
+      {/* main slider end */}
+      {/* categories */}
       <View style={styles.petsview}>
         <Text style={styles.petstyle}>Select Your Pet</Text>
         <ScrollView horizontal>
-          <PetProfile />
+          {/* <PetProfile /> */}
+          {category && category.map((category, index) =>{
+            return (
+              // <Text key={index}>{item.name}</Text>
+              <PetProfile category={category} />
+            )
+          })}
         </ScrollView>
       </View>
+      {/* categories end */}
       <Text style={{color: '#bfbfbf', width: wp(94), textAlign: 'center'}}>
         ____________________________________________________
       </Text>
@@ -87,109 +133,77 @@ const HomePage = () => {
           See All
         </Text>
       </View>
+
+      {/* products */}
       <View style={styles.container11}>
         <View style={styles.horizontalView}>
-          <View
-            style={{
-              backgroundColor: 'white',
-              borderRadius: 20,
-              width: wp(44),
-              marginRight: 12,
-              position: 'relative',
-              borderColor: 'gray',
-              borderWidth: 1,
-            }}>
-            <TouchableOpacity
-              style={{
-                position: 'absolute',
-                top: 10,
-                right: 6,
-                backgroundColor: 'white',
-                borderRadius: 20,
-                padding: 2,
-              }}>
-              <AntDesign name="heart" size={15} color="red" />
-            </TouchableOpacity>
+          {loading ? (
+            <ActivityIndicator color="red" size="large" />
+          ) : error ? (
+            <Text color="red">{error}</Text>
+          ) : (
+            <FlatList
+              data={products}
+              // horizontal
+              showsHorizontalScrollIndicator={false}
+              keyExtractor={item => `${item.id}-${item.title}`}
+              renderItem={({item}) => (
+                <View
+                  style={{
+                    backgroundColor: 'white',
+                    borderRadius: 10,
+                    width: wp(44),
+                    marginRight: 12,
+                    position: 'relative',
+                    borderColor: 'gray',
+                    borderWidth: 1,
+                  }}>
+                  <TouchableOpacity
+                    style={{
+                      position: 'absolute',
+                      top: 10,
+                      right: 6,
+                      backgroundColor: 'white',
+                      borderRadius: 20,
+                      padding: 2,
+                    }}>
+                    <AntDesign name="heart" size={15} color="red" />
+                  </TouchableOpacity>
 
-            <TouchableOpacity
-              onPress={() => navigate.navigate(ProductPage)}
-              style={{width: wp(35)}}>
-              <Image
-                source={require('../assets/petfood32.png')}
-                style={styles.image}
-              />
-            </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => navigate.navigate(ProductPage)}
+                    style={{width: wp(35)}}>
+                    <Image
+                      source={{uri: item?.images[0]?.image_url}}
+                      style={styles.image}
+                    />
+                  </TouchableOpacity>
 
-            <Text style={styles.priceText}>Pedigree Vital</Text>
-            <Text style={{paddingLeft: 15, fontSize: 13}}>
-              Beef & Vegetables
-            </Text>
-            <Text style={styles.priceText}>Rs. 230</Text>
-            <TouchableOpacity
-              style={{
-                position: 'absolute',
-                bottom: 5,
-                right: 5,
-                backgroundColor: '#eb2d1c',
-                borderRadius: 20,
-                padding: 5,
-              }}>
-              <AntDesign name="plus" size={20} color="white" />
-            </TouchableOpacity>
-          </View>
-          <View />
-
-          <View
-            style={{
-              backgroundColor: 'white',
-              borderRadius: 20,
-              width: wp(44),
-              marginRight: 5,
-              position: 'relative',
-              borderColor: 'gray',
-              borderWidth: 1,
-            }}>
-            <TouchableOpacity
-              style={{
-                position: 'absolute',
-                top: 10,
-                right: 6,
-                backgroundColor: 'white',
-                borderRadius: 20,
-                padding: 2,
-              }}>
-              <AntDesign name="heart" size={15} color="red" />
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => navigate.navigate(ProductPage)}
-              style={{width: wp(35)}}>
-              <Image
-                source={require('../assets/petfood32.png')}
-                style={styles.image}
-              />
-            </TouchableOpacity>
-
-            <Text style={styles.priceText}>Pedigree Vital</Text>
-            <Text style={{paddingLeft: 15, fontSize: 13}}>
-              Beef & Vegetables
-            </Text>
-            <Text style={styles.priceText}>Rs. 230</Text>
-            <TouchableOpacity
-              style={{
-                position: 'absolute',
-                bottom: 5,
-                right: 5,
-                backgroundColor: '#eb2d1c',
-                borderRadius: 20,
-                padding: 5,
-              }}>
-              <AntDesign name="plus" size={20} color="white" />
-            </TouchableOpacity>
-          </View>
-          <View />
+                  <Text style={styles.priceText}>
+                    {item?.title.substring(0, 11)}
+                  </Text>
+                  <Text style={{paddingLeft: 15, fontSize: 12}}>
+                    {item?.category}
+                  </Text>
+                  <Text style={styles.priceText}>Rs {item?.price}</Text>
+                  <TouchableOpacity
+                    style={{
+                      position: 'absolute',
+                      bottom: 5,
+                      right: 5,
+                      backgroundColor: '#eb2d1c',
+                      borderRadius: 20,
+                      padding: 5,
+                    }}>
+                    <AntDesign name="plus" size={20} color="white" />
+                  </TouchableOpacity>
+                </View>
+              )}
+            />
+          )}
         </View>
       </View>
+      {/* products end */}
     </ScrollView>
   );
 };
@@ -243,9 +257,9 @@ const styles = StyleSheet.create({
   },
   image: {
     width: wp(35),
-    height: hp(20),
-    borderRadius: 15,
-    marginTop: 2,
+    height: hp(15),
+    // borderRadius: 15,
+    // marginTop: 2,
   },
 
   containertext: {
@@ -266,7 +280,7 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   priceText: {
-    fontSize: 18,
+    fontSize: 13,
     fontWeight: 'bold',
     color: 'black',
     paddingLeft: 15,
