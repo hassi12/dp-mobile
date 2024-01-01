@@ -171,7 +171,7 @@ const HomePage = () => {
                   </TouchableOpacity>
 
                   <TouchableOpacity
-                    onPress={() => navigate.navigate(ProductPage)}
+                    onPress={() => navigate.navigate(`ProductPage`, { productId: item.id })}
                     style={{width: wp(35)}}>
                     <Image
                       source={{uri: item?.images[0]?.image_url}}
