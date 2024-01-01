@@ -11,38 +11,73 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useNavigation} from '@react-navigation/native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import CartPage from './cartpage';
-import {useState} from 'react';
+import {useDispatch} from 'react-redux';
+import {add} from '../store/cartSlice';
+import { useRoute } from '@react-navigation/native';
+import { getProductDetail } from '../services/Products_services';
 
 const ProductPage = () => {
   const [quantity, setQuantity] = useState(1);
+  const [product, setProduct] = useState([]);
+  const route = useRoute();
+  const { productId } = route.params;
+
+  useEffect(() => {
+    handleProductDetail();
+  }, []);
 
   const handleIncrement = () => {
-    setQuantity(quantity + 1);
+    setQuantity(prevQty => {
+      let newQty = prevQty + 1;
+      return newQty;
+    });
   };
 
   const handleDecrement = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
-    }
+    setQuantity(prevQty => {
+      let newQty = prevQty - 1;
+      if (newQty < 1) {
+        newQty = 1;
+      }
+      return newQty;
+    });
   };
-  const images = [
-    require('../assets/dog1.jpg'),
-    require('../assets/cat1.jpg'),
-    require('../assets/birds1.jpg'),
-    require('../assets/pets.jpg'),
-  ];
+  
   const navigate = useNavigation();
 
   const handleBackPress = () => {
     navigate.navigate('Tabs');
   };
+
+  
+  const handleProductDetail = async () => {
+    try {
+      let res = await getProductDetail(productId)
+      setProduct(res.item);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const { images } = product;
+  // navigate.navigate(CartPage)
+  const dispatch = useDispatch();
+  const addToCartHandler = product => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    let totalPrice = quantity * product.price;
+    const tempProduct = {
+      ...product,
+      quantity: quantity,
+      totalPrice,
+    };
+    dispatch(add(tempProduct));
+    navigate.navigate('Chart');
+  };
+
   return (
     <View style={styles.container1}>
       <SafeAreaView
@@ -78,7 +113,7 @@ const ProductPage = () => {
             />
           </TouchableOpacity>
           <Image
-            source={require('../assets/petfood32.png')}
+            source={{ uri: product.images && product.images[0]?.image_url }}
             style={styles.image}
           />
         </View>
@@ -92,10 +127,10 @@ const ProductPage = () => {
                 fontSize: 20,
                 marginLeft: 10,
               }}>
-              Pedigree
+              {product?.title}
             </Text>
-            <Text style={{marginLeft: 10}}>Beef and vegitables</Text>
-            <Text style={styles.priceText}>RS. 230</Text>
+            <Text style={{marginLeft: 10}}>{product?.category}</Text>
+            <Text style={styles.priceText}>RS. {product?.price}</Text>
 
             <View style={styles.priceContainer}>
               <View style={styles.stars}>
@@ -139,11 +174,11 @@ const ProductPage = () => {
             </Text>
 
             <View style={styles.container}>
-              <TouchableOpacity style={styles.button} onPress={handleDecrement}>
+              <TouchableOpacity style={styles.button} onPress={() => handleDecrement()}>
                 <Text style={styles.buttonText}>-</Text>
               </TouchableOpacity>
               <Text style={styles.quantityText}>{quantity}</Text>
-              <TouchableOpacity style={styles.button} onPress={handleIncrement}>
+              <TouchableOpacity style={styles.button} onPress={() => handleIncrement()}>
                 <Text style={styles.buttonText}>+</Text>
               </TouchableOpacity>
             </View>
@@ -165,14 +200,19 @@ const ProductPage = () => {
             Product Discription
           </Text>
           <Text style={{paddingLeft: 5, marginTop: 5}}>
-            This product is called prdigree whhich is fond and made by itlay.
-            The italian based company.
+            {product?.description}
           </Text>
         </View>
       </View>
 
       <View
-        style={{borderWidth: 0.2, borderRadius: 10, width: wp(95), margin: 5}}>
+        style={{
+          borderWidth: 0.2,
+          borderRadius: 5,
+          width: wp(95),
+          marginTop: 15,
+          margin: 5,
+        }}>
         <View style={styles.review}>
           <View style={styles.container111}>
             <View style={styles.reviewView1}>
@@ -225,7 +265,10 @@ const ProductPage = () => {
       </View>
 
       <View style={styles.verifedagent}>
-        <TouchableOpacity onPress={() => navigate.navigate(CartPage)}>
+        <TouchableOpacity
+          onPress={() => {
+            addToCartHandler(product);
+          }}>
           <Text style={styles.verfiedagenttext}>
             <FontAwesome5 name="shopping-bag" size={20} /> Add to Cart
           </Text>

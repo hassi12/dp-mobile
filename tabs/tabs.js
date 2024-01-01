@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React,{useEffect} from 'react';
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Feather from 'react-native-vector-icons/Feather';
@@ -12,10 +12,24 @@ import HomePage from '../screens/HomePage';
 import ChartPage from '../screens/ChartPage';
 import ProfilePage from '../screens/ProfilePage';
 import ChatPage from '../screens/ChatPage';
+import { useSelector,useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import { getCartTotal } from '../store/cartSlice';
 
 const Tab = createBottomTabNavigator();
 
+
 const Tabs = () => {
+  const dispatch = useDispatch();
+  const { totalItems } = useSelector((state => state.cart));
+  // const navigate = useNavigate()
+  
+  useEffect(() => {
+    dispatch(getCartTotal());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -61,7 +75,7 @@ const Tabs = () => {
                 style={styles.image_css}
                 resizeMode="contain"
               />
-              <Text style={{color: focused ? 'white' : '#748c94'}}>Chart</Text>
+              <Text style={{color: focused ? 'white' : '#748c94'}}>Chart({totalItems})</Text>
             </View>
           ),
         }}

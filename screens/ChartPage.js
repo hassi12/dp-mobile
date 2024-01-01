@@ -7,7 +7,7 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {
   widthPercentageToDP as wp,
@@ -19,8 +19,29 @@ import {useNavigation} from '@react-navigation/native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useState} from 'react';
 import CheckoutPage from './CheckoutPage';
+import {useSelector, useDispatch} from 'react-redux';
+import {
+  getCartTotal,
+  remove,
+  toggleCartQty,
+  clearCart,
+} from '../store/cartSlice';
 
 const CartPage = () => {
+  const dispatch = useDispatch();
+  const {
+    data: cartProducts,
+    totalItems,
+    totalAmount,
+    deliveryCharge,
+  } = useSelector(state => state.cart);
+  // const navigate = useNavigate()
+
+  useEffect(() => {
+    dispatch(getCartTotal());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [useSelector(state => state.cart)]);
+
   const images = [
     require('../assets/dog1.jpg'),
     require('../assets/cat1.jpg'),
@@ -28,16 +49,55 @@ const CartPage = () => {
     require('../assets/pets.jpg'),
   ];
 
-  const navigate = useNavigation();
-  const [quantity, setQuantity] = useState(1);
-
-  const handleIncrement = () => {
-    setQuantity(quantity + 1);
+  const handleRemove = id => {
+    dispatch(remove(id));
+    // toast.error("Product Remove successfully", {
+    //   position: toast.POSITION.TOP_RIGHT,
+    //   theme: "colored",
+    // });
   };
 
-  const handleDecrement = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
+  // clear cart
+  const clear = () => {
+    dispatch(clearCart());
+    // toast.error("Clear Cart successfully", {
+    //   position: toast.POSITION.BOTTOM_RIGHT,
+    //   theme: "colored",
+    // });
+  }
+
+  const navigate = useNavigation();
+  // const [quantity, setQuantity] = useState(1);
+
+  const handleIncrement = id => {
+    dispatch(toggleCartQty({id: id, type: 'INC'}));
+  };
+
+  const handleDecrement = id => {
+    dispatch(toggleCartQty({id: id, type: 'DEC'}));
+  };
+  const total = p => {
+    /* eslint eqeqeq: 0 */
+    if (p == 0) {
+      return `-`;
+    } else {
+      return `${p}`;
+    }
+  };
+  const deliveryPrice = p => {
+    /* eslint eqeqeq: 0 */
+    if (p == 0) {
+      return `-`;
+    } else {
+      return `${p}`;
+    }
+  };
+  const TotalPrice = p => {
+    /* eslint eqeqeq: 0 */
+    if (p == 0) {
+      return `-`;
+    } else {
+      return `${p}`;
     }
   };
 
@@ -71,130 +131,85 @@ const CartPage = () => {
       </View>
 
       <ScrollView>
-        <View style={styles.cart1}>
-          <View
-            style={{
-              height: 130,
-              width: 100,
-              borderTopLeftRadius: 10,
-              borderBottomLeftRadius: 10,
-              backgroundColor: '#e9eef7',
-            }}>
-            <Image
-              source={require('../assets/petfood32.png')}
-              style={styles.itemimage}
-            />
-          </View>
-          <View>
-            <Text
-              style={{
-                marginTop: 30,
-                color: 'black',
-                marginLeft: 10,
-                fontSize: 20,
-              }}>
-              D4 Chair
-            </Text>
+        {cartProducts.length === 0 ? <Text>No Items are add in Cart</Text> : ''}
+        {cartProducts.map(cartProducts => {
+          return (
+            <View style={styles.cart1}>
+              <View
+                style={{
+                  height: 130,
+                  width: 100,
+                  borderTopLeftRadius: 10,
+                  borderBottomLeftRadius: 10,
+                  backgroundColor: '#e9eef7',
+                }}>
+                <Image
+                  source={{uri: cartProducts?.images[0]?.image_url}}
+                  style={styles.itemimage}
+                />
+              </View>
+              <View>
+                <Text
+                  style={{
+                    marginTop: 30,
+                    color: 'black',
+                    marginLeft: 10,
+                    fontSize: 20,
+                  }}>
+                  {cartProducts?.title.substring(0, 11)}
+                </Text>
 
-            <View style={styles.container}>
-              <TouchableOpacity style={styles.button} onPress={handleDecrement}>
-                <Text style={styles.buttonText}>-</Text>
-              </TouchableOpacity>
-              <Text style={styles.quantityText}>{quantity}</Text>
-              <TouchableOpacity style={styles.button} onPress={handleIncrement}>
-                <Text style={styles.buttonText}>+</Text>
-              </TouchableOpacity>
-              <Text style={{marginLeft: 50, fontWeight: '900', color: 'black'}}>
-                RS.4500
-              </Text>
+                <View style={styles.container}>
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => handleDecrement(cartProducts.id)}>
+                    <Text style={styles.buttonText}>-</Text>
+                  </TouchableOpacity>
+                  <Text style={styles.quantityText}>
+                    {cartProducts?.quantity}
+                  </Text>
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => handleIncrement(cartProducts.id)}>
+                    <Text style={styles.buttonText}>+</Text>
+                  </TouchableOpacity>
+                  <Text
+                    style={{marginLeft: 50, fontWeight: '900', color: 'black'}}>
+                   Rs {TotalPrice(cartProducts?.totalPrice)}
+                  </Text>
+                </View>
+              </View>
+              <View
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  right: 0,
+                  height: 40,
+                  width: 40,
+                  backgroundColor: '#00599D',
+                  borderWidth: 1,
+                  borderTopRightRadius: 25,
+                  borderBottomLeftRadius: 25,
+                }}>
+                <TouchableOpacity onPress={() => handleRemove(cartProducts.id)}>
+                  <AntDesign
+                    name="delete"
+                    style={{marginLeft: 10}}
+                    size={20}
+                    marginTop={8}
+                    color={'#ffffff'}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-          <View
-            style={{
-              position: 'absolute',
-              top: 0,
-              right: 0,
-              height: 40,
-              width: 40,
-              backgroundColor: '#00599D',
-              borderWidth: 1,
-              borderTopRightRadius: 25,
-              borderBottomLeftRadius: 25,
-            }}>
-            <TouchableOpacity>
-              <AntDesign
-                name="delete"
-                style={{marginLeft: 10}}
-                size={20}
-                marginTop={8}
-                color={'#ffffff'}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        <View style={styles.cart1}>
-          <View
-            style={{
-              height: 130,
-              width: 100,
-              borderTopLeftRadius: 10,
-              borderBottomLeftRadius: 10,
-              backgroundColor: '#e9eef7',
-            }}>
-            <Image
-              source={require('../assets/petfood32.png')}
-              style={styles.itemimage}
-            />
-          </View>
-          <View>
-            <Text
-              style={{
-                marginTop: 30,
-                color: 'black',
-                marginLeft: 10,
-                fontSize: 20,
-              }}>
-              D4 Chair
-            </Text>
-
-            <View style={styles.container}>
-              <TouchableOpacity style={styles.button} onPress={handleDecrement}>
-                <Text style={styles.buttonText}>-</Text>
-              </TouchableOpacity>
-              <Text style={styles.quantityText}>{quantity}</Text>
-              <TouchableOpacity style={styles.button} onPress={handleIncrement}>
-                <Text style={styles.buttonText}>+</Text>
-              </TouchableOpacity>
-              <Text style={{marginLeft: 50, fontWeight: '900', color: 'black'}}>
-                RS.4500
-              </Text>
-            </View>
-          </View>
-          <View
-            style={{
-              position: 'absolute',
-              top: 0,
-              right: 0,
-              height: 40,
-              width: 40,
-              backgroundColor: '#00599D',
-              borderWidth: 1,
-              borderTopRightRadius: 25,
-              borderBottomLeftRadius: 25,
-            }}>
-            <TouchableOpacity>
-              <AntDesign
-                name="delete"
-                style={{marginLeft: 10}}
-                size={20}
-                marginTop={8}
-                color={'#ffffff'}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
+          );
+        })}
       </ScrollView>
+      {/* <View> */}
+        <TouchableOpacity onPress={()=> clear()}>
+          <Text>Clear Cart</Text>
+        </TouchableOpacity>
+      {/* </View> */}
       <View
         style={{
           height: 200,
@@ -214,7 +229,7 @@ const CartPage = () => {
               fontWeight: '900',
               color: 'black',
             }}>
-            3 Items in the cart
+            {totalItems} Items in the cart
           </Text>
           <View
             style={{
@@ -224,16 +239,20 @@ const CartPage = () => {
             }}>
             <View>
               <Text style={{fontWeight: '900', color: 'black'}}>Sub total</Text>
-              <Text style={{fontWeight: '900', color: 'black'}}>Shopping</Text>
+              <Text style={{fontWeight: '900', color: 'black'}}>
+                Delivery Cost
+              </Text>
+              <Text style={{fontWeight: '900', color: 'black'}}>Discount</Text>
               <Text style={{fontWeight: '900', color: 'black'}}>Total</Text>
             </View>
             <View>
-              <Text style={{fontWeight: '900', color: 'black'}}>RS.36000</Text>
               <Text style={{fontWeight: '900', color: 'black'}}>
-                RS. 150000
+                {total(totalAmount)}
               </Text>
+              <Text style={{fontWeight: '900', color: 'black'}}>RS. --</Text>
+              <Text style={{fontWeight: '900', color: 'black'}}>RS. -</Text>
               <Text style={{fontWeight: '900', color: 'black'}}>
-                RS. 1425000
+                Rs {total(totalAmount) + deliveryPrice(deliveryCharge)}
               </Text>
             </View>
           </View>
@@ -288,7 +307,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   verifedagent: {
-    marginTop: 25,
+    marginTop: 20,
     backgroundColor: '#00599D',
     borderWidth: 0.5,
     borderRadius: 20,

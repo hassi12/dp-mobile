@@ -15,6 +15,8 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+;
+
 
 const DetailPage = () => {
   const navigation = useNavigation();
@@ -22,6 +24,7 @@ const DetailPage = () => {
   const handleBackPress = () => {
     navigation.navigate('Tabs');
   };
+
 
   return (
     <ScrollView style={styles.maincontainer}>
@@ -73,7 +76,7 @@ const DetailPage = () => {
 
             <Text style={styles.priceText}>Pedigree Vital</Text>
             <Text style={{paddingLeft: 10, fontSize: 13}}>
-              Beef & Vegetables
+              Beef & Vegetablesss
             </Text>
             <Text style={styles.priceText}>Rs. 230</Text>
             <TouchableOpacity
