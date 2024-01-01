@@ -67,7 +67,6 @@ const CartPage = () => {
   }
 
   const navigate = useNavigation();
-  // const [quantity, setQuantity] = useState(1);
 
   const handleIncrement = id => {
     dispatch(toggleCartQty({id: id, type: 'INC'}));
@@ -134,7 +133,7 @@ const CartPage = () => {
         {cartProducts.length === 0 ? <Text>No Items are add in Cart</Text> : ''}
         {cartProducts.map(cartProducts => {
           return (
-            <View style={styles.cart1}>
+            <View style={styles.cart1} key={cartProducts.id}>
               <View
                 style={{
                   height: 130,

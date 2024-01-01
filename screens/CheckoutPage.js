@@ -7,7 +7,7 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {
   widthPercentageToDP as wp,
@@ -22,9 +22,52 @@ import CartPage from './cartpage';
 import AddressPage from './AddressPage';
 import Sucessfullorder from './Sucessfullorder';
 import AddressList from './AddressList';
+import {useSelector, useDispatch} from 'react-redux';
+import {getCartTotal} from '../store/cartSlice';
 
 const CheckoutPage = () => {
   const navigate = useNavigation();
+  const dispatch = useDispatch();
+  const {
+    data: cartProducts,
+    totalAmount,
+    deliveryCharge,
+  } = useSelector(state => state.cart);
+  // const navigate = useNavigate()
+
+  useEffect(() => {
+    dispatch(getCartTotal());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [useSelector(state => state.cart)]);
+
+  const handlePlaceOrder = async () => {
+    console.warn('place order')
+  }
+
+  const TotalPrice = p => {
+    /* eslint eqeqeq: 0 */
+    if (p == 0) {
+      return `-`;
+    } else {
+      return `${p}`;
+    }
+  };
+  const total = p => {
+    /* eslint eqeqeq: 0 */
+    if (p == 0) {
+      return `-`;
+    } else {
+      return `${p}`;
+    }
+  };
+  const deliveryPrice = p => {
+    /* eslint eqeqeq: 0 */
+    if (p == 0) {
+      return `-`;
+    } else {
+      return `${p}`;
+    }
+  };
 
   return (
     <SafeAreaView style={style.base}>
@@ -45,7 +88,7 @@ const CheckoutPage = () => {
             name="left"
             size={25}
             color={'black'}
-            onPress={() => navigate.navigate(CartPage)}
+            onPress={() => navigate.navigate(`Chart`)}
           />
         </TouchableOpacity>
         <View style={{marginTop: 5}}>
@@ -53,8 +96,8 @@ const CheckoutPage = () => {
             style={{
               color: 'black',
               fontSize: 18,
-              marginLeft: 20,
-              marginTop: 3,
+              marginLeft: 100,
+              marginTop: 5,
             }}>
             CheckOut
           </Text>
@@ -129,89 +172,95 @@ const CheckoutPage = () => {
           }}>
           Payment method :
         </Text>
-        <Text style={{marginLeft: 10, marginTop: 5, justifyContent: 'center'}}>Cash on Delivery</Text>
+        <Text style={{marginLeft: 10, marginTop: 5, justifyContent: 'center'}}>
+          Cash on Delivery
+        </Text>
       </View>
       <ScrollView>
-        <View style={style.cart2}>
-          <View
-            style={{
-              height: hp(7),
-              width: wp(94),
-            }}>
-            <Text
-              style={{
-                marginTop: 10,
-                color: 'black',
-                marginLeft: 10,
-                fontSize: 15,
-                fontWeight: 'bold',
-              }}>
-              H&J Enterprises (Karachi)
-            </Text>
-            <Text style={{width: wp(100), marginLeft: 15, fontWeight: '300'}}>
-              ________________________________________________________
-            </Text>
-          </View>
+        {cartProducts.map(cartProducts => {
+          return (
+            <View style={style.cart2} key={cartProducts.id}>
+              <View
+                style={{
+                  height: hp(7),
+                  width: wp(94),
+                }}>
+                <Text
+                  style={{
+                    marginTop: 10,
+                    color: 'black',
+                    marginLeft: 10,
+                    fontSize: 15,
+                    fontWeight: 'bold',
+                  }}>
+                  {cartProducts?.seller?.name}
+                </Text>
+                <Text
+                  style={{width: wp(100), marginLeft: 15, fontWeight: '300'}}>
+                  ________________________________________________________
+                </Text>
+              </View>
 
-          <View style={{flexDirection: 'row'}}>
-            <Image
-              source={require('../assets/petfood32.png')}
-              style={style.itemimage}
-            />
-            <View>
-              <Text
-                style={{
-                  marginLeft: 10,
-                  fontWeight: '600',
-                  color: 'black',
-                  width: wp(70),
-                }}>
-                Pack of 2 - Led style fitness band prizze is very fine
-              </Text>
-              <Text style={{marginLeft: 10, fontWeight: '600', width: wp(70)}}>
-                No band color family pack of m4 led watch.
-              </Text>
-              <Text
-                style={{
-                  marginLeft: 10,
-                  marginTop: 10,
-                  color: 'black',
-                  fontWeight: '600',
-                  width: wp(70),
-                }}>
-                RS. 427
-              </Text>
-              <Text
-                style={{
-                  marginLeft: 235,
-                  marginTop: 10,
-                  color: 'black',
-                  fontWeight: '600',
-                  width: wp(70),
-                }}>
-                Qty: 1
+              <View style={{flexDirection: 'row'}}>
+                <Image
+                  source={{uri: cartProducts?.images[0]?.image_url}}
+                  style={style.itemimage}
+                />
+                <View>
+                  <Text
+                    style={{
+                      marginLeft: 10,
+                      fontWeight: '600',
+                      color: 'black',
+                      width: wp(70),
+                    }}>
+                    {cartProducts?.title.substring(0, 20)}
+                  </Text>
+                  <Text
+                    style={{marginLeft: 10, fontWeight: '600', width: wp(70)}}>
+                    {cartProducts?.category}
+                  </Text>
+                  <Text
+                    style={{
+                      marginLeft: 10,
+                      marginTop: 10,
+                      color: 'black',
+                      fontWeight: '600',
+                      width: wp(70),
+                    }}>
+                    Rs {TotalPrice(cartProducts?.totalPrice)}
+                  </Text>
+                  <Text
+                    style={{
+                      marginLeft: 235,
+                      marginTop: 10,
+                      color: 'black',
+                      fontWeight: '600',
+                      width: wp(70),
+                    }}>
+                    Qty: {cartProducts?.quantity}
+                  </Text>
+                </View>
+              </View>
+              <Text style={{width: wp(100), marginLeft: 15, fontWeight: '100'}}>
+                ____________________________________________________________
               </Text>
             </View>
-          </View>
-          <Text style={{width: wp(100), marginLeft: 15, fontWeight: '100'}}>
-            ____________________________________________________________
-          </Text>
-        </View>
+          );
+        })}
       </ScrollView>
       <View style={style.bottomView}>
         <View>
           <Text>
             Total:
-            <Text style={{color: 'red'}}>RS. 427</Text>
+            <Text style={{color: 'red'}}> Rs {total(totalAmount) + deliveryPrice(deliveryCharge)}</Text>
           </Text>
           <Text>VAT included where applicable</Text>
         </View>
         <TouchableOpacity
           style={style.placeOrderButton}
-          onPress={() => {
-            // Handle place order action
-          }}>
-          <Text style={style.placeOrderButtonText}  >Place Order</Text>
+          onPress={() => handlePlaceOrder()}>
+          <Text style={style.placeOrderButtonText}>Place Order</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -232,8 +281,8 @@ const style = StyleSheet.create({
     margin: 15,
   },
   cart2: {
-    marginTop: 5,
-    height: 250,
+    marginTop: 19,
+    height: 220,
     alignContent: 'center',
     width: wp(95),
     marginLeft: 10,
@@ -295,9 +344,9 @@ const style = StyleSheet.create({
   },
   placeOrderButton: {
     backgroundColor: 'red',
-    height: 50,
+    height: 40,
     width: 100,
-    borderRadius: 20,
+    borderRadius: 5,
     justifyContent: 'center',
     alignItems: 'center',
   },
