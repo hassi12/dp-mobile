@@ -29,7 +29,8 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'center',
-    paddingTop: 10,
+    marginTop: 5,
+    
   },
   image: {
     width: wp(18),
@@ -38,7 +39,8 @@ const styles = StyleSheet.create({
     marginRight: wp(3),
   },
   firstImage: {
-    marginLeft: wp(1), // Adjust the spacing for the first image
+    marginLeft: wp(1),
+    borderWidth: 1, // Adjust the spacing for the first image
   },
   dogtext: {
     // paddingLeft: 12,
