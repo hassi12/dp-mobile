@@ -150,16 +150,10 @@ const HomePage = () => {
               showsHorizontalScrollIndicator={false}
               keyExtractor={item => `${item.id}-${item.title}`}
               renderItem={({item}) => (
-                <View
-                  style={{
-                    backgroundColor: 'white',
-                    width: wp(45),
-                    borderWidth: 1,
-                    height: hp(30),
-                    borderRadius: 10,
-                    overflow: 'hidden', // Clip the content inside the View
-                    marginBottom: 5, // Add some space between items
-                  }}>
+
+                
+
+                <View style={styles.card}>
                   {/* <TouchableOpacity
                     style={{
                       position: 'absolute',
@@ -172,7 +166,9 @@ const HomePage = () => {
                   </TouchableOpacity> */}
 
                   <TouchableOpacity
-                    onPress={() => navigate.navigate(`ProductPage`, { productId: item.id })}
+                    onPress={() =>
+                      navigate.navigate(`ProductPage`, {productId: item.id})
+                    }
                     style={{width: wp(35)}}>
                     <Image
                       source={{uri: item?.images[0]?.image_url}}
@@ -212,7 +208,6 @@ const HomePage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
     margin: 8,
     borderTopLeftRadius: 17,
     borderTopRightRadius: 17,
@@ -253,13 +248,11 @@ const styles = StyleSheet.create({
   },
   horizontalView: {
     flexDirection: 'row',
-    backgroundColor: 'white',
     width: wp(90),
   },
   image: {
     width: wp(45), // Take up 100% width of the parent View
     height: hp(22), // Adjust the height as needed
-    
   },
 
   containertext: {
@@ -284,6 +277,19 @@ const styles = StyleSheet.create({
     color: 'black',
     paddingLeft: 15,
   },
+  card: {
+    width: wp(45),
+    height: hp(30),
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 5,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    marginBottom: 5
+  }
 });
 
 export default HomePage;
