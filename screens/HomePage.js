@@ -187,7 +187,7 @@ const HomePage = () => {
                     {item?.category}
                   </Text>
                   <Text style={styles.priceText}>Rs {item?.price}</Text>
-                  {/* <TouchableOpacity
+                  <TouchableOpacity
                     style={{
                       position: 'absolute',
                       bottom: 5,
@@ -197,7 +197,7 @@ const HomePage = () => {
                       padding: 5,
                     }}>
                     <AntDesign name="plus" size={20} color="white" />
-                  </TouchableOpacity> */}
+                  </TouchableOpacity>
                 </View>
               )}
             />
