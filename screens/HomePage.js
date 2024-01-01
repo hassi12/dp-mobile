@@ -55,7 +55,7 @@ const HomePage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const[category,setCategory] = useState([]);
+  const [category, setCategory] = useState([]);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [posts, setPosts] = useState([]);
@@ -75,16 +75,18 @@ const HomePage = () => {
       console.error(error);
       setError(error.message);
     }
-  }
-  const ProductCategoryList = async () =>{
+  };
+  const ProductCategoryList = async () => {
     try {
-      let res = await axios.get(`http://ec2-43-206-254-199.ap-northeast-1.compute.amazonaws.com/api/v1/category/`)
-      console.log('categories',res.data.results)
-      setCategory(res.data.results)
+      let res = await axios.get(
+        `http://ec2-43-206-254-199.ap-northeast-1.compute.amazonaws.com/api/v1/category/`,
+      );
+      console.log('categories', res.data.results);
+      setCategory(res.data.results);
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -112,19 +114,19 @@ const HomePage = () => {
         <Text style={styles.petstyle}>Select Your Pet</Text>
         <ScrollView horizontal>
           {/* <PetProfile /> */}
-          {category && category.map((category, index) =>{
-            return (
-              // <Text key={index}>{item.name}</Text>
-              <PetProfile category={category} />
-            )
-          })}
+          {category &&
+            category.map((category, index) => {
+              return (
+                // <Text key={index}>{item.name}</Text>
+                <PetProfile category={category} />
+              );
+            })}
         </ScrollView>
       </View>
       {/* categories end */}
-      <Text style={{color: '#bfbfbf', width: wp(94), textAlign: 'center'}}>
+      <Text style={{color: '#bfbfbf', width: wp(95), textAlign: 'center'}}>
         ____________________________________________________
       </Text>
-
       <View style={styles.containertext}>
         <Text style={styles.titleText}>Top Rated products</Text>
         <Text
@@ -151,24 +153,23 @@ const HomePage = () => {
                 <View
                   style={{
                     backgroundColor: 'white',
-                    borderRadius: 10,
-                    width: wp(44),
-                    marginRight: 12,
-                    position: 'relative',
-                    borderColor: 'gray',
+                    width: wp(45),
                     borderWidth: 1,
+                    height: hp(30),
+                    borderRadius: 10,
+                    overflow: 'hidden', // Clip the content inside the View
+                    marginBottom: 5, // Add some space between items
                   }}>
-                  <TouchableOpacity
+                  {/* <TouchableOpacity
                     style={{
                       position: 'absolute',
-                      top: 10,
-                      right: 6,
+                      right: 2,
                       backgroundColor: 'white',
                       borderRadius: 20,
                       padding: 2,
                     }}>
                     <AntDesign name="heart" size={15} color="red" />
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
 
                   <TouchableOpacity
                     onPress={() => navigate.navigate(`ProductPage`, { productId: item.id })}
@@ -223,7 +224,7 @@ const styles = StyleSheet.create({
   },
   petsview: {
     width: wp(99.5),
-    height: hp(20),
+    height: hp(18),
     borderColor: 'black',
     paddingTop: 12,
   },
@@ -256,17 +257,15 @@ const styles = StyleSheet.create({
     width: wp(90),
   },
   image: {
-    width: wp(35),
-    height: hp(15),
-    // borderRadius: 15,
-    // marginTop: 2,
+    width: wp(45), // Take up 100% width of the parent View
+    height: hp(22), // Adjust the height as needed
+    
   },
 
   containertext: {
-    flexDirection: 'row', // Align children in a row
-    alignItems: 'center', // Center vertically
-    paddingTop: 10,
-    paddingBottom: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingBottom: 5,
   },
   titleText: {
     fontWeight: 'bold',
