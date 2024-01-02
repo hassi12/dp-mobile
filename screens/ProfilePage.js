@@ -20,6 +20,15 @@ const ProfilePage = () => {
     navigate.navigate('Home')
   };
 
+  const handleOrderProtect = () => {
+    if (isAuthenticated) {
+      navigate.navigate('OrderPage')
+      navigate.navigate('AddressList')
+    } else {
+      navigate.navigate('SignIn')
+    }
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.profileSection}>
@@ -37,7 +46,7 @@ const ProfilePage = () => {
         <TouchableOpacity>
           <Text
             style={styles.sectionTitle}
-            onPress={() => navigate.navigate(OrderPage)}>
+            onPress={() => handleOrderProtect()}>
             Order History
           </Text>
         </TouchableOpacity>
@@ -53,7 +62,7 @@ const ProfilePage = () => {
       <View style={styles.section}>
         <Text
           style={styles.sectionTitle}
-          onPress={() => navigate.navigate(AddressList)}>
+          onPress={() => handleOrderProtect()}>
           Address Book
         </Text>
         {/* Display address book here */}

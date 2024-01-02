@@ -7,9 +7,23 @@ import {
 } from 'react-native-responsive-screen';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useNavigation} from '@react-navigation/native';
-
+// import { useSelector } from 'react-redux';
 const CardData = ({products, loading, error}) => {
   const navigate = useNavigation();
+  // const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+
+
+  // const handleProductPress = (item) => {
+  //   if (isAuthenticated) {
+  //     navigate.navigate('ProductPage', { productId: item.id });
+  //   } else {
+  //     // Redirect to SignIn page or show a message
+  //     navigate.navigate('SignIn');
+  //     // Alternatively, you can show a message to the user.
+  //     // Example: Alert.alert('Please sign in to view the product details');
+  //   }
+  // };
+
   return (
     <View>
       <View style={styles.horizontalView}>
@@ -29,6 +43,7 @@ const CardData = ({products, loading, error}) => {
                 <TouchableOpacity
                   onPress={() =>
                     navigate.navigate(`ProductPage`, {productId: item.id})
+                    // handleProductPress(item)
                   }
                   style={{width: wp(35)}}>
                   <Image

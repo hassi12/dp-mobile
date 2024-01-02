@@ -23,48 +23,46 @@ import OrderDetail from './screens/OrderDetail';
 // import {store} from './store/store';
 // import { persistStore } from "redux-persist";
 // import { PersistGate } from "redux-persist/integration/react";
-// import { useSelector } from 'react-redux';
+// import {useSelector} from 'react-redux';
 // let persistor = persistStore(store)
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
-  // const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+  // const isAuthenticated = useSelector(state => state.user.isAuthenticated);
 
   useEffect(() => {
     SplashScreen.hide();
   }, []);
 
+
   return (
     // <Provider store={store}>
     //   <PersistGate persistor={persistor} >
-        <NavigationContainer>
-          <Stack.Navigator
-            screenOptions={{headerShown: false}}
-            initialRouteName="Tabs">
-            <Stack.Group>
-              <Stack.Screen name="Tabs" component={tabs} />
-              <Stack.Screen name="Home" component={HomePage} />
-              <Stack.Screen name="Chart" component={ChartPage} />
-              <Stack.Screen name="ProfilePage" component={ProfilePage} />
-              <Stack.Screen name="chat" component={ChatPage} />
-              <Stack.Screen name="DetailPage" component={DetailPage} />
-              <Stack.Screen name="ProductPage" component={ProductPage} />
-              <Stack.Screen name="CartPage" component={CartPage} />
-              <Stack.Screen name="CheckoutPage" component={CheckoutPage} />
-              <Stack.Screen name="AddressPage" component={AddressPage} />
-              <Stack.Screen
-                name="Sucessfullorder"
-                component={Sucessfullorder}
-              />
-              <Stack.Screen name="SignUp" component={SignUp} />
-              <Stack.Screen name="SignIn" component={SignIn} />
-              <Stack.Screen name="OrderPage" component={OrderPage} />
-              <Stack.Screen name="AddressList" component={AddressList} />
-              <Stack.Screen name="OrderDetail" component={OrderDetail} />
-            </Stack.Group>
-          </Stack.Navigator>
-        </NavigationContainer>
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{headerShown: false}}
+        initialRouteName="Tabs">
+        <Stack.Group>
+          <Stack.Screen name="Tabs" component={tabs} />
+          <Stack.Screen name="Home" component={HomePage} />
+          <Stack.Screen name="Chart" component={ChartPage} />
+          <Stack.Screen name="ProfilePage" component={ProfilePage} />
+          <Stack.Screen name="chat" component={ChatPage} />
+          <Stack.Screen name="DetailPage" component={DetailPage} />
+          <Stack.Screen name="ProductPage" component={ProductPage} />
+          <Stack.Screen name="CartPage" component={CartPage} />
+          <Stack.Screen name="CheckoutPage" component={CheckoutPage} />
+          <Stack.Screen name="AddressPage" component={AddressPage} />
+          <Stack.Screen name="Sucessfullorder" component={Sucessfullorder} />
+          <Stack.Screen name="SignUp" component={SignUp} />
+          <Stack.Screen name="SignIn" component={SignIn} />
+          <Stack.Screen name="OrderPage" component={OrderPage} />
+          <Stack.Screen name="AddressList" component={AddressList} />
+          <Stack.Screen name="OrderDetail" component={OrderDetail} />
+        </Stack.Group>
+      </Stack.Navigator>
+    </NavigationContainer>
     //   </PersistGate>
     // </Provider>
   );
