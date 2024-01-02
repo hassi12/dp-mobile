@@ -28,6 +28,10 @@ import {
 } from '../store/cartSlice';
 
 const CartPage = () => {
+  const handleBackPress = () => {
+    navigate.navigate('Tabs');
+  };
+
   const dispatch = useDispatch();
   const {
     data: cartProducts,
@@ -64,7 +68,7 @@ const CartPage = () => {
     //   position: toast.POSITION.BOTTOM_RIGHT,
     //   theme: "colored",
     // });
-  }
+  };
 
   const navigate = useNavigation();
 
@@ -101,8 +105,44 @@ const CartPage = () => {
   };
 
   return (
-    <View style={{flex: 1, backgroundColor: '#e4e8f1'}}>
-      <View style={{flexDirection: 'row', marginBottom: 10}}>
+    <View style={{flex: 1}}>
+      <View
+        style={{
+          width: wp(100),
+          height: 45,
+          backgroundColor: 'white',
+          borderRadius: 4,
+          shadowColor: '#000',
+          shadowOffset: {width: 0, height: 2},
+          shadowOpacity: 0.3,
+          shadowRadius: 4,
+          borderBottomWidth: 0.2,
+          flexDirection: 'row',
+        }}>
+        <TouchableOpacity style={{}}>
+          <AntDesign
+            name="left"
+            style={{
+              fontSize: 25,
+              color: 'black',
+              marginTop: 10,
+              marginLeft: 10,
+            }}
+            onPress={handleBackPress}
+          />
+        </TouchableOpacity>
+        <Text
+          style={{
+            fontWeight: 'bold',
+            color: 'black',
+            marginLeft: 100,
+            marginTop: 10,
+            fontSize: 20,
+          }}>
+          My Chart
+        </Text>
+      </View>
+      {/* <View style={{flexDirection: 'row', marginBottom: 10}}>
         <TouchableOpacity
           style={{
             flexDirection: 'row',
@@ -123,14 +163,25 @@ const CartPage = () => {
               color: '#00599d',
               fontSize: 30,
               marginLeft: 40,
-            }}>
-            MY CART{' '}
-          </Text>
+            }}></Text>
         </View>
-      </View>
+      </View> */}
 
       <ScrollView>
-        {cartProducts.length === 0 ? <Text>No Items are add in Cart</Text> : ''}
+        {cartProducts.length === 0 ? (
+          <Text
+            style={{
+              fontWeight: 'bold',
+              fontSize: 16,
+              color: 'red',
+              textAlign: 'center',
+              marginTop: 100,
+            }}>
+            No Items are add in Cart
+          </Text>
+        ) : (
+          ''
+        )}
         {cartProducts.map(cartProducts => {
           return (
             <View style={styles.cart1} key={cartProducts.id}>
@@ -174,7 +225,7 @@ const CartPage = () => {
                   </TouchableOpacity>
                   <Text
                     style={{marginLeft: 50, fontWeight: '900', color: 'black'}}>
-                   Rs {TotalPrice(cartProducts?.totalPrice)}
+                    Rs {TotalPrice(cartProducts?.totalPrice)}
                   </Text>
                 </View>
               </View>
@@ -204,18 +255,22 @@ const CartPage = () => {
           );
         })}
       </ScrollView>
-      {/* <View> */}
-        <TouchableOpacity onPress={()=> clear()}>
-          <Text>Clear Cart</Text>
-        </TouchableOpacity>
-      {/* </View> */}
+
+      <TouchableOpacity
+        onPress={() => clear()}
+        style={{alignItems: 'center', marginVertical: 10}}>
+        <Text style={{fontWeight: 'bold', fontSize: 16, color: 'red'}}>
+          Clear Cart
+        </Text>
+      </TouchableOpacity>
+
       <View
         style={{
           height: 200,
           width: wp(100),
           borderTopRightRadius: 25,
           borderTopLeftRadius: 25,
-          backgroundColor: '#ffffff',
+          backgroundColor: 'white',
         }}>
         <View>
           <Text

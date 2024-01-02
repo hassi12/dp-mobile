@@ -18,14 +18,14 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useDispatch} from 'react-redux';
 import {add} from '../store/cartSlice';
-import { useRoute } from '@react-navigation/native';
-import { getProductDetail } from '../services/Products_services';
+import {useRoute} from '@react-navigation/native';
+import {getProductDetail} from '../services/Products_services';
 
 const ProductPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState([]);
   const route = useRoute();
-  const { productId } = route.params;
+  const {productId} = route.params;
 
   useEffect(() => {
     handleProductDetail();
@@ -47,23 +47,22 @@ const ProductPage = () => {
       return newQty;
     });
   };
-  
+
   const navigate = useNavigation();
 
   const handleBackPress = () => {
     navigate.navigate('Tabs');
   };
 
-  
   const handleProductDetail = async () => {
     try {
-      let res = await getProductDetail(productId)
+      let res = await getProductDetail(productId);
       setProduct(res.item);
     } catch (error) {
       console.log(error);
     }
   };
-  const { images } = product;
+  const {images} = product;
   // navigate.navigate(CartPage)
   const dispatch = useDispatch();
   const addToCartHandler = product => {
@@ -84,20 +83,42 @@ const ProductPage = () => {
         style={{
           justifyContent: 'center',
           alignItems: 'center',
-          paddingTop: 10,
         }}>
-        <TouchableOpacity
-          onPress={handleBackPress}
-          style={{flexDirection: 'row', alignItems: 'center'}}>
-          <AntDesign
-            name="left"
-            size={25}
-            style={{color: 'black', marginRight: 80}}
-          />
-          <Text style={styles.seeAllText}>Product Details</Text>
-        </TouchableOpacity>
+        <View
+          style={{
+            width: wp(100),
+            height: 45,
+            borderRadius: 4,
+            shadowColor: '#000',
+            shadowOffset: {width: 0, height: 2},
+            shadowOpacity: 0.3,
+            shadowRadius: 4,
+            flexDirection: 'row',
+          }}>
+          <TouchableOpacity style={{}}>
+            <AntDesign
+              name="left"
+              style={{
+                fontSize: 25,
+                color: 'black',
+                marginTop: 10,
+                marginLeft: 10,
+              }}
+              onPress={handleBackPress}
+            />
+          </TouchableOpacity>
+          <Text
+            style={{
+              fontWeight: 'bold',
+              color: 'black',
+              marginLeft: 100,
+              marginTop: 10,
+              fontSize: 20,
+            }}>
+            Product Detail
+          </Text>
+        </View>
       </SafeAreaView>
-
       <View style={styles.productview}>
         <View
           style={{
@@ -108,31 +129,32 @@ const ProductPage = () => {
           <TouchableOpacity style={{position: 'absolute', top: 0, right: 0}}>
             <AntDesign
               name="heart"
-              size={17}
-              style={{color: 'red', paddingRight: 15}}
+              size={20}
+              style={{color: 'red', marginRight: 15, marginTop: 10}}
             />
           </TouchableOpacity>
           <Image
-            source={{ uri: product.images && product.images[0]?.image_url }}
+            source={{uri: product.images && product.images[0]?.image_url}}
             style={styles.image}
           />
         </View>
 
         <View style={styles.container111}>
           <View style={styles.parallelView1}>
-            <Text
-              style={{
-                fontWeight: 'bold',
-                color: 'black',
-                fontSize: 20,
-                marginLeft: 10,
-              }}>
-              {product?.title}
-            </Text>
-            <Text style={{marginLeft: 10}}>{product?.category}</Text>
-            <Text style={styles.priceText}>RS. {product?.price}</Text>
-
+            <ScrollView>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  color: 'black',
+                  fontSize: 20,
+                  marginLeft: 10,
+                }}>
+                {product?.title}
+              </Text>
+              <Text style={{marginLeft: 10}}>{product?.category}</Text>
+            </ScrollView>
             <View style={styles.priceContainer}>
+              <Text style={styles.priceText}>RS. {product?.price}</Text>
               <View style={styles.stars}>
                 <MaterialIcons
                   name="star"
@@ -174,96 +196,97 @@ const ProductPage = () => {
             </Text>
 
             <View style={styles.container}>
-              <TouchableOpacity style={styles.button} onPress={() => handleDecrement()}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => handleDecrement()}>
                 <Text style={styles.buttonText}>-</Text>
               </TouchableOpacity>
               <Text style={styles.quantityText}>{quantity}</Text>
-              <TouchableOpacity style={styles.button} onPress={() => handleIncrement()}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => handleIncrement()}>
                 <Text style={styles.buttonText}>+</Text>
               </TouchableOpacity>
             </View>
           </View>
         </View>
-        <View
-          style={{
-            width: wp(95),
-            height: hp(17),
-            borderRadius: 10,
-          }}>
+      </View>
+      <View
+        style={{
+          width: wp(94),
+          height: hp(19),
+          borderRadius: 10,
+          borderRadius: 20,
+          marginLeft: 10,
+        }}>
+        <ScrollView>
           <Text
             style={{
               fontWeight: 'bold',
               color: 'black',
-              paddingLeft: 12,
+              paddingLeft: 10,
               marginTop: 10,
             }}>
             Product Discription
           </Text>
-          <Text style={{paddingLeft: 5, marginTop: 5}}>
+          <Text style={{paddingLeft: 10, marginTop: 5}}>
             {product?.description}
           </Text>
-        </View>
-      </View>
-
-      <View
-        style={{
-          borderWidth: 0.2,
-          borderRadius: 5,
-          width: wp(95),
-          marginTop: 15,
-          margin: 5,
-        }}>
-        <View style={styles.review}>
-          <View style={styles.container111}>
-            <View style={styles.reviewView1}>
-              <Text
-                style={{
-                  fontWeight: 'bold',
-                  color: 'black',
-                  marginLeft: 10,
-                }}>
-                Atif Badini
-              </Text>
-            </View>
-            <View style={styles.reviewView2}>
-              <View style={styles.stars}>
-                <MaterialIcons
-                  name="star"
-                  size={20}
-                  style={styles.starUnselected}
-                />
-                <MaterialIcons
-                  name="star"
-                  size={20}
-                  style={styles.starUnselected}
-                />
-                <MaterialIcons
-                  name="star"
-                  size={20}
-                  style={styles.starUnselected}
-                />
-                <MaterialIcons
-                  name="star-half"
-                  size={20}
-                  style={styles.starhalf}
-                />
-                <MaterialIcons
-                  name="star-outline"
-                  size={20}
-                  style={styles.starouline}
-                />
-              </View>
-            </View>
+        </ScrollView>
+        <View style={{flexDirection: 'row', marginTop: 20}}>
+          <View>
+            <Text style={{color: 'black', fontWeight: 'bold'}}> Reviews</Text>
+          </View>
+          <View style={{marginLeft: 230}}>
+            <Text style={{color: 'black', fontWeight: 'bold'}}> View more</Text>
           </View>
         </View>
-        <ScrollView>
-          <Text style={styles.ReviewText3}>
-            I have found this product very good please buy as much as you can.
-            django per is the copy right of partum soluitons
-          </Text>
-        </ScrollView>
       </View>
 
+      {/* comment section  */}
+      <View
+        style={{
+          borderRadius: 5,
+          width: wp(97),
+          marginTop: 10,
+          margin: 5,
+          borderWidth: 0.2,
+          borderRadius: 10,
+          height: hp(11),
+        }}>
+        <View style={styles.stars}>
+          <Text
+            style={{
+              fontWeight: 'bold',
+              color: 'black',
+              marginLeft: 10,
+            }}>
+            Atif Badini
+          </Text>
+          <MaterialIcons
+            name="star"
+            size={20}
+            style={styles.starUnselected}
+            marginLeft={180}
+          />
+          <MaterialIcons name="star" size={20} style={styles.starUnselected} />
+          <MaterialIcons name="star" size={20} style={styles.starUnselected} />
+          <MaterialIcons name="star-half" size={20} style={styles.starhalf} />
+          <MaterialIcons
+            name="star-outline"
+            size={20}
+            style={styles.starouline}
+          />
+        </View>
+
+        <View
+          style={{
+            width: wp(94),
+            height: hp(12),
+            borderRadius: 10,
+            margin: 10,
+          }}></View>
+      </View>
       <View style={styles.verifedagent}>
         <TouchableOpacity
           onPress={() => {
@@ -281,7 +304,6 @@ const ProductPage = () => {
 const styles = StyleSheet.create({
   container1: {
     flex: 1,
-    backgroundColor: 'white',
   },
   seeAllText: {
     fontWeight: 'bold',
@@ -292,21 +314,22 @@ const styles = StyleSheet.create({
   productview: {
     marginTop: 5,
     width: wp(95),
-    height: hp(68),
+    height: hp(49),
     marginLeft: 8,
     borderRadius: 5,
   },
   image: {
     width: wp(50),
-    height: hp(32),
+    height: hp(30),
     marginLeft: wp(20),
     marginBottom: 4,
-    marginTop: 4,
+    marginTop: 5,
   },
   container111: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+
   parallelView1: {
     width: wp(50),
     height: hp(15),
@@ -328,6 +351,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 10,
+    borderWidth: 1,
   },
   reviewimage: {
     width: wp(15),
@@ -341,12 +365,13 @@ const styles = StyleSheet.create({
   },
   verifedagent: {
     marginTop: 15,
-    backgroundColor: '#0e4183',
+    backgroundColor: '#477200',
     borderWidth: 0.5,
     borderRadius: 20,
     width: wp(50),
     height: hp(6),
     marginLeft: wp(25),
+    marginBottom: 15,
   },
   verfiedagenttext: {
     marginTop: 8,
@@ -395,10 +420,12 @@ const styles = StyleSheet.create({
     marginLeft: 6,
   },
   priceText: {
-    fontSize: 24,
+    fontSize: 15,
     fontWeight: 'bold',
-    color: 'black',
-    marginLeft: 10,
+    color: '#333',
+    marginLeft: 4,
+    fontFamily: 'Arial, sans-serif',
+    textTransform: 'uppercase',
   },
 
   ReviewText3: {
