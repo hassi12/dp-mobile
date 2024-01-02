@@ -19,22 +19,25 @@ import SignIn from './screens/SignIn';
 import OrderPage from './screens/OrderPage';
 import AddressList from './screens/AddressList';
 import OrderDetail from './screens/OrderDetail';
-import {Provider} from 'react-redux';
-import {store} from './store/store';
-import { persistStore } from "redux-persist";
-import { PersistGate } from "redux-persist/integration/react";
-let persistor = persistStore(store)
+// import {Provider} from 'react-redux';
+// import {store} from './store/store';
+// import { persistStore } from "redux-persist";
+// import { PersistGate } from "redux-persist/integration/react";
+// import { useSelector } from 'react-redux';
+// let persistor = persistStore(store)
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
+  // const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+
   useEffect(() => {
     SplashScreen.hide();
   }, []);
 
   return (
-    <Provider store={store}>
-      <PersistGate persistor={persistor} >
+    // <Provider store={store}>
+    //   <PersistGate persistor={persistor} >
         <NavigationContainer>
           <Stack.Navigator
             screenOptions={{headerShown: false}}
@@ -62,8 +65,8 @@ const App = () => {
             </Stack.Group>
           </Stack.Navigator>
         </NavigationContainer>
-      </PersistGate>
-    </Provider>
+    //   </PersistGate>
+    // </Provider>
   );
 };
 
