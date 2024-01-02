@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React,{useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Feather from 'react-native-vector-icons/Feather';
@@ -12,23 +12,30 @@ import HomePage from '../screens/HomePage';
 import ChartPage from '../screens/ChartPage';
 import ProfilePage from '../screens/ProfilePage';
 import ChatPage from '../screens/ChatPage';
-import { useSelector,useDispatch } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
-import { getCartTotal } from '../store/cartSlice';
+import {useSelector, useDispatch} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
+import {getCartTotal} from '../store/cartSlice';
 
 const Tab = createBottomTabNavigator();
 
-
 const Tabs = () => {
   const dispatch = useDispatch();
-  const { totalItems } = useSelector((state => state.cart));
-  // const navigate = useNavigate()
-  
+  const {totalItems} = useSelector(state => state.cart);
+  const isAuthenticated = useSelector(state => state.user.isAuthenticated);
+  const navigate = useNavigation();
+
   useEffect(() => {
     dispatch(getCartTotal());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleChartPress = () => {
+    if (isAuthenticated) {
+      navigate.navigate('Chart');
+    } else {
+      navigate.navigate('SignIn');
+    }
+  };
 
   return (
     <Tab.Navigator
@@ -68,15 +75,19 @@ const Tabs = () => {
         component={ChartPage}
         options={{
           tabBarIcon: ({focused}) => (
-            <View>
-              <Feather
-                name="shopping-cart"
-                size={25}
-                style={styles.image_css}
-                resizeMode="contain"
-              />
-              <Text style={{color: focused ? 'white' : '#748c94'}}>Chart({totalItems})</Text>
-            </View>
+            <TouchableOpacity onPress={handleChartPress}>
+              <View>
+                <Feather
+                  name="shopping-cart"
+                  size={25}
+                  style={styles.image_css}
+                  resizeMode="contain"
+                />
+                <Text style={{color: focused ? 'white' : '#748c94'}}>
+                  Chart({totalItems})
+                </Text>
+              </View>
+            </TouchableOpacity>
           ),
         }}
       />
