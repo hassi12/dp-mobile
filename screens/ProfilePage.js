@@ -4,10 +4,22 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import SignIn from './SignIn';
 import {useNavigation} from '@react-navigation/native';
 import OrderPage from './OrderPage';
+import {useDispatch, useSelector} from 'react-redux';
 import AddressList from './AddressList';
+import {logout} from '../store/authSlice';
 
 const ProfilePage = () => {
   const navigate = useNavigation();
+  const user = useSelector(state => state.user);
+  const isAuthenticated = useSelector(state => state.user.isAuthenticated);
+
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logout());
+    // navigation("/")
+    navigate.navigate('Home')
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.profileSection}>
@@ -15,9 +27,9 @@ const ProfilePage = () => {
           source={require('../assets/profile.png')}
           style={styles.profileImage}
         />
-        <Text style={styles.userName}>John Doe</Text>
+        <Text style={styles.userName}>{isAuthenticated ? user?.user?.username : 'UserName' }</Text>
         <TouchableOpacity>
-          <Text>Edit Profile</Text>
+          <Text>{isAuthenticated ? user?.user?.email : 'User@gmail.com' }</Text>
         </TouchableOpacity>
       </View>
 
@@ -49,7 +61,7 @@ const ProfilePage = () => {
 
       {/* Pet Information */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Pet Information</Text>
+        <Text style={styles.sectionTitle}>User Profile</Text>
         {/* Display pet information here */}
       </View>
 
@@ -60,11 +72,17 @@ const ProfilePage = () => {
       </View>
 
       {/* Log Out Option */}
-      <TouchableOpacity
-        style={styles.logoutButton}
-        onPress={() => navigate.navigate(SignIn)}>
-        <Text style={styles.logoutButtonText}>Log In</Text>
-      </TouchableOpacity>
+      {isAuthenticated ? (
+        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+          <Text style={styles.logoutButtonText}>Log out</Text>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          style={styles.logoutButton}
+          onPress={() => navigate.navigate(SignIn)}>
+          <Text style={styles.logoutButtonText}>Log In</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };

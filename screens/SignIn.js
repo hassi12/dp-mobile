@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import {
   View,
   Text,
@@ -13,14 +13,37 @@ import {
 } from 'react-native-responsive-screen';
 import SignUp from './SignUp';
 import {useNavigation} from '@react-navigation/native';
-import ProfilePage from './ProfilePage';
+import { signInUser } from '../store/authSlice';
+import { useDispatch,useSelector } from 'react-redux';
+
 
 const SignIn = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigation();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const user = useSelector((state) => state.user);
 
-  const handleSignIn = () => {
+  const handleSignIn = async () => {
     // Use navigate.navigate with the screen name as a string
-    navigate.navigate(ProfilePage);
+    // navigate.navigate(ProfilePage);
+
+    try {
+    const loginData = await dispatch(signInUser({ username, password }))
+      if (loginData.payload && loginData.payload.user) {
+        navigate.navigate('Tabs')
+        setUsername('')
+        setPassword('')
+        
+      } else {
+        console.log('error name and password')
+      }
+      
+    } catch (error) {
+      console.log('error')
+    }
+    
+
   };
 
   return (
@@ -30,11 +53,13 @@ const SignIn = () => {
         <Text style={styles.signIn}>Sign in </Text>
       </View>
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>Email</Text>
+        <Text style={styles.label}>UserName</Text>
         <TextInput
-          placeholder="Enter your email"
+          placeholder="Enter your username"
           placeholderTextColor="#808080"
           style={styles.input}
+          value={username}
+          onChangeText={(text) => setUsername(text)}
         />
         <Text style={styles.label}>Password</Text>
         <TextInput
@@ -42,6 +67,8 @@ const SignIn = () => {
           placeholderTextColor="#808080"
           secureTextEntry
           style={styles.input}
+          value={password}
+          onChangeText={(text) => setPassword(text)}
         />
       </View>
       <TouchableOpacity style={styles.signInButton} onPress={handleSignIn}>
