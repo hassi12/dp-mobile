@@ -18,7 +18,8 @@ export default function PetProfile({category}) {
       <View>
         <Image
           source={{uri: category?.image_url}}
-          style={[styles.image, styles.firstImage]} />
+          style={[styles.image, styles.firstImage]}
+        />
         <Text style={styles.dogtext}>{category.name}</Text>
       </View>
     </View>
@@ -30,7 +31,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     marginTop: 5,
-    
   },
   image: {
     width: wp(18),
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     marginRight: wp(3),
   },
   firstImage: {
-    marginLeft: wp(1),
+    marginLeft: wp(1.5),
     borderWidth: 1, // Adjust the spacing for the first image
   },
   dogtext: {

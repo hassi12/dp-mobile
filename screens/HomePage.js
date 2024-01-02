@@ -146,24 +146,13 @@ const HomePage = () => {
           ) : (
             <FlatList
               data={products}
+              numColumns={2}
               // horizontal
               showsHorizontalScrollIndicator={false}
               keyExtractor={item => `${item.id}-${item.title}`}
               renderItem={({item}) => (
-
-                
-
                 <View style={styles.card}>
-                  {/* <TouchableOpacity
-                    style={{
-                      position: 'absolute',
-                      right: 2,
-                      backgroundColor: 'white',
-                      borderRadius: 20,
-                      padding: 2,
-                    }}>
-                    <AntDesign name="heart" size={15} color="red" />
-                  </TouchableOpacity> */}
+                 
 
                   <TouchableOpacity
                     onPress={() =>
@@ -183,6 +172,16 @@ const HomePage = () => {
                     {item?.category}
                   </Text>
                   <Text style={styles.priceText}>Rs {item?.price}</Text>
+                  <TouchableOpacity
+                    style={{
+                      position: 'absolute',
+                      right: 2,
+                      backgroundColor: 'white',
+                      borderRadius: 20,
+                      padding: 2,
+                    }}>
+                    <AntDesign name="heart" size={15} color="red" />
+                  </TouchableOpacity>
                   <TouchableOpacity
                     style={{
                       position: 'absolute',
@@ -248,11 +247,13 @@ const styles = StyleSheet.create({
   },
   horizontalView: {
     flexDirection: 'row',
-    width: wp(90),
+    flexWrap: 'wrap', // Allow items to wrap into the next line
+    justifyContent: 'space-between', // Space items evenly in each line
+    width: wp(95),
   },
   image: {
-    width: wp(45), // Take up 100% width of the parent View
-    height: hp(22), // Adjust the height as needed
+    width: wp(40), // Take up 100% width of the parent View
+    height: hp(20), // Adjust the height as needed
   },
 
   containertext: {
@@ -272,10 +273,12 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   priceText: {
-    fontSize: 13,
+    fontSize: 15,
     fontWeight: 'bold',
-    color: 'black',
+    color: '#333',
     paddingLeft: 15,
+    fontFamily: 'Arial, sans-serif',
+    textTransform: 'uppercase',
   },
   card: {
     width: wp(45),
@@ -288,8 +291,9 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.3,
     shadowRadius: 4,
-    marginBottom: 5
-  }
+    marginBottom: 5,
+    margin: 5
+  },
 });
 
 export default HomePage;
