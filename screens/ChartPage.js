@@ -142,30 +142,6 @@ const CartPage = () => {
           My Chart
         </Text>
       </View>
-      {/* <View style={{flexDirection: 'row', marginBottom: 10}}>
-        <TouchableOpacity
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            paddingHorizontal: 40,
-          }}>
-          <AntDesign
-            name="left"
-            size={25}
-            onPress={() => navigate.navigate(Tabs)}
-          />
-        </TouchableOpacity>
-        <View>
-          <Text
-            style={{
-              textAlign: 'center',
-              fontWeight: 'bold',
-              color: '#00599d',
-              fontSize: 30,
-              marginLeft: 40,
-            }}></Text>
-        </View>
-      </View> */}
 
       <ScrollView>
         {cartProducts.length === 0 ? (
@@ -185,26 +161,19 @@ const CartPage = () => {
         {cartProducts.map(cartProducts => {
           return (
             <View style={styles.cart1} key={cartProducts.id}>
-              <View
-                style={{
-                  height: 130,
-                  width: 100,
-                  borderTopLeftRadius: 10,
-                  borderBottomLeftRadius: 10,
-                  backgroundColor: '#e9eef7',
-                }}>
-                <Image
-                  source={{uri: cartProducts?.images[0]?.image_url}}
-                  style={styles.itemimage}
-                />
-              </View>
+              <Image
+                source={{uri: cartProducts?.images[0]?.image_url}}
+                style={styles.itemimage}
+              />
               <View>
                 <Text
                   style={{
                     marginTop: 30,
-                    color: 'black',
-                    marginLeft: 10,
-                    fontSize: 20,
+                    fontSize: 15,
+                    fontWeight: 'bold',
+                    color: '#333',
+                    fontFamily: 'Arial, sans-serif',
+                    textTransform: 'uppercase',
                   }}>
                   {cartProducts?.title.substring(0, 11)}
                 </Text>
@@ -224,7 +193,14 @@ const CartPage = () => {
                     <Text style={styles.buttonText}>+</Text>
                   </TouchableOpacity>
                   <Text
-                    style={{marginLeft: 50, fontWeight: '900', color: 'black'}}>
+                    style={{
+                      marginLeft: 50,
+                      fontSize: 15,
+                      fontWeight: 'bold',
+                      color: '#333',
+                      fontFamily: 'Arial, sans-serif',
+                      textTransform: 'uppercase',
+                    }}>
                     Rs {TotalPrice(cartProducts?.totalPrice)}
                   </Text>
                 </View>
@@ -232,8 +208,8 @@ const CartPage = () => {
               <View
                 style={{
                   position: 'absolute',
-                  top: 0,
-                  right: 0,
+                  top: 1,
+                  right: 1,
                   height: 40,
                   width: 40,
                   backgroundColor: '#00599D',
@@ -271,54 +247,53 @@ const CartPage = () => {
           borderTopRightRadius: 25,
           borderTopLeftRadius: 25,
           backgroundColor: 'white',
+          borderTopWidth: 0.2,
         }}>
-        <View>
-          <Text
-            style={{
-              marginTop: 15,
-              color: 'black',
-              marginLeft: 50,
-              fontSize: 15,
-              marginBottom: 10,
-              fontWeight: '900',
-              color: 'black',
-            }}>
-            {totalItems} Items in the cart
-          </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              paddingHorizontal: 50,
-            }}>
-            <View>
-              <Text style={{fontWeight: '900', color: 'black'}}>Sub total</Text>
-              <Text style={{fontWeight: '900', color: 'black'}}>
-                Delivery Cost
-              </Text>
-              <Text style={{fontWeight: '900', color: 'black'}}>Discount</Text>
-              <Text style={{fontWeight: '900', color: 'black'}}>Total</Text>
-            </View>
-            <View>
-              <Text style={{fontWeight: '900', color: 'black'}}>
-                {total(totalAmount)}
-              </Text>
-              <Text style={{fontWeight: '900', color: 'black'}}>RS. --</Text>
-              <Text style={{fontWeight: '900', color: 'black'}}>RS. -</Text>
-              <Text style={{fontWeight: '900', color: 'black'}}>
-                Rs {total(totalAmount) + deliveryPrice(deliveryCharge)}
-              </Text>
-            </View>
+        <Text
+          style={{
+            marginTop: 15,
+            color: 'black',
+            marginLeft: 50,
+            fontSize: 15,
+            marginBottom: 10,
+            fontWeight: '900',
+            color: 'black',
+          }}>
+          {totalItems} Items in the cart
+        </Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            paddingHorizontal: 50,
+          }}>
+          <View>
+            <Text style={{fontWeight: '900', color: 'black'}}>Sub total</Text>
+            <Text style={{fontWeight: '900', color: 'black'}}>
+              Delivery Cost
+            </Text>
+            <Text style={{fontWeight: '900', color: 'black'}}>Discount</Text>
+            <Text style={{fontWeight: '900', color: 'black'}}>Total</Text>
           </View>
-          <View style={styles.verifedagent}>
-            <TouchableOpacity>
-              <Text
-                style={styles.verfiedagenttext}
-                onPress={() => navigate.navigate(CheckoutPage)}>
-                Check Out
-              </Text>
-            </TouchableOpacity>
+          <View>
+            <Text style={{fontWeight: '900', color: 'black'}}>
+              {total(totalAmount)}
+            </Text>
+            <Text style={{fontWeight: '900', color: 'black'}}>RS. --</Text>
+            <Text style={{fontWeight: '900', color: 'black'}}>RS. -</Text>
+            <Text style={{fontWeight: '900', color: 'black'}}>
+              Rs {total(totalAmount) + deliveryPrice(deliveryCharge)}
+            </Text>
           </View>
+        </View>
+        <View style={styles.verifedagent}>
+          <TouchableOpacity>
+            <Text
+              style={styles.verfiedagenttext}
+              onPress={() => navigate.navigate(CheckoutPage)}>
+              Check Out
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -336,6 +311,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     flexDirection: 'row',
     borderRadius: 30,
+    borderWidth: 0.5,
   },
   container: {
     flexDirection: 'row',
@@ -377,7 +353,10 @@ const styles = StyleSheet.create({
   },
   itemimage: {
     width: wp(27),
-    height: hp(18),
+    height: hp(16),
+    margin: 2,
+    borderRadius: 20,
+    marginTop: 5,
   },
 });
 
