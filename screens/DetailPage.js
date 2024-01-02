@@ -8,23 +8,39 @@ import {
   ScrollView,
   SafeAreaView,
 } from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useNavigation} from '@react-navigation/native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-;
-
+import CardData from '../components/CardData';
+import {getProducts} from '../services/Products_services';
 
 const DetailPage = () => {
+  useEffect(() => {
+    handleProducts();
+  }, []);
+
   const navigation = useNavigation();
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const handleBackPress = () => {
     navigation.navigate('Tabs');
   };
-
+  const handleProducts = async () => {
+    try {
+      let res = await getProducts();
+      setProducts(res.results);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setError(error.message);
+    }
+  };
 
   return (
     <ScrollView style={styles.maincontainer}>
@@ -43,306 +59,8 @@ const DetailPage = () => {
         ______________________________________________________
       </Text>
       <View style={styles.container11}>
-        <View style={styles.horizontalView}>
-          <View
-            style={{
-              backgroundColor: 'white',
-              borderRadius: 20,
-              width: wp(44),
-              marginRight: 18,
-              position: 'relative',
-              borderColor: 'gray',
-              borderWidth: 1,
-              marginLeft: 7,
-            }}>
-            <TouchableOpacity
-              style={{
-                position: 'absolute',
-                top: 10,
-                right: 6,
-                backgroundColor: 'white',
-                borderRadius: 20,
-                padding: 2,
-              }}>
-              <AntDesign name="heart" size={15} color="red" />
-            </TouchableOpacity>
-
-            <TouchableOpacity style={{width: wp(35)}}>
-              <Image
-                source={require('../assets/petfood32.png')}
-                style={styles.image}
-              />
-            </TouchableOpacity>
-
-            <Text style={styles.priceText}>Pedigree Vital</Text>
-            <Text style={{paddingLeft: 10, fontSize: 13}}>
-              Beef & Vegetablesss
-            </Text>
-            <Text style={styles.priceText}>Rs. 230</Text>
-            <TouchableOpacity
-              style={{
-                position: 'absolute',
-                bottom: 5,
-                right: 5,
-                backgroundColor: '#eb2d1c',
-                borderRadius: 20,
-                padding: 5,
-              }}>
-              <AntDesign name="plus" size={20} color="white" />
-            </TouchableOpacity>
-          </View>
-          <View />
-
-          <View
-            style={{
-              backgroundColor: 'white',
-              borderRadius: 20,
-              width: wp(44),
-              marginRight: 5,
-              position: 'relative',
-              borderColor: 'gray',
-              borderWidth: 1,
-            }}>
-            <TouchableOpacity
-              style={{
-                position: 'absolute',
-                top: 10,
-                right: 6,
-                backgroundColor: 'white',
-                borderRadius: 20,
-                padding: 2,
-              }}>
-              <AntDesign name="heart" size={15} color="red" />
-            </TouchableOpacity>
-
-            <TouchableOpacity style={{width: wp(35)}}>
-              <Image
-                source={require('../assets/petfood32.png')}
-                style={styles.image}
-              />
-            </TouchableOpacity>
-
-            <Text style={styles.priceText}>Pedigree Vital</Text>
-            <Text style={{paddingLeft: 10, fontSize: 13}}>
-              Beef & Vegetables
-            </Text>
-            <Text style={styles.priceText}>Rs. 230</Text>
-            <TouchableOpacity
-              style={{
-                position: 'absolute',
-                bottom: 5,
-                right: 5,
-                backgroundColor: '#eb2d1c',
-                borderRadius: 20,
-                padding: 5,
-              }}>
-              <AntDesign name="plus" size={20} color="white" />
-            </TouchableOpacity>
-          </View>
-          <View />
-        </View>
+        <CardData products={products} loading={loading} error={error} />
       </View>
-      <View style={styles.container11}>
-        <View style={styles.horizontalView}>
-          <View
-            style={{
-              backgroundColor: 'white',
-              borderRadius: 20,
-              width: wp(44),
-              marginRight: 18,
-              position: 'relative',
-              borderColor: 'gray',
-              borderWidth: 1,
-              marginLeft: 7,
-            }}>
-            <TouchableOpacity
-              style={{
-                position: 'absolute',
-                top: 10,
-                right: 6,
-                backgroundColor: 'white',
-                borderRadius: 20,
-                padding: 2,
-              }}>
-              <AntDesign name="heart" size={15} color="red" />
-            </TouchableOpacity>
-
-            <TouchableOpacity style={{width: wp(35)}}>
-              <Image
-                source={require('../assets/petfood32.png')}
-                style={styles.image}
-              />
-            </TouchableOpacity>
-
-            <Text style={styles.priceText}>Pedigree Vital</Text>
-            <Text style={{paddingLeft: 10, fontSize: 13}}>
-              Beef & Vegetables
-            </Text>
-            <Text style={styles.priceText}>Rs. 230</Text>
-            <TouchableOpacity
-              style={{
-                position: 'absolute',
-                bottom: 5,
-                right: 5,
-                backgroundColor: '#eb2d1c',
-                borderRadius: 20,
-                padding: 5,
-              }}>
-              <AntDesign name="plus" size={20} color="white" />
-            </TouchableOpacity>
-          </View>
-          <View />
-
-          <View
-            style={{
-              backgroundColor: 'white',
-              borderRadius: 20,
-              width: wp(44),
-              marginRight: 5,
-              position: 'relative',
-              borderColor: 'gray',
-              borderWidth: 1,
-            }}>
-            <TouchableOpacity
-              style={{
-                position: 'absolute',
-                top: 10,
-                right: 6,
-                backgroundColor: 'white',
-                borderRadius: 20,
-                padding: 2,
-              }}>
-              <AntDesign name="heart" size={15} color="red" />
-            </TouchableOpacity>
-
-            <TouchableOpacity style={{width: wp(35)}}>
-              <Image
-                source={require('../assets/petfood32.png')}
-                style={styles.image}
-              />
-            </TouchableOpacity>
-
-            <Text style={styles.priceText}>Pedigree Vital</Text>
-            <Text style={{paddingLeft: 10, fontSize: 13}}>
-              Beef & Vegetables
-            </Text>
-            <Text style={styles.priceText}>Rs. 230</Text>
-            <TouchableOpacity
-              style={{
-                position: 'absolute',
-                bottom: 5,
-                right: 5,
-                backgroundColor: '#eb2d1c',
-                borderRadius: 20,
-                padding: 5,
-              }}>
-              <AntDesign name="plus" size={20} color="white" />
-            </TouchableOpacity>
-          </View>
-          <View />
-        </View>
-      </View>
-      <View style={styles.container11}>
-        <View style={styles.horizontalView}>
-          <View
-            style={{
-              backgroundColor: 'white',
-              borderRadius: 20,
-              width: wp(44),
-              marginRight: 18,
-              position: 'relative',
-              borderColor: 'gray',
-              borderWidth: 1,
-              marginLeft: 7,
-            }}>
-            <TouchableOpacity
-              style={{
-                position: 'absolute',
-                top: 10,
-                right: 6,
-                backgroundColor: 'white',
-                borderRadius: 20,
-                padding: 2,
-              }}>
-              <AntDesign name="heart" size={15} color="red" />
-            </TouchableOpacity>
-
-            <TouchableOpacity style={{width: wp(35)}}>
-              <Image
-                source={require('../assets/petfood32.png')}
-                style={styles.image}
-              />
-            </TouchableOpacity>
-
-            <Text style={styles.priceText}>Pedigree Vital</Text>
-            <Text style={{paddingLeft: 10, fontSize: 13}}>
-              Beef & Vegetables
-            </Text>
-            <Text style={styles.priceText}>Rs. 230</Text>
-            <TouchableOpacity
-              style={{
-                position: 'absolute',
-                bottom: 5,
-                right: 5,
-                backgroundColor: '#eb2d1c',
-                borderRadius: 20,
-                padding: 5,
-              }}>
-              <AntDesign name="plus" size={20} color="white" />
-            </TouchableOpacity>
-          </View>
-          <View />
-
-          <View
-            style={{
-              backgroundColor: 'white',
-              borderRadius: 20,
-              width: wp(44),
-              marginRight: 5,
-              position: 'relative',
-              borderColor: 'gray',
-              borderWidth: 1,
-            }}>
-            <TouchableOpacity
-              style={{
-                position: 'absolute',
-                top: 10,
-                right: 6,
-                backgroundColor: 'white',
-                borderRadius: 20,
-                padding: 2,
-              }}>
-              <AntDesign name="heart" size={15} color="red" />
-            </TouchableOpacity>
-
-            <TouchableOpacity style={{width: wp(35)}}>
-              <Image
-                source={require('../assets/petfood32.png')}
-                style={styles.image}
-              />
-            </TouchableOpacity>
-
-            <Text style={styles.priceText}>Pedigree Vital</Text>
-            <Text style={{paddingLeft: 10, fontSize: 13}}>
-              Beef & Vegetables
-            </Text>
-            <Text style={styles.priceText}>Rs. 230</Text>
-            <TouchableOpacity
-              style={{
-                position: 'absolute',
-                bottom: 5,
-                right: 5,
-                backgroundColor: '#eb2d1c',
-                borderRadius: 20,
-                padding: 5,
-              }}>
-              <AntDesign name="plus" size={20} color="white" />
-            </TouchableOpacity>
-          </View>
-          <View />
-        </View>
-      </View>
-
       <View style={{padding: 5}}></View>
     </ScrollView>
   );

@@ -278,14 +278,15 @@ const ProductPage = () => {
             style={styles.starouline}
           />
         </View>
-
         <View
           style={{
             width: wp(94),
             height: hp(12),
             borderRadius: 10,
             margin: 10,
-          }}></View>
+          }}>
+            
+          </View>
       </View>
       <View style={styles.verifedagent}>
         <TouchableOpacity

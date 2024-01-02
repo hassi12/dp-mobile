@@ -1,47 +1,20 @@
 import 'react-native-gesture-handler';
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import {
-  View,
-  Text,
-  TextInput,
-  Button,
-  StyleSheet,
-  Image,
-  ScrollView,
-  TouchableOpacity,
-  Dimensions,
-} from 'react-native';
-import {scale, verticalScale, moderateScale} from 'react-native-size-matters';
+import {View, Text, StyleSheet, ScrollView, Dimensions} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {IconComponentProvider} from '@react-native-material/core';
-import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import Feather from 'react-native-vector-icons/Feather';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import moment from 'moment';
-import {
-  Alert,
-  Modal,
-  Pressable,
-  FlatList,
-  ActivityIndicator,
-} from 'react-native';
+import {} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {useNavigation} from '@react-navigation/native';
-import {Linking} from 'react-native';
 import HomePageSearch from '../components/HomePagesearch';
 import PetProfile from '../components/PetProfile';
 import {SliderBox} from 'react-native-image-slider-box';
 import DetailPage from './DetailPage';
-import ProductPage from './productPage';
 import {getProducts} from '../services/Products_services';
+import CardData from '../components/CardData';
 
 const HomePage = () => {
   const {height, width} = Dimensions.get('window');
@@ -57,8 +30,6 @@ const HomePage = () => {
   const [error, setError] = useState(null);
   const [category, setCategory] = useState([]);
 
-  const [modalVisible, setModalVisible] = useState(false);
-  const [posts, setPosts] = useState([]);
   const images = [
     require('../assets/dog1.jpg'),
     require('../assets/cat1.jpg'),
@@ -106,6 +77,7 @@ const HomePage = () => {
           borderRadius={20}
           resizeMode="cover"
           sliderBoxHeight={hp(25)}
+          autoplay={true}
         />
       </View>
       {/* main slider end */}
@@ -138,66 +110,7 @@ const HomePage = () => {
 
       {/* products */}
       <View style={styles.container11}>
-        <View style={styles.horizontalView}>
-          {loading ? (
-            <ActivityIndicator color="red" size="large" />
-          ) : error ? (
-            <Text color="red">{error}</Text>
-          ) : (
-            <FlatList
-              data={products}
-              numColumns={2}
-              // horizontal
-              showsHorizontalScrollIndicator={false}
-              keyExtractor={item => `${item.id}-${item.title}`}
-              renderItem={({item}) => (
-                <View style={styles.card}>
-                 
-
-                  <TouchableOpacity
-                    onPress={() =>
-                      navigate.navigate(`ProductPage`, {productId: item.id})
-                    }
-                    style={{width: wp(35)}}>
-                    <Image
-                      source={{uri: item?.images[0]?.image_url}}
-                      style={styles.image}
-                    />
-                  </TouchableOpacity>
-
-                  <Text style={styles.priceText}>
-                    {item?.title.substring(0, 11)}
-                  </Text>
-                  <Text style={{paddingLeft: 15, fontSize: 12}}>
-                    {item?.category}
-                  </Text>
-                  <Text style={styles.priceText}>Rs {item?.price}</Text>
-                  <TouchableOpacity
-                    style={{
-                      position: 'absolute',
-                      right: 2,
-                      backgroundColor: 'white',
-                      borderRadius: 20,
-                      padding: 2,
-                    }}>
-                    <AntDesign name="heart" size={15} color="red" />
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={{
-                      position: 'absolute',
-                      bottom: 5,
-                      right: 5,
-                      backgroundColor: '#eb2d1c',
-                      borderRadius: 20,
-                      padding: 5,
-                    }}>
-                    <AntDesign name="plus" size={20} color="white" />
-                  </TouchableOpacity>
-                </View>
-              )}
-            />
-          )}
-        </View>
+        <CardData products={products} loading={loading} error={error} />
       </View>
       {/* products end */}
     </ScrollView>
@@ -211,7 +124,6 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 17,
     borderTopRightRadius: 17,
   },
-
   bottomview: {
     width: wp(99.5),
     paddingBottom: 12,
@@ -228,12 +140,6 @@ const styles = StyleSheet.create({
     color: 'black',
     paddingLeft: 15,
   },
-  agentImageStyle: {
-    marginRight: wp(10),
-    borderRadius: wp(300) / 2,
-    overflow: 'hidden',
-  },
-
   sliderviewstyle: {
     height: hp(24.5),
     width: wp(95),
@@ -245,17 +151,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  horizontalView: {
-    flexDirection: 'row',
-    flexWrap: 'wrap', // Allow items to wrap into the next line
-    justifyContent: 'space-between', // Space items evenly in each line
-    width: wp(95),
-  },
   image: {
     width: wp(40), // Take up 100% width of the parent View
     height: hp(20), // Adjust the height as needed
   },
-
   containertext: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -272,14 +171,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'black',
   },
-  priceText: {
-    fontSize: 15,
-    fontWeight: 'bold',
-    color: '#333',
-    paddingLeft: 15,
-    fontFamily: 'Arial, sans-serif',
-    textTransform: 'uppercase',
-  },
   card: {
     width: wp(45),
     height: hp(30),
@@ -292,7 +183,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
     marginBottom: 5,
-    margin: 5
+    margin: 5,
   },
 });
 
