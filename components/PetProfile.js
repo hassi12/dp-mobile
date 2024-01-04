@@ -35,8 +35,15 @@ const styles = StyleSheet.create({
   image: {
     width: wp(18),
     height: wp(18),
-    borderRadius: wp(11),
+    borderRadius: wp(9), // Adjusted border radius
     marginRight: wp(3),
+    borderWidth: 1,
+    borderColor: 'rgba(0, 0, 0, 0.1)', // Adjusted border color with transparency
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 2, // For Android shadow
   },
   firstImage: {
     marginLeft: wp(1.5),
