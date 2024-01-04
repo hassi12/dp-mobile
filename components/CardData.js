@@ -7,22 +7,29 @@ import {
 } from 'react-native-responsive-screen';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useNavigation} from '@react-navigation/native';
-// import { useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+
 const CardData = ({products, loading, error}) => {
   const navigate = useNavigation();
-  // const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+  const isAuthenticated = useSelector(state => state.user.isAuthenticated);
 
 
-  // const handleProductPress = (item) => {
-  //   if (isAuthenticated) {
-  //     navigate.navigate('ProductPage', { productId: item.id });
-  //   } else {
-  //     // Redirect to SignIn page or show a message
-  //     navigate.navigate('SignIn');
-  //     // Alternatively, you can show a message to the user.
-  //     // Example: Alert.alert('Please sign in to view the product details');
-  //   }
-  // };
+  const addToCartHandler = () => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (isAuthenticated) {
+      // let totalPrice = quantity * product.price;
+      // const tempProduct = {
+      //   ...product,
+      //   quantity: quantity,
+      //   totalPrice,
+      // };
+      // dispatch(add(tempProduct));
+      // navigate.navigate('Chart');
+      console.warn('fav')
+    } else {
+      navigate.navigate('SignIn');
+    }
+  };
 
   return (
     <View>
@@ -58,18 +65,19 @@ const CardData = ({products, loading, error}) => {
                 <Text style={{paddingLeft: 15, fontSize: 12}}>
                   {item?.category}
                 </Text>
-                <Text style={styles.priceText}>Rs {item?.price}</Text>
+                <Text style={styles.priceText}>Rs {item?.price} Rs12233</Text>
                 <TouchableOpacity
                   style={{
                     position: 'absolute',
-                    right: 2,
+                    right: 10,
+                    top: 10,
                     backgroundColor: 'white',
                     borderRadius: 20,
                     padding: 2,
                   }}>
                   <AntDesign name="heart" size={15} color="red" />
                 </TouchableOpacity>
-                <TouchableOpacity
+                {/* <TouchableOpacity onPress={() =>addToCartHandler()}
                   style={{
                     position: 'absolute',
                     bottom: 5,
@@ -79,7 +87,7 @@ const CardData = ({products, loading, error}) => {
                     padding: 5,
                   }}>
                   <AntDesign name="plus" size={20} color="white" />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>
             )}
           />
@@ -99,7 +107,7 @@ const styles = StyleSheet.create({
     width: wp(95),
   },
   image: {
-    width: wp(40), // Take up 100% width of the parent View
+    width: wp(43), // Take up 100% width of the parent View
     height: hp(20), // Adjust the height as needed
   },
   priceText: {
