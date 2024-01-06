@@ -19,6 +19,8 @@ import SignIn from './screens/SignIn';
 import OrderPage from './screens/OrderPage';
 import AddressList from './screens/AddressList';
 import OrderDetail from './screens/OrderDetail';
+import FavouritePage from './screens/FavouritePage';
+import APITesting from './screens/APITesting';
 // import {Provider} from 'react-redux';
 // import {store} from './store/store';
 // import { persistStore } from "redux-persist";
@@ -53,6 +55,8 @@ const App = () => {
               <Stack.Screen name="CartPage" component={CartPage} />
               <Stack.Screen name="CheckoutPage" component={CheckoutPage} />
               <Stack.Screen name="AddressPage" component={AddressPage} />
+              <Stack.Screen name="FavouritePage" component={FavouritePage} />
+              <Stack.Screen name="APITesting" component={APITesting} />
               <Stack.Screen
                 name="Sucessfullorder"
                 component={Sucessfullorder}
