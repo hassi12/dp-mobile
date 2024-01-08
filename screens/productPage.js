@@ -285,10 +285,7 @@ const ProductPage = () => {
             borderRadius: 10,
             margin: 10,
           }}>
-          <Text style={{width: wp(92)}}>
-            mage Generative AI tools: 
-           
-          </Text>
+          <Text style={{width: wp(92)}}>mage Generative AI tools:</Text>
         </View>
       </View>
       <View style={styles.verifedagent}>
