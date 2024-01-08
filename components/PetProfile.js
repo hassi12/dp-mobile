@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  ScrollView,
-  TouchableOpacity,
-  Image,
-  Text,
-} from 'react-native';
+import {StyleSheet, View, Image, Text} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -35,15 +28,21 @@ const styles = StyleSheet.create({
   image: {
     width: wp(18),
     height: wp(18),
-    borderRadius: wp(11),
+    borderRadius: wp(9),
     marginRight: wp(3),
+    borderWidth: 1,
+    borderColor: 'rgba(0, 0, 0, 0.1)', // border color with transparency
+    shadowColor: 'black',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 2,
   },
   firstImage: {
     marginLeft: wp(1.5),
-    borderWidth: 1, // Adjust the spacing for the first image
+    borderWidth: 1,
   },
   dogtext: {
-    // paddingLeft: 12,
     color: 'black',
     fontWeight: '800',
     textAlign: 'center',

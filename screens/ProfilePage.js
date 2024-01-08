@@ -7,6 +7,8 @@ import OrderPage from './OrderPage';
 import {useDispatch, useSelector} from 'react-redux';
 import AddressList from './AddressList';
 import {logout} from '../store/authSlice';
+import FavouritePage from './FavouritePage';
+import APITesting from './APITesting';
 
 const ProfilePage = () => {
   const navigate = useNavigation();
@@ -17,7 +19,7 @@ const ProfilePage = () => {
   const handleLogout = () => {
     dispatch(logout());
     // navigation("/")
-    navigate.navigate('Home')
+    navigate.navigate('Home');
   };
 
   const handleOrderProtect = () => {
@@ -36,9 +38,11 @@ const ProfilePage = () => {
           source={require('../assets/profile.png')}
           style={styles.profileImage}
         />
-        <Text style={styles.userName}>{isAuthenticated ? user?.user?.username : 'UserName' }</Text>
+        <Text style={styles.userName}>
+          {isAuthenticated ? user?.user?.username : 'UserName'}
+        </Text>
         <TouchableOpacity>
-          <Text>{isAuthenticated ? user?.user?.email : 'User@gmail.com' }</Text>
+          <Text>{isAuthenticated ? user?.user?.email : 'User@gmail.com'}</Text>
         </TouchableOpacity>
       </View>
 
@@ -53,7 +57,13 @@ const ProfilePage = () => {
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Favorite Products</Text>
+        <TouchableOpacity>
+          <Text
+            style={styles.sectionTitle}
+            onPress={() => navigate.navigate(FavouritePage)}>
+            Favorite Products
+          </Text>
+        </TouchableOpacity>
         {/* Display favorite products here */}
       </View>
 
@@ -76,7 +86,7 @@ const ProfilePage = () => {
 
       {/* Settings */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Settings</Text>
+        <Text style={styles.sectionTitle} onPress={() => navigate.navigate(APITesting)} >Settings</Text>
         {/* Display settings options here */}
       </View>
 

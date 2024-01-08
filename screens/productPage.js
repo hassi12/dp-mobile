@@ -253,11 +253,11 @@ const ProductPage = () => {
         style={{
           borderRadius: 5,
           width: wp(97),
+          height: hp(11),
           marginTop: 10,
           margin: 5,
           borderWidth: 0.2,
           borderRadius: 10,
-          height: hp(11),
         }}>
         <View style={styles.stars}>
           <Text
@@ -289,7 +289,9 @@ const ProductPage = () => {
             height: hp(12),
             borderRadius: 10,
             margin: 10,
-          }}></View>
+          }}>
+          <Text style={{width: wp(92)}}>mage Generative AI tools:</Text>
+        </View>
       </View>
       <View style={styles.verifedagent}>
         <TouchableOpacity
