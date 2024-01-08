@@ -16,7 +16,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useNavigation} from '@react-navigation/native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {add} from '../store/cartSlice';
 import {useRoute} from '@react-navigation/native';
 import {getProductDetail} from '../services/Products_services';
@@ -26,6 +26,7 @@ const ProductPage = () => {
   const [product, setProduct] = useState([]);
   const route = useRoute();
   const {productId} = route.params;
+  const isAuthenticated = useSelector(state => state.user.isAuthenticated);
 
   useEffect(() => {
     handleProductDetail();
@@ -67,14 +68,18 @@ const ProductPage = () => {
   const dispatch = useDispatch();
   const addToCartHandler = product => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    let totalPrice = quantity * product.price;
-    const tempProduct = {
-      ...product,
-      quantity: quantity,
-      totalPrice,
-    };
-    dispatch(add(tempProduct));
-    navigate.navigate('Chart');
+    if (isAuthenticated) {
+      let totalPrice = quantity * product.price;
+      const tempProduct = {
+        ...product,
+        quantity: quantity,
+        totalPrice,
+      };
+      dispatch(add(tempProduct));
+      navigate.navigate('Chart');
+    } else {
+      navigate.navigate('SignIn');
+    }
   };
 
   return (

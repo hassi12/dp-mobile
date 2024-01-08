@@ -25,17 +25,18 @@ import APITesting from './screens/APITesting';
 // import {store} from './store/store';
 // import { persistStore } from "redux-persist";
 // import { PersistGate } from "redux-persist/integration/react";
-// import { useSelector } from 'react-redux';
+// import {useSelector} from 'react-redux';
 // let persistor = persistStore(store)
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
-  // const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+  // const isAuthenticated = useSelector(state => state.user.isAuthenticated);
 
   useEffect(() => {
     SplashScreen.hide();
   }, []);
+
 
   return (
     // <Provider store={store}>
