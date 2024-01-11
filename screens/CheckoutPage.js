@@ -1,3 +1,7 @@
+import React, {useState, useEffect} from 'react';
+import {FlatList, ActivityIndicator} from 'react-native';
+import {useSelector} from 'react-redux';
+
 import {
   View,
   Text,
@@ -7,7 +11,6 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
-import React, {useEffect} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {
   widthPercentageToDP as wp,
@@ -17,15 +20,27 @@ import {rotationHandlerName} from 'react-native-gesture-handler/lib/typescript/h
 import Tabs from '../tabs/tabs';
 import {useNavigation} from '@react-navigation/native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {useState} from 'react';
 import CartPage from './cartpage';
 import AddressPage from './AddressPage';
 import Sucessfullorder from './Sucessfullorder';
 import AddressList from './AddressList';
-import {useSelector, useDispatch} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {getCartTotal} from '../store/cartSlice';
+import {UserDetail} from '../services/User_services';
 
 const CheckoutPage = () => {
+  const [address, setAddress] = useState([]);
+  const User = useSelector(state => state.user);
+  const UserId = User.user.id;
+
+  const usertoken = useSelector(state => state.user.token);
+  let headers = {};
+  if (usertoken) {
+    headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Token ${usertoken}`,
+    };
+  }
   const navigate = useNavigation();
   const dispatch = useDispatch();
   const {
@@ -41,8 +56,8 @@ const CheckoutPage = () => {
   }, [useSelector(state => state.cart)]);
 
   const handlePlaceOrder = async () => {
-    console.warn('place order')
-  }
+    console.warn('place order');
+  };
 
   const TotalPrice = p => {
     /* eslint eqeqeq: 0 */
@@ -66,6 +81,21 @@ const CheckoutPage = () => {
       return `-`;
     } else {
       return `${p}`;
+    }
+  };
+
+  useEffect(() => {
+    HandleUsers();
+    console.log(usertoken);
+  }, []);
+
+  const HandleUsers = async () => {
+    try {
+      let data = await UserDetail(UserId, headers);
+      setAddress(data);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -103,7 +133,6 @@ const CheckoutPage = () => {
           </Text>
         </View>
       </View>
-
       <View style={style.cart1}>
         <Text
           style={{
@@ -129,17 +158,8 @@ const CheckoutPage = () => {
             width: wp(85),
             color: 'black',
             marginLeft: 10,
-          }}>
-          Atif Badini , lake city Lahore near zargoon city, quetta nushki ,
-          balochistan-
-        </Text>
-        {/* <TouchableOpacity>
-          <Text
-            style={{marginLeft: 20, marginTop: 10, color: 'blue'}}
-            onPress={() => navigate.navigate(AddressPage)}>
-            Edit <AntDesign name="right"></AntDesign>{' '}
-          </Text>
-        </TouchableOpacity> */}
+          }}></Text>
+
         <Text style={{width: wp(100), marginLeft: 15, fontWeight: '100'}}>
           ____________________________________________________________
         </Text>
@@ -253,7 +273,10 @@ const CheckoutPage = () => {
         <View>
           <Text>
             Total:
-            <Text style={{color: 'red'}}> Rs {total(totalAmount) + deliveryPrice(deliveryCharge)}</Text>
+            <Text style={{color: 'red'}}>
+              {' '}
+              Rs {total(totalAmount) + deliveryPrice(deliveryCharge)}
+            </Text>
           </Text>
           <Text>VAT included where applicable</Text>
         </View>

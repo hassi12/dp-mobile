@@ -31,7 +31,8 @@ const CardData = ({products, loading, error}) => {
           <ActivityIndicator color="red" size="large" />
         ) : error ? (
           <Text color="red">{error}</Text>
-        ) : (
+        ) : 
+        (
           <FlatList
             data={products}
             numColumns={2}

@@ -27,6 +27,7 @@ import {
   clearCart,
 } from '../store/cartSlice';
 
+
 const CartPage = () => {
   const handleBackPress = () => {
     navigate.navigate('Tabs');
@@ -231,7 +232,6 @@ const CartPage = () => {
           );
         })}
       </ScrollView>
-
       <TouchableOpacity
         onPress={() => clear()}
         style={{alignItems: 'center', marginVertical: 10}}>
@@ -242,12 +242,12 @@ const CartPage = () => {
 
       <View
         style={{
-          height: 200,
+          height: hp(30),
           width: wp(100),
           borderTopRightRadius: 25,
           borderTopLeftRadius: 25,
           backgroundColor: 'white',
-          borderTopWidth: 0.2,
+          borderWidth: 1,
         }}>
         <Text
           style={{
@@ -337,13 +337,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   verifedagent: {
-    marginTop: 20,
     backgroundColor: '#00599D',
     borderWidth: 0.5,
     borderRadius: 20,
     width: wp(80),
     height: hp(6),
     marginLeft: wp(10),
+    marginTop: 20,
   },
   verfiedagenttext: {
     marginTop: 8,

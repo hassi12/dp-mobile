@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {FlatList} from 'react-native';
 import {
   View,
   Text,
@@ -6,20 +7,21 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP,
+} from 'react-native-responsive-screen';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useNavigation} from '@react-navigation/native';
 import CheckoutPage from './CheckoutPage';
 import AddressPage from './AddressPage';
 import CheckBox from 'react-native-check-box';
-import {FlatList} from 'react-native';
+import UserAddAddressPage from './UserAddAddressPage';
 import {useSelector} from 'react-redux';
 import {UserDetail} from '../services/User_services';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+import {add} from '../store/cartSlice';
 
-const AddressList = () => {
+const UserAdressPage = () => {
   const [address, setAddress] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
 
@@ -54,6 +56,7 @@ const AddressList = () => {
       console.log(error);
     }
   };
+
   return (
     <SafeAreaView style={style.container1}>
       <View
@@ -78,7 +81,7 @@ const AddressList = () => {
               marginTop: 10,
               marginLeft: 10,
             }}
-            onPress={() => navigate.navigate(CheckoutPage)}
+            onPress={() => navigate.navigate('ProfilePage')}
           />
         </TouchableOpacity>
         <Text
@@ -97,10 +100,11 @@ const AddressList = () => {
             color: 'red',
             marginTop: 10,
           }}
-          onPress={() => navigate.navigate(AddressPage)}>
+          onPress={() => navigate.navigate(UserAddAddressPage)}>
           Add
         </Text>
       </View>
+
       <FlatList
         data={address.addresses}
         renderItem={({item}) => (
@@ -128,23 +132,15 @@ const AddressList = () => {
                 }}>
                 {address.first_name} {address.last_name}
               </Text>
-
-              <Text
-                style={{
-                  marginLeft: 8,
+              <Text style={{marginLeft: 6, width: wp(85), color: 'black'}}>
+                {' '}
+                {item.address}{' '}
+              </Text>
+              <Text style={{ marginLeft: 8,
                   width: wp(85),
                   color: 'black',
-                  marginTop: 5,
-                }}>
-                {item.address} 
-              </Text>
-
-              <Text
-                style={{
-                  marginLeft: 8,
-                  color: 'black',
-                  marginTop: 5,
-                }}>
+                  marginTop: 5,}}>
+                {' '}
                 (+92) {item.phone_number}
               </Text>
             </View>
@@ -155,7 +151,7 @@ const AddressList = () => {
   );
 };
 
-export default AddressList;
+export default UserAdressPage;
 
 const style = StyleSheet.create({
   container1: {
@@ -163,7 +159,7 @@ const style = StyleSheet.create({
   },
   card: {
     width: wp(94),
-    height: hp(20),
+    height: heightPercentageToDP(20),
     backgroundColor: 'white',
     borderRadius: 10,
     padding: 5,

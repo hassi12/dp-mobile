@@ -25,7 +25,7 @@ const ProfilePage = () => {
   const handleOrderProtect = () => {
     if (isAuthenticated) {
       navigate.navigate('OrderPage')
-      navigate.navigate('AddressList')
+      navigate.navigate('UserAdressPage')
     } else {
       navigate.navigate('SignIn')
     }
