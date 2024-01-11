@@ -1,8 +1,8 @@
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, StackActions} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React, {useEffect} from 'react';
 import SplashScreen from 'react-native-splash-screen';
-
 import tabs from './tabs/tabs';
 import HomePage from './screens/HomePage';
 import ChartPage from './screens/ChartPage';
@@ -21,6 +21,8 @@ import AddressList from './screens/AddressList';
 import OrderDetail from './screens/OrderDetail';
 import FavouritePage from './screens/FavouritePage';
 import APITesting from './screens/APITesting';
+import UserAdressPage from './screens/UserAdressPage';
+import UserAddAddressPage from './screens/UserAddAddressPage';
 // import {Provider} from 'react-redux';
 // import {store} from './store/store';
 // import { persistStore } from "redux-persist";
@@ -29,6 +31,8 @@ import APITesting from './screens/APITesting';
 // let persistor = persistStore(store)
 
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
 
 const App = () => {
   // const isAuthenticated = useSelector(state => state.user.isAuthenticated);
@@ -36,7 +40,6 @@ const App = () => {
   useEffect(() => {
     SplashScreen.hide();
   }, []);
-
 
   return (
     // <Provider store={store}>
@@ -64,6 +67,8 @@ const App = () => {
           <Stack.Screen name="OrderPage" component={OrderPage} />
           <Stack.Screen name="AddressList" component={AddressList} />
           <Stack.Screen name="OrderDetail" component={OrderDetail} />
+          <Stack.Screen name="UserAdressPage" component={UserAdressPage} />
+          <Stack.Screen name="UserAddAddressPage" component={UserAddAddressPage}/>
         </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>

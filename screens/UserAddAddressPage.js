@@ -16,7 +16,7 @@ import {useNavigation} from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import UserAdressPage from './UserAdressPage';
 
-const AddressPage = () => {
+const UserAddAddressPage = () => {
   const navigate = useNavigation();
 
   return (
@@ -43,7 +43,7 @@ const AddressPage = () => {
               marginTop: 10,
               marginLeft: 10,
             }}
-            onPress={() => navigate.navigate(CheckoutPage)}
+            onPress={() => navigate.navigate(UserAdressPage)}
           />
         </TouchableOpacity>
         <Text
@@ -53,7 +53,7 @@ const AddressPage = () => {
             marginLeft: 100,
             marginTop: 10,
           }}>
-          Add Address
+          Add Address user
         </Text>
       </View>
 
@@ -87,7 +87,7 @@ const AddressPage = () => {
           <TouchableOpacity>
             <Text
               style={styles.verfiedagenttext}
-              onPress={() => navigate.navigate(CheckoutPage)}>
+              onPress={() => navigate.navigate(UserAdressPage)}>
               SAVE
             </Text>
           </TouchableOpacity>
@@ -161,4 +161,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddressPage;
+export default UserAddAddressPage;

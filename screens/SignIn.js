@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -13,37 +13,33 @@ import {
 } from 'react-native-responsive-screen';
 import SignUp from './SignUp';
 import {useNavigation} from '@react-navigation/native';
-import { signInUser } from '../store/authSlice';
-import { useDispatch,useSelector } from 'react-redux';
-
+import {signInUser} from '../store/authSlice';
+import {useDispatch, useSelector} from 'react-redux';
+import BottomTab from '../components/BottomTab';
 
 const SignIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const user = useSelector((state) => state.user);
+  const user = useSelector(state => state.user);
 
   const handleSignIn = async () => {
     // Use navigate.navigate with the screen name as a string
     // navigate.navigate(ProfilePage);
 
     try {
-    const loginData = await dispatch(signInUser({ username, password }))
+      const loginData = await dispatch(signInUser({username, password}));
       if (loginData.payload && loginData.payload.user) {
-        navigate.navigate('Tabs')
-        setUsername('')
-        setPassword('')
-        
+        navigate.navigate('Tabs');
+        setUsername('');
+        setPassword('');
       } else {
-        console.log('error name and password')
+        console.log('error name and password');
       }
-      
     } catch (error) {
-      console.log('error')
+      console.log('error');
     }
-    
-
   };
 
   return (
@@ -59,7 +55,7 @@ const SignIn = () => {
           placeholderTextColor="#808080"
           style={styles.input}
           value={username}
-          onChangeText={(text) => setUsername(text)}
+          onChangeText={text => setUsername(text)}
         />
         <Text style={styles.label}>Password</Text>
         <TextInput
@@ -68,7 +64,7 @@ const SignIn = () => {
           secureTextEntry
           style={styles.input}
           value={password}
-          onChangeText={(text) => setPassword(text)}
+          onChangeText={text => setPassword(text)}
         />
       </View>
       <TouchableOpacity style={styles.signInButton} onPress={handleSignIn}>
@@ -89,6 +85,9 @@ const SignIn = () => {
       <TouchableOpacity onPress={() => navigate.navigate(SignUp)}>
         <Text style={{textAlign: 'center', marginTop: 25}}>sign up now</Text>
       </TouchableOpacity>
+      {/* <View style={{position: 'absolute', bottom: 0, left: 0, right: 0}}>
+        <BottomTab />
+      </View> */}
     </View>
   );
 };
