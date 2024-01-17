@@ -16,8 +16,15 @@ import {useNavigation} from '@react-navigation/native';
 import {signInUser} from '../store/authSlice';
 import {useDispatch, useSelector} from 'react-redux';
 import BottomTab from '../components/BottomTab';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import ProfilePage from './ProfilePage';
+import Tabs from '../tabs/tabs';
 
 const SignIn = () => {
+  const handleBackPress = () => {
+    navigate.navigate('Tabs');
+  };
+
   const dispatch = useDispatch();
   const navigate = useNavigation();
   const [username, setUsername] = useState('');
@@ -44,6 +51,19 @@ const SignIn = () => {
 
   return (
     <View style={styles.mainview}>
+      <View>
+        <TouchableOpacity>
+          <AntDesign
+            name="left"
+            style={{
+              fontSize: 30,
+              color: 'black',
+              marginTop: 5,
+            }}
+            onPress={handleBackPress}
+          />
+        </TouchableOpacity>
+      </View>
       <View>
         <Text style={styles.welcome}>Welcome </Text>
         <Text style={styles.signIn}>Sign in </Text>
@@ -97,7 +117,7 @@ export default SignIn;
 const styles = StyleSheet.create({
   mainview: {
     flex: 1,
-    backgroundColor: '#F0F8FF', // Light blue background color
+  
     padding: 20,
   },
   welcome: {

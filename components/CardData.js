@@ -7,6 +7,7 @@ import {
 } from 'react-native-responsive-screen';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useNavigation} from '@react-navigation/native';
+import { ScrollView } from 'react-native-gesture-handler';
 // import { useSelector } from 'react-redux';
 const CardData = ({products, loading, error}) => {
   const navigate = useNavigation();
@@ -25,7 +26,8 @@ const CardData = ({products, loading, error}) => {
   // };
 
   return (
-    <View>
+    
+    
       <View style={styles.horizontalView}>
         {loading ? (
           <ActivityIndicator color="red" size="large" />
@@ -86,7 +88,8 @@ const CardData = ({products, loading, error}) => {
           />
         )}
       </View>
-    </View>
+    
+    
   );
 };
 
@@ -95,13 +98,14 @@ export default CardData;
 const styles = StyleSheet.create({
   horizontalView: {
     flexDirection: 'row',
-    flexWrap: 'wrap', // Allow items to wrap into the next line
-    justifyContent: 'space-between', // Space items evenly in each line
+    flexWrap: 'wrap', 
+    justifyContent: 'space-between', 
     width: wp(95),
+    marginLeft: 5,
   },
   image: {
-    width: wp(40), // Take up 100% width of the parent View
-    height: hp(20), // Adjust the height as needed
+    width: wp(40), 
+    height: hp(20), 
   },
   priceText: {
     fontSize: 15,

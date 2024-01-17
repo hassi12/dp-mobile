@@ -25,8 +25,25 @@ const ProfilePage = () => {
   const handleOrderProtect = () => {
     if (isAuthenticated) {
       navigate.navigate('OrderPage')
-      navigate.navigate('UserAdressPage')
     } else {
+      navigate.navigate('SignIn')
+    }
+  }
+
+  const favouritepageProtect = () => {
+    if (isAuthenticated) {
+      navigate.navigate('FavouritePage')
+    }
+    else {
+      navigate.navigate('SignIn')
+    }
+  }
+
+  const addressbookPage = () => {
+    if (isAuthenticated) {
+      navigate.navigate('UserAdressPage')
+    }
+    else {
       navigate.navigate('SignIn')
     }
   }
@@ -60,7 +77,9 @@ const ProfilePage = () => {
         <TouchableOpacity>
           <Text
             style={styles.sectionTitle}
-            onPress={() => navigate.navigate(FavouritePage)}>
+            // onPress={() => navigate.navigate(FavouritePage)}
+            onPress={() => favouritepageProtect()}
+            >
             Favorite Products
           </Text>
         </TouchableOpacity>
@@ -72,7 +91,7 @@ const ProfilePage = () => {
       <View style={styles.section}>
         <Text
           style={styles.sectionTitle}
-          onPress={() => handleOrderProtect()}>
+          onPress={() => addressbookPage()}>
           Address Book
         </Text>
         {/* Display address book here */}

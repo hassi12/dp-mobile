@@ -120,7 +120,7 @@ const CartPage = () => {
           borderBottomWidth: 0.2,
           flexDirection: 'row',
         }}>
-        <TouchableOpacity style={{}}>
+        <TouchableOpacity>
           <AntDesign
             name="left"
             style={{

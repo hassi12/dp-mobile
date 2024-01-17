@@ -10,6 +10,8 @@ import {useNavigation} from '@react-navigation/native';
 import {FavouriteItems} from '../services/Products_services';
 import {useSelector} from 'react-redux';
 import CardData from '../components/CardData';
+import { ScrollView } from 'react-native-gesture-handler';
+import Tabs from '../tabs/tabs';
 
 const FavouritePage = () => {
   const [products, setProducts] = useState([]);
@@ -39,7 +41,9 @@ const FavouritePage = () => {
   const navigate = useNavigation();
 
   return (
+
     <View style={{flex: 1}}>
+
       {/* top naviagation  */}
       <View
         style={{
@@ -63,7 +67,7 @@ const FavouritePage = () => {
               marginTop: 10,
               marginLeft: 10,
             }}
-            onPress={() => navigate.navigate('ProfilePage')}
+            onPress={() => navigate.navigate('Tabs')}
           />
         </TouchableOpacity>
         <Text
@@ -78,9 +82,10 @@ const FavouritePage = () => {
           Favourites
         </Text>
       </View>
-      {/* body  */}
+            {/* body  */}
       <CardData products={products} />
     </View>
+
   );
 };
 

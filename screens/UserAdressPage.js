@@ -20,16 +20,18 @@ import UserAddAddressPage from './UserAddAddressPage';
 import {useSelector} from 'react-redux';
 import {UserDetail} from '../services/User_services';
 import {add} from '../store/cartSlice';
+import Tabs from '../tabs/tabs';
 
 const UserAdressPage = () => {
   const [address, setAddress] = useState([]);
-  const [isChecked, setIsChecked] = useState(false);
 
+  const [isChecked, setIsChecked] = useState(false);
   const handleCheckboxToggle = () => {
     setIsChecked(!isChecked);
   };
 
   const navigate = useNavigation();
+
   const User = useSelector(state => state.user);
   const UserId = User.user.id;
 
@@ -81,7 +83,7 @@ const UserAdressPage = () => {
               marginTop: 10,
               marginLeft: 10,
             }}
-            onPress={() => navigate.navigate('ProfilePage')}
+            onPress={() => navigate.navigate('Tabs')}
           />
         </TouchableOpacity>
         <Text
@@ -136,10 +138,13 @@ const UserAdressPage = () => {
                 {' '}
                 {item.address}{' '}
               </Text>
-              <Text style={{ marginLeft: 8,
+              <Text
+                style={{
+                  marginLeft: 8,
                   width: wp(85),
                   color: 'black',
-                  marginTop: 5,}}>
+                  marginTop: 5,
+                }}>
                 {' '}
                 (+92) {item.phone_number}
               </Text>
