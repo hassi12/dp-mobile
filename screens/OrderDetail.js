@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -15,8 +15,38 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import OrderPage from './OrderPage';
 import {useNavigation} from '@react-navigation/native';
 import Feather from 'react-native-vector-icons/Feather';
+import {UserorderDetail} from '../services/order_services';
+import {useSelector} from 'react-redux';
 
 const OrderDetail = () => {
+  const [orderdetail, setOrderDetail] = useState();
+
+  const usertoken = useSelector(state => state.user.token);
+  const User = useSelector(state => state.user);
+  const UserId = User.user.id;
+
+  let headers = {};
+  if (usertoken) {
+    headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Token ${usertoken}`,
+    };
+  }
+
+  useEffect(() => {
+    HandleordersDetails();
+  }, []);
+
+  const HandleordersDetails = async () => {
+    try {
+      let data = await UserorderDetail(headers, UserId);
+      console.log(data);
+      setOrderDetail(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const navigate = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
@@ -52,6 +82,11 @@ const OrderDetail = () => {
           </Text>
         </View>
       </View>
+
+      {/* header ends here */}
+
+      {/* body starts here  */}
+
       <View
         style={{
           marginTop: 5,
@@ -67,7 +102,7 @@ const OrderDetail = () => {
             color: 'black',
             fontWeight: '500',
           }}>
-          Atif Badini
+          atif
         </Text>
         <Text
           style={{
@@ -76,10 +111,12 @@ const OrderDetail = () => {
             color: 'black',
             fontWeight: '500',
           }}>
-          03337861942
+          {orderdetail &&
+            orderdetail.address &&
+            orderdetail.address.phone_number}
         </Text>
         <Text style={{marginLeft: 15, width: wp(85)}}>
-          kili badini shareef khan street beside amjid pipe wala
+          {orderdetail && orderdetail.address && orderdetail.address.address}
         </Text>
       </View>
       <View
@@ -111,8 +148,14 @@ const OrderDetail = () => {
             Areon Gel Perfume (black Crystal)
           </Text>
           <Text style={{}}>No Warranty available</Text>
-          <Text style={{color: 'black', fontWeight: '600'}}>RS. 594</Text>
-          <Text>X 1</Text>
+          <Text style={{color: 'black', fontWeight: '600'}}>
+            RS{' '}
+            {orderdetail &&
+              orderdetail.order_items &&
+              orderdetail.order_items[0] &&
+              orderdetail.order_items[0].total_amount}
+          </Text>
+          <Text>X {orderdetail && orderdetail.total_quantity}</Text>
         </View>
         <View
           style={{
@@ -131,7 +174,7 @@ const OrderDetail = () => {
               fontWeight: 'bold',
               color: 'red',
             }}>
-            Delivered
+            {orderdetail && orderdetail.status}
           </Text>
         </View>
         <TouchableOpacity>
@@ -188,9 +231,11 @@ const OrderDetail = () => {
           width: wp(99),
         }}>
         <Text style={{marginLeft: 10, color: '#0e4183', fontSize: 20}}>
-          Order # 142971828214555
+          Order # {orderdetail && orderdetail.order_number}
         </Text>
-        <Text style={{marginLeft: 10}}>Placed on 31 may 2022 14: 57</Text>
+        <Text style={{marginLeft: 10}}>
+          Placed {orderdetail && orderdetail.created_at}
+        </Text>
         <Text style={{marginLeft: 10}}>Paid on 03 june 2022 14:03</Text>
       </View>
       <View
@@ -208,8 +253,13 @@ const OrderDetail = () => {
           <Text style={{marginLeft: 10, marginTop: 10}}>Delivery Fee</Text>
         </View>
         <View style={{alignContent: 'flex-end', marginTop: 5}}>
-          <Text style={{color: 'black'}}>RS 2222</Text>
-          <Text style={{marginTop: 10, color: 'black'}}> RS. 80</Text>
+          <Text style={{color: 'black'}}>
+            RS {orderdetail && orderdetail.amount}
+          </Text>
+          <Text style={{marginTop: 10, color: 'black'}}>
+            {' '}
+            RS.{orderdetail && orderdetail.shipping_amount}
+          </Text>
         </View>
       </View>
       <View
@@ -223,7 +273,10 @@ const OrderDetail = () => {
           1 item , 1 pacakage
         </Text>
         <Text style={{marginRight: 20, color: 'black'}}>
-          Total: <Text style={{color: 'red'}}>Rs.673</Text>{' '}
+          Total:{' '}
+          <Text style={{color: 'red'}}>
+            Rs. {orderdetail && orderdetail.total_amount}
+          </Text>
         </Text>
         <Text style={{marginRight: 20}}>
           paid by{' '}
