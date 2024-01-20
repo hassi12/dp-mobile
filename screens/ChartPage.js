@@ -72,6 +72,15 @@ const CartPage = () => {
   };
 
   const navigate = useNavigation();
+  const handleCheckOut = () => {
+    if (cartProducts.length === 0) {
+      // Cart is empty, show an alert or handle it accordingly
+      alert('Your cart is empty. Please add items to your cart before checking out.');
+    } else {
+      // Cart is not empty, navigate to the CheckoutPage
+      navigate.navigate('CheckoutPage');
+    }
+  };
 
   const handleIncrement = id => {
     dispatch(toggleCartQty({id: id, type: 'INC'}));
@@ -247,7 +256,7 @@ const CartPage = () => {
           borderTopRightRadius: 25,
           borderTopLeftRadius: 25,
           backgroundColor: 'white',
-          borderWidth: 1,
+          borderWidth: 0.5,
         }}>
         <Text
           style={{
@@ -290,7 +299,8 @@ const CartPage = () => {
           <TouchableOpacity>
             <Text
               style={styles.verfiedagenttext}
-              onPress={() => navigate.navigate(CheckoutPage)}>
+              onPress={() => handleCheckOut()}
+              disabled={cartProducts.length === 0}>
               Check Out
             </Text>
           </TouchableOpacity>

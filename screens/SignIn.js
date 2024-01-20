@@ -48,6 +48,10 @@ const SignIn = () => {
       console.log('error');
     }
   };
+  const handleFacebookLogin = () => {
+    // Open the Facebook login page using Linking
+    Linking.openURL('https://www.facebook.com/login');
+  };
 
   return (
     <View style={styles.mainview}>
