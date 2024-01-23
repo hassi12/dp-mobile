@@ -7,12 +7,13 @@ import {
 } from 'react-native-responsive-screen';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useNavigation} from '@react-navigation/native';
-import { ScrollView } from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
+import Star from '../components/Star';
+
 // import { useSelector } from 'react-redux';
 const CardData = ({products, loading, error}) => {
   const navigate = useNavigation();
   // const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
-
 
   // const handleProductPress = (item) => {
   //   if (isAuthenticated) {
@@ -24,72 +25,99 @@ const CardData = ({products, loading, error}) => {
   //     // Example: Alert.alert('Please sign in to view the product details');
   //   }
   // };
+  const price = p => {
+    if (p == 0) {
+      return '';
+    } else {
+      return `Rs ${parseFloat(p).toFixed(0)}`;
+    }
+  };
+  const discountPrice = d => {
+    if (d == 0) {
+      return '';
+    } else {
+      return `Rs ${parseFloat(d).toFixed(0)}`;
+    }
+  };
 
   return (
-    
-    
-      <View style={styles.horizontalView}>
-        {loading ? (
-          <ActivityIndicator color="red" size="large" />
-        ) : error ? (
-          <Text color="red">{error}</Text>
-        ) : 
-        (
-          <FlatList
-            data={products}
-            numColumns={2}
-            // horizontal
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={item => `${item.id}-${item.title}`}
-            renderItem={({item}) => (
-              <View style={styles.card}>
-                <TouchableOpacity
-                  onPress={() =>
-                    navigate.navigate(`ProductPage`, {productId: item.id})
-                    // handleProductPress(item)
-                  }
-                  style={{width: wp(35)}}>
-                  <Image
-                    source={{uri: item?.images[0]?.image_url}}
-                    style={styles.image}
-                  />
-                </TouchableOpacity>
-
-                <Text style={styles.priceText}>
-                  {item?.title.substring(0, 11)}
-                </Text>
-                <Text style={{paddingLeft: 15, fontSize: 12}}>
+    <View style={styles.horizontalView}>
+      {loading ? (
+        <ActivityIndicator color="red" size="large" />
+      ) : error ? (
+        <Text color="red">{error}</Text>
+      ) : (
+        <FlatList
+          data={products}
+          numColumns={2}
+          // horizontal
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={item => `${item.id}-${item.title}`}
+          renderItem={({item}) => (
+            <View style={styles.card}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigate.navigate(`ProductPage`, {productId: item.id})
+                }
+                style={{width: wp(35)}}>
+                <Image
+                  source={{uri: item?.images[0]?.image_url}}
+                  style={styles.image}
+                />
+              </TouchableOpacity>
+              <View style={{marginTop: 4}}>
+                <View style={styles.priceContainer}>
+                  <Text style={styles.titleText}>
+                    {item?.title.substring(0, 11)}
+                  </Text>
+                  <View style={styles.discountContainer}>
+                    {
+                      item?.stock.length === 0 ? ('') : ( <Text style={styles.discountText}>{parseFloat(item?.stock[0]?.discount_percentage).toFixed(0)}% OFF</Text>)
+                    }
+                  </View>
+                </View>
+                <Text style={{paddingLeft: 8, fontSize: 10}}>
                   {item?.category}
                 </Text>
-                <Text style={styles.priceText}>Rs {item?.price}</Text>
+                <View style={styles.starContainer1}>
+                  <Star stars={item?.average_rating} />
+                </View>
+
+                <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
+                  {item?.stock.length === 0 ? (
+                    <Text style={styles.priceText}>{price(item?.price)}</Text>
+                  ) : (
+                    <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
+                      {item?.stock[0]?.discount_price > 0 ? (
+                        <>
+                          <Text style={styles.priceText}>
+                            {discountPrice(item?.stock[0]?.discount_price)}
+                          </Text>
+
+                          <Text style={styles.priceTextLine}>
+                            {price(item?.price)}
+                          </Text>
+                        </>
+                      ) : (
+                        <Text style={styles.priceText}>{price(item?.price)}</Text>
+                      )}
+                    </View>
+                  )}
+                </View>
                 <TouchableOpacity
                   style={{
                     position: 'absolute',
-                    right: 2,
-                    backgroundColor: 'white',
-                    borderRadius: 20,
-                    padding: 2,
-                  }}>
-                  <AntDesign name="heart" size={15} color="red" />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={{
-                    position: 'absolute',
-                    bottom: 5,
+                    bottom: 12,
                     right: 5,
-                    backgroundColor: '#eb2d1c',
-                    borderRadius: 20,
-                    padding: 5,
                   }}>
-                  <AntDesign name="plus" size={20} color="white" />
+                  <AntDesign name="heart" size={20} color="red" />
                 </TouchableOpacity>
               </View>
-            )}
-          />
-        )}
-      </View>
-    
-    
+            </View>
+          )}
+        />
+      )}
+    </View>
   );
 };
 
@@ -98,26 +126,33 @@ export default CardData;
 const styles = StyleSheet.create({
   horizontalView: {
     flexDirection: 'row',
-    flexWrap: 'wrap', 
-    justifyContent: 'space-between', 
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
     width: wp(95),
     marginLeft: 5,
   },
   image: {
-    width: wp(40), 
-    height: hp(20), 
+    width: wp(40),
+    height: hp(17),
   },
-  priceText: {
-    fontSize: 15,
+  titleText: {
+    fontSize: 13,
     fontWeight: 'bold',
     color: '#333',
-    paddingLeft: 15,
+    paddingLeft: 0,
+    fontFamily: 'Arial, sans-serif',
+  },
+  priceText: {
+    fontSize: 10,
+    fontWeight: 'bold',
+    color: '#333',
+    paddingLeft: 8,
     fontFamily: 'Arial, sans-serif',
     textTransform: 'uppercase',
   },
   card: {
     width: wp(45),
-    height: hp(30),
+    height: hp(27),
     backgroundColor: 'white',
     borderRadius: 10,
     padding: 5,
@@ -128,5 +163,34 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     marginBottom: 5,
     margin: 5,
+  },
+  priceContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center', // Optional: Align items in the center vertically
+    paddingHorizontal: 9,
+  },
+  discountContainer: {
+    marginLeft: 'auto', // Push the discount text to the right
+  },
+  discountText: {
+    textAlign: 'center',
+    fontSize: 10,
+    fontWeight: 'bold',
+    color: '#333',
+    fontFamily: 'Arial, sans-serif',
+    textTransform: 'uppercase',
+  },
+  starContainer1: {
+    paddingHorizontal: 1,
+  },
+  priceTextLine: {
+    fontSize: 10,
+    fontWeight: 'bolder',
+    color: 'gray',
+    marginLeft: 4,
+    fontFamily: 'Arial, sans-serif',
+    textTransform: 'uppercase',
+    textDecorationLine: 'line-through'
   },
 });

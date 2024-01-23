@@ -26,8 +26,8 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   image: {
-    width: wp(18),
-    height: wp(18),
+    width: wp(16),
+    height: wp(16),
     borderRadius: wp(9),
     marginRight: wp(3),
     borderWidth: 1,
@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
     color: 'black',
     fontWeight: '800',
     textAlign: 'center',
+    fontSize: 12
   },
   dogtext2: {
     paddingLeft: 27,
