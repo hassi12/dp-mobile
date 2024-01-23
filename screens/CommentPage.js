@@ -12,11 +12,11 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import ProductPage from './productPage';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
 import {useRoute} from '@react-navigation/native';
 import {getProductDetail} from '../services/Products_services';
+import Star from '../components/Star';
+import moment from 'moment';
 
 const CommentPage = () => {
   const [comments, setComments] = useState([]);
@@ -78,10 +78,10 @@ const CommentPage = () => {
           }}>
           Commnet Section
         </Text>
-      </View >
+      </View>
       {/* comment section  */}
       {isLoading ? (
-        <Text style={{color:'black', fontSize: 15}}>Loading...</Text>
+        <Text style={{color: 'black', fontSize: 15}}>Loading...</Text>
       ) : comments.length > 0 ? (
         <FlatList
           data={comments}
@@ -89,61 +89,50 @@ const CommentPage = () => {
             <ScrollView>
               <View
                 style={{
-                  backgroundColor: 'white',
-                  borderRadius: 4,
+                  borderRadius: 10,
+                  width: '97%', // Use percentage for responsiveness
+                  height: 90, // Set a fixed height or adjust as needed
+                  marginTop: 8,
+                  marginHorizontal: 5, // Use marginHorizontal for equal margin on both sides
+                  borderWidth: 0.5,
+                  borderColor: '#ddd', // Set border color to a subtle shade
+                  backgroundColor: '#fff', // Set background color
                   shadowColor: '#000',
                   shadowOffset: {width: 0, height: 2},
-                  shadowOpacity: 0.3,
-                  shadowRadius: 4,
-                  borderBottomWidth: 0.3,
-                  borderRadius: 5,
-                  width: wp(97),
-                  height: hp(16),
-                  marginTop: 10,
-                  margin: 5,
-                  borderWidth: 0.2,
-                  borderRadius: 10,
+                  shadowOpacity: 0.2,
+                  shadowRadius: 3,
+                  elevation: 3, // Elevation for Android shadow
                 }}>
-                <View style={styles.stars}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    padding: 10,
+                  }}>
                   <Text
                     style={{
                       fontWeight: 'bold',
                       color: 'black',
-                      marginLeft: 10,
-                      marginTop: 5,
+                      marginLeft: 2,
                     }}>
-                    Atif Badini
+                    {item?.user?.username}
                   </Text>
-                  <MaterialIcons
-                    name="star"
-                    size={20}
-                    style={styles.starUnselected}
-                    marginLeft={180}
-                  />
-                  <MaterialIcons
-                    name="star"
-                    size={20}
-                    style={styles.starUnselected}
-                  />
-                  <MaterialIcons
-                    name="star"
-                    size={20}
-                    style={styles.starUnselected}
-                  />
-                  <MaterialIcons
-                    name="star-half"
-                    size={20}
-                    style={styles.starhalf}
-                  />
-                  <MaterialIcons
-                    name="star-outline"
-                    size={20}
-                    style={styles.starouline}
-                  />
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      color: 'black',
+                      marginLeft: 5,
+                    }}>
+                    on {moment(item?.created_at).startOf('minutes').fromNow()}
+                  </Text>
+                  <View style={{flexDirection: 'row', marginLeft: 'auto'}}>
+                    <Star stars={item?.rating} />
+                  </View>
                 </View>
-                <ScrollView style={{flex: 1}}>
-                  <Text style={{width: wp(92), color: 'black', marginLeft: 15}}>
-                    {item.text}
+                <ScrollView style={{flex: 1, paddingHorizontal: 10}}>
+                  <Text style={{color: 'black'}}>
+                    {/* Use your dynamic comment data */}
+                    {item?.text}
                   </Text>
                 </ScrollView>
               </View>
