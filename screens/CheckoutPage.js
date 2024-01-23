@@ -32,6 +32,10 @@ const CheckoutPage = () => {
   const [address, setAddress] = useState([]);
   const User = useSelector(state => state.user);
   const UserId = User.user.id;
+  const [selectedAddressPhone, setSelectedAddressPhone] = useState('')
+  const [selectedAddressEmail, setSelectedAddressEmail] = useState('')
+  const [selectedAddress, setSelectedAddress] = useState('')
+  const [selectedAddressId, setSelectedAddressId] = useState('')
 
   const usertoken = useSelector(state => state.user.token);
   let headers = {};
@@ -49,7 +53,7 @@ const CheckoutPage = () => {
     deliveryCharge,
   } = useSelector(state => state.cart);
   // const navigate = useNavigate()
-
+console.log('cartProducts',cartProducts)
   useEffect(() => {
     dispatch(getCartTotal());
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -91,9 +95,13 @@ const CheckoutPage = () => {
 
   const HandleUsers = async () => {
     try {
-      let data = await UserDetail(UserId, headers);
-      setAddress(data);
-      console.log(data);
+      let res = await UserDetail(UserId, headers);
+      setAddress(res);
+      console.log('user',res);
+      setSelectedAddressPhone(res && res.addresses && res.addresses[0].phone_number)
+            setSelectedAddressEmail(res && res.addresses && res.addresses[0].email_address)
+            setSelectedAddress(res && res.addresses && res.addresses[0].address)
+            setSelectedAddressId(res && res.addresses && res.addresses[0].id)
     } catch (error) {
       console.log(error);
     }
@@ -142,7 +150,7 @@ const CheckoutPage = () => {
             marginLeft: 10,
             fontSize: 15,
           }}>
-          Deliver to: Atif Badini
+          Deliver to: {address?.username}
           <TouchableOpacity>
             <AntDesign
               name="right"
@@ -151,7 +159,12 @@ const CheckoutPage = () => {
             />
           </TouchableOpacity>
         </Text>
-
+        <View style={{ marginLeft:15 }}>
+              <Text>{selectedAddress}</Text>
+              <Text>{selectedAddressEmail}</Text>
+              <Text>{selectedAddressPhone}</Text>
+          {/* <Text>{address?.addresses[0]?.address}</Text> */}
+        </View>
         <Text
           style={{
             fontSize: 13,
@@ -165,7 +178,7 @@ const CheckoutPage = () => {
         </Text>
         <Text
           style={{
-            marginTop: 10,
+            marginTop: 3,
             color: 'black',
             marginLeft: 10,
             fontSize: 15,
@@ -190,7 +203,7 @@ const CheckoutPage = () => {
             marginLeft: 10,
             fontSize: 15,
           }}>
-          Payment method :
+          Payment method : 
         </Text>
         <Text style={{marginLeft: 10, marginTop: 5, justifyContent: 'center'}}>
           Cash on Delivery
