@@ -23,6 +23,8 @@ import {getProductDetail} from '../services/Products_services';
 import CommentPage from './CommentPage';
 import BottomTab from '../components/BottomTab';
 import HomePage from './HomePage';
+import moment from 'moment';
+import Star from '../components/Star';
 
 const ProductPage = () => {
   const [quantity, setQuantity] = useState(1);
@@ -64,7 +66,7 @@ const ProductPage = () => {
       let res = await getProductDetail(productId);
       setProduct(res.item);
       setComments(res.comments);
-      console.log(res.comments[0].text);
+      console.log(res.item);
     } catch (error) {
       console.log(error);
     }
@@ -85,6 +87,20 @@ const ProductPage = () => {
       navigate.navigate('Chart');
     } else {
       navigate.navigate('SignIn');
+    }
+  };
+  const discountPrice = (d) => {
+    if (d == 0) {
+      return "";
+    } else {
+      return `Rs ${parseFloat(d).toFixed(0)}`;
+    }
+  };
+  const prices = (p) => {
+    if (p == 0) {
+      return "";
+    } else {
+      return `Rs ${parseFloat(p).toFixed(0)}`;
     }
   };
 
@@ -158,41 +174,37 @@ const ProductPage = () => {
                 style={{
                   fontWeight: 'bold',
                   color: 'black',
-                  fontSize: 20,
+                  fontSize: 16,
                   marginLeft: 10,
+                  marginTop: 4,
                 }}>
                 {product?.title}
               </Text>
               <Text style={{marginLeft: 10}}>{product?.category}</Text>
             </ScrollView>
             <View style={styles.priceContainer}>
-              <Text style={styles.priceText}>RS. {product?.price}</Text>
+              <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
+                  {product?.stock?.length === 0 ? (
+                    <Text style={styles.priceText}>{prices(product?.price)}</Text>
+                  ) : (
+                    <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
+                      {product?.stock &&
+                      product?.stock.length > 0 &&
+                      product?.stock[0]?.discount_price !== undefined &&
+                      product?.stock[0]?.discount_price > 0 ? (
+                        <>
+                          <Text style={styles.priceText}>{discountPrice(product?.stock[0]?.discount_price)}</Text>
+                          
+                          <Text style={styles.priceTextLine}>{prices(product?.price)}</Text>
+                        </>
+                      ) : (
+                        <Text style={styles.priceText}>{prices(product?.price)}</Text>
+                      )}
+                    </View>
+                  )}
+              </View>
               <View style={styles.stars}>
-                <MaterialIcons
-                  name="star"
-                  size={20}
-                  style={styles.starUnselected}
-                />
-                <MaterialIcons
-                  name="star"
-                  size={20}
-                  style={styles.starUnselected}
-                />
-                <MaterialIcons
-                  name="star"
-                  size={20}
-                  style={styles.starUnselected}
-                />
-                <MaterialIcons
-                  name="star-half"
-                  size={20}
-                  style={styles.starhalf}
-                />
-                <MaterialIcons
-                  name="star-outline"
-                  size={20}
-                  style={styles.starouline}
-                />
+                <Star stars={product?.average_rating} />
               </View>
             </View>
           </View>
@@ -202,7 +214,8 @@ const ProductPage = () => {
                 fontWeight: 'bold',
                 paddingLeft: 15,
                 color: 'black',
-                fontSize: 20,
+                fontSize: 17,
+                marginTop: 8,
               }}>
               Quantity
             </Text>
@@ -236,11 +249,11 @@ const ProductPage = () => {
               fontWeight: 'bold',
               color: 'black',
               paddingLeft: 10,
-              marginTop: 10,
+              marginTop: 2,
             }}>
             Product Discription
           </Text>
-          <Text style={{paddingLeft: 10, marginTop: 5}}>
+          <Text style={{paddingLeft: 10, marginTop: 3}}>
             {product?.description}
           </Text>
         </ScrollView>
@@ -250,80 +263,65 @@ const ProductPage = () => {
               Reviews
             </Text>
           </View>
-          {comments.length > 0 && (
-            <View style={{marginLeft: 230}}>
-              <Text
-                style={{color: 'black', fontWeight: 'bold'}}
-                onPress={() => navigate.navigate('CommentPage', {productId})}>
-                View more
-              </Text>
-            </View>
-          )}
+          {/* {comments.length > 0 && ( */}
+          <View style={{marginLeft: 230}}>
+            <Text
+              style={{color: 'black', fontWeight: 'bold'}}
+              onPress={() => navigate.navigate('CommentPage', {productId})}>
+              View more
+            </Text>
+          </View>
+          {/* )} */}
         </View>
       </View>
-
       {/* comment section  */}
-      {comments.length > 0 && (
+      {comments.length === 0 ? (
+        <View style={{padding: 10, marginTop:15}}>
+          <Text style={{textAlign: 'center', color: 'black'}}>
+            This product has no reviews.
+          </Text>
+        </View>
+      ) : (
         <View
           style={{
-            borderRadius: 5,
-            width: wp(97),
-            height: hp(12),
-            marginTop: 10,
-            margin: 5,
-            borderWidth: 0.5,
             borderRadius: 10,
+            width: '97%', // Use percentage for responsiveness
+            height: 90, // Set a fixed height or adjust as needed
+            marginTop: 8,
+            marginHorizontal: 5, // Use marginHorizontal for equal margin on both sides
+            borderWidth: 0.5,
+            borderColor: '#ddd', // Set border color to a subtle shade
+            backgroundColor: '#fff', // Set background color
+            shadowColor: '#000',
+            shadowOffset: {width: 0, height: 2},
+            shadowOpacity: 0.2,
+            shadowRadius: 3,
+            elevation: 3, // Elevation for Android shadow
           }}>
-          <View style={styles.stars}>
-            <Text
-              style={{
-                fontWeight: 'bold',
-                color: 'black',
-                marginLeft: 10,
-                marginTop: 10,
-              }}>
-              Atif Badini
+          <View
+            style={{flexDirection: 'row', alignItems: 'center', padding: 10}}>
+            <Text style={{fontWeight: 'bold', color: 'black', marginLeft: 2}}>
+              {comments[0]?.user?.username}
             </Text>
-            <MaterialIcons
-              name="star"
-              size={20}
-              style={styles.starUnselected1}
-              marginLeft={180}
-            />
-            <MaterialIcons
-              name="star"
-              size={20}
-              style={styles.starUnselected1}
-            />
-            <MaterialIcons
-              name="star"
-              size={20}
-              style={styles.starUnselected1}
-            />
-            <MaterialIcons
-              name="star-half"
-              size={20}
-              style={styles.starhalf1}
-            />
-            <MaterialIcons
-              name="star-outline"
-              size={20}
-              style={styles.starouline1}
-            />
+            <Text style={{fontWeight: 'bold', color: 'black', marginLeft: 5}}>
+              on {moment(comments[0]?.created_at).startOf('minutes').fromNow()}
+            </Text>
+            <View style={{flexDirection: 'row', marginLeft: 'auto'}}>
+              <Star stars={comments[0]?.rating} />
+            </View>
           </View>
-
-          <ScrollView style={{flex: 1}}>
-            <Text style={{width: wp(92), color: 'black', marginLeft: 11}}>
+          <ScrollView style={{flex: 1, paddingHorizontal: 10}}>
+            <Text style={{color: 'black'}}>
+              {/* Use your dynamic comment data */}
               {comments[0]?.text}
             </Text>
           </ScrollView>
         </View>
       )}
-
       {/* Add to cart page section  */}
-
-      <View style={styles.verifedagent}>
+      <View style={styles.BtnVerifedagent}>
         <TouchableOpacity
+          style={styles.verifedagent}
           onPress={() => {
             addToCartHandler(product);
           }}>
@@ -401,20 +399,37 @@ const styles = StyleSheet.create({
   firstImage: {
     marginLeft: wp(2),
   },
+  BtnVerifedagent: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   verifedagent: {
     backgroundColor: '#477200',
     borderWidth: 0.5,
     borderRadius: 20,
-    width: wp(60),
+    width: wp(70),
     height: hp(6),
-    marginLeft: wp(20),
-    marginTop: 15,
+    marginTop: 12,
+    justifyContent: 'center', // Center content horizontally
+    alignItems: 'center', // Center content vertically
   },
+
+  // verifedagent: {
+  //   backgroundColor: '#477200',
+  //   borderWidth: 0.5,
+  //   borderRadius: 20,
+  //   width: wp(60),
+  //   height: hp(6),
+  //   // marginLeft: wp(20),
+  //   marginTop: 12,
+
+  // },
   verfiedagenttext: {
-    marginTop: 8,
+    // marginTop: 8,
     textAlign: 'center',
     color: 'white',
-    fontSize: 20,
+    fontSize: 18,
   },
   revietime: {
     fontWeight: 'bold',
@@ -457,12 +472,21 @@ const styles = StyleSheet.create({
     marginLeft: 6,
   },
   priceText: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
     color: '#333',
     marginLeft: 4,
     fontFamily: 'Arial, sans-serif',
     textTransform: 'uppercase',
+  },
+  priceTextLine: {
+    fontSize: 16,
+    fontWeight: 'bolder',
+    color: 'gray',
+    marginLeft: 4,
+    fontFamily: 'Arial, sans-serif',
+    textTransform: 'uppercase',
+    textDecorationLine: 'line-through'
   },
 
   quantityText: {
@@ -485,8 +509,8 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   button: {
-    width: 30,
-    height: 30,
+    width: 25,
+    height: 25,
     backgroundColor: '#00599D',
     alignItems: 'center',
     justifyContent: 'center',
