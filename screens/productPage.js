@@ -20,17 +20,21 @@ import {useDispatch, useSelector} from 'react-redux';
 import {add} from '../store/cartSlice';
 import {useRoute} from '@react-navigation/native';
 import {getProductDetail} from '../services/Products_services';
+import CommentPage from './CommentPage';
+import BottomTab from '../components/BottomTab';
+import HomePage from './HomePage';
 
 const ProductPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState([]);
+  const [comments, setComments] = useState([]);
   const route = useRoute();
   const {productId} = route.params;
   const isAuthenticated = useSelector(state => state.user.isAuthenticated);
 
   useEffect(() => {
     handleProductDetail();
-  }, []);
+  }, [productId]);
 
   const handleIncrement = () => {
     setQuantity(prevQty => {
@@ -59,6 +63,8 @@ const ProductPage = () => {
     try {
       let res = await getProductDetail(productId);
       setProduct(res.item);
+      setComments(res.comments);
+      console.log(res.comments[0].text);
     } catch (error) {
       console.log(error);
     }
@@ -93,14 +99,15 @@ const ProductPage = () => {
           style={{
             width: wp(100),
             height: 45,
-            borderRadius: 4,
             shadowColor: '#000',
             shadowOffset: {width: 0, height: 2},
             shadowOpacity: 0.3,
             shadowRadius: 4,
             flexDirection: 'row',
+            borderBottomWidth: 0.5,
+            elevation: 1,
           }}>
-          <TouchableOpacity style={{}}>
+          <TouchableOpacity>
             <AntDesign
               name="left"
               style={{
@@ -129,7 +136,7 @@ const ProductPage = () => {
           style={{
             position: 'relative',
             borderRadius: 10,
-            height: hp(34),
+            height: hp(26),
           }}>
           <TouchableOpacity style={{position: 'absolute', top: 0, right: 0}}>
             <AntDesign
@@ -199,7 +206,6 @@ const ProductPage = () => {
               }}>
               Quantity
             </Text>
-
             <View style={styles.container}>
               <TouchableOpacity
                 style={styles.button}
@@ -240,59 +246,82 @@ const ProductPage = () => {
         </ScrollView>
         <View style={{flexDirection: 'row', marginTop: 20}}>
           <View>
-            <Text style={{color: 'black', fontWeight: 'bold'}}> Reviews</Text>
+            <Text style={{color: 'black', fontWeight: 'bold', marginLeft: 15}}>
+              Reviews
+            </Text>
           </View>
-          <View style={{marginLeft: 230}}>
-            <Text style={{color: 'black', fontWeight: 'bold'}}> View more</Text>
-          </View>
+          {comments.length > 0 && (
+            <View style={{marginLeft: 230}}>
+              <Text
+                style={{color: 'black', fontWeight: 'bold'}}
+                onPress={() => navigate.navigate('CommentPage', {productId})}>
+                View more
+              </Text>
+            </View>
+          )}
         </View>
       </View>
 
       {/* comment section  */}
-      <View
-        style={{
-          borderRadius: 5,
-          width: wp(97),
-          height: hp(11),
-          marginTop: 10,
-          margin: 5,
-          borderWidth: 0.2,
-          borderRadius: 10,
-        }}>
-        <View style={styles.stars}>
-          <Text
-            style={{
-              fontWeight: 'bold',
-              color: 'black',
-              marginLeft: 10,
-            }}>
-            Atif Badini
-          </Text>
-          <MaterialIcons
-            name="star"
-            size={20}
-            style={styles.starUnselected}
-            marginLeft={180}
-          />
-          <MaterialIcons name="star" size={20} style={styles.starUnselected} />
-          <MaterialIcons name="star" size={20} style={styles.starUnselected} />
-          <MaterialIcons name="star-half" size={20} style={styles.starhalf} />
-          <MaterialIcons
-            name="star-outline"
-            size={20}
-            style={styles.starouline}
-          />
-        </View>
+      {comments.length > 0 && (
         <View
           style={{
-            width: wp(94),
+            borderRadius: 5,
+            width: wp(97),
             height: hp(12),
+            marginTop: 10,
+            margin: 5,
+            borderWidth: 0.5,
             borderRadius: 10,
-            margin: 10,
           }}>
-          <Text style={{width: wp(92)}}>mage Generative AI tools:</Text>
+          <View style={styles.stars}>
+            <Text
+              style={{
+                fontWeight: 'bold',
+                color: 'black',
+                marginLeft: 10,
+                marginTop: 10,
+              }}>
+              Atif Badini
+            </Text>
+            <MaterialIcons
+              name="star"
+              size={20}
+              style={styles.starUnselected1}
+              marginLeft={180}
+            />
+            <MaterialIcons
+              name="star"
+              size={20}
+              style={styles.starUnselected1}
+            />
+            <MaterialIcons
+              name="star"
+              size={20}
+              style={styles.starUnselected1}
+            />
+            <MaterialIcons
+              name="star-half"
+              size={20}
+              style={styles.starhalf1}
+            />
+            <MaterialIcons
+              name="star-outline"
+              size={20}
+              style={styles.starouline1}
+            />
+          </View>
+
+          <ScrollView style={{flex: 1}}>
+            <Text style={{width: wp(92), color: 'black', marginLeft: 11}}>
+              {comments[0]?.text}
+            </Text>
+          </ScrollView>
         </View>
-      </View>
+      )}
+
+      {/* Add to cart page section  */}
+
       <View style={styles.verifedagent}>
         <TouchableOpacity
           onPress={() => {
@@ -303,6 +332,9 @@ const ProductPage = () => {
           </Text>
         </TouchableOpacity>
       </View>
+      <View style={{marginTop: 20}}>
+        <BottomTab />
+      </View>
     </View>
   );
 };
@@ -310,6 +342,7 @@ const ProductPage = () => {
 const styles = StyleSheet.create({
   container1: {
     flex: 1,
+    backgroundColor: 'white',
   },
   seeAllText: {
     fontWeight: 'bold',
@@ -320,13 +353,13 @@ const styles = StyleSheet.create({
   productview: {
     marginTop: 5,
     width: wp(95),
-    height: hp(49),
+    height: hp(42),
     marginLeft: 8,
     borderRadius: 5,
   },
   image: {
-    width: wp(50),
-    height: hp(30),
+    width: wp(45),
+    height: hp(25),
     marginLeft: wp(20),
     marginBottom: 4,
     marginTop: 5,
@@ -357,7 +390,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 10,
-    borderWidth: 1,
   },
   reviewimage: {
     width: wp(15),
@@ -370,14 +402,13 @@ const styles = StyleSheet.create({
     marginLeft: wp(2),
   },
   verifedagent: {
-    marginTop: 15,
     backgroundColor: '#477200',
     borderWidth: 0.5,
     borderRadius: 20,
-    width: wp(50),
+    width: wp(60),
     height: hp(6),
-    marginLeft: wp(25),
-    marginBottom: 15,
+    marginLeft: wp(20),
+    marginTop: 15,
   },
   verfiedagenttext: {
     marginTop: 8,
@@ -426,7 +457,7 @@ const styles = StyleSheet.create({
     marginLeft: 6,
   },
   priceText: {
-    fontSize: 15,
+    fontSize: 18,
     fontWeight: 'bold',
     color: '#333',
     marginLeft: 4,
@@ -434,18 +465,6 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
 
-  ReviewText3: {
-    paddingLeft: 10,
-    width: wp(95),
-  },
-  quantityContainer: {
-    flexDirection: 'row',
-    borderRadius: 20,
-    paddingLeft: 35,
-    paddingTop: 10,
-    paddingBottom: 3,
-    backgroundColor: '#e5e5e5',
-  },
   quantityText: {
     marginHorizontal: 11,
     fontSize: 17,
@@ -474,17 +493,17 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginHorizontal: 6,
   },
-  card: {
-    backgroundColor: 'white',
-    borderRadius: 8,
-    width: wp(95),
-    marginLeft: 5,
+  starUnselected1: {
+    color: 'gold',
+    marginTop: 10,
   },
-  shadowProp: {
-    shadowColor: '#171717',
-    shadowOffset: {width: -2, height: 4},
-    shadowOpacity: 1,
-    shadowRadius: 10,
+  starhalf1: {
+    color: 'gold',
+    marginTop: 10,
+  },
+  starouline1: {
+    color: 'lightgray',
+    marginTop: 10,
   },
 });
 export default ProductPage;
