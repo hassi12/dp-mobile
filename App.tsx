@@ -1,6 +1,6 @@
 import {NavigationContainer, StackActions} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React, {useEffect} from 'react';
 import SplashScreen from 'react-native-splash-screen';
 import tabs from './tabs/tabs';
@@ -23,6 +23,7 @@ import FavouritePage from './screens/FavouritePage';
 import APITesting from './screens/APITesting';
 import UserAdressPage from './screens/UserAdressPage';
 import UserAddAddressPage from './screens/UserAddAddressPage';
+import CommentPage from './screens/CommentPage';
 // import {Provider} from 'react-redux';
 // import {store} from './store/store';
 // import { persistStore } from "redux-persist";
@@ -32,7 +33,6 @@ import UserAddAddressPage from './screens/UserAddAddressPage';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-
 
 const App = () => {
   // const isAuthenticated = useSelector(state => state.user.isAuthenticated);
@@ -68,7 +68,11 @@ const App = () => {
           <Stack.Screen name="AddressList" component={AddressList} />
           <Stack.Screen name="OrderDetail" component={OrderDetail} />
           <Stack.Screen name="UserAdressPage" component={UserAdressPage} />
-          <Stack.Screen name="UserAddAddressPage" component={UserAddAddressPage}/>
+          <Stack.Screen
+            name="UserAddAddressPage"
+            component={UserAddAddressPage}
+          />
+          <Stack.Screen name="CommentPage" component={CommentPage} />
         </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>

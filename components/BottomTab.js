@@ -16,9 +16,10 @@ import {useSelector, useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {getCartTotal} from '../store/cartSlice';
 import {
-    widthPercentageToDP as wp,
-    heightPercentageToDP as hp,
-  } from 'react-native-responsive-screen';
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+import Tabs from '../tabs/tabs';
 
 const Tab = createBottomTabNavigator();
 
@@ -48,6 +49,8 @@ const BottomTab = () => {
         width: wp(100),
         backgroundColor: '#0e4183',
         flexDirection: 'row',
+        borderTopLeftRadius: 15,
+        borderTopRightRadius: 15,
       }}>
       <Tab.Navigator
         screenOptions={{
@@ -61,7 +64,6 @@ const BottomTab = () => {
             borderTopLeftRadius: 15,
             borderTopRightRadius: 15,
           },
-
           tabBarLabel: () => null,
         }}>
         <Tab.Screen
@@ -75,8 +77,9 @@ const BottomTab = () => {
                   size={25}
                   resizeMode="contain"
                   style={styles.image_css}
+                  onPress={() => navigate.navigate('Tabs')}
                 />
-                <Text style={{color: focused ? 'white' : '#748c94'}} onPress={()=> navigate.navigate(HomePage)}>Home</Text>
+                <Text style={{color: focused ? 'white' : '#748c94'}}>Home</Text>
               </View>
             ),
           }}
