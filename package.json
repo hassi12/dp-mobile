@@ -30,6 +30,7 @@
     "react-native-safe-area-view": "^1.1.1",
     "react-native-screens": "^3.27.0",
     "react-native-splash-screen": "^3.3.0",
+    "react-native-toast-message": "^2.2.0",
     "react-native-vector-icons": "^10.0.2",
     "react-redux": "^9.0.4",
     "redux-persist": "^6.0.0",

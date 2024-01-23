@@ -25,6 +25,8 @@ import BottomTab from '../components/BottomTab';
 import HomePage from './HomePage';
 import moment from 'moment';
 import Star from '../components/Star';
+import Toast from 'react-native-toast-message';
+
 
 const ProductPage = () => {
   const [quantity, setQuantity] = useState(1);
@@ -43,6 +45,12 @@ const ProductPage = () => {
       let newQty = prevQty + 1;
       return newQty;
     });
+    Toast.show({
+      type: 'success',
+      text1: 'Quantity',
+      text2: 'increase +1 successfully 👋',
+      visibilityTime: 2000
+    });
   };
 
   const handleDecrement = () => {
@@ -52,6 +60,12 @@ const ProductPage = () => {
         newQty = 1;
       }
       return newQty;
+    });
+    Toast.show({
+      type: 'error',
+      text1: 'Quantity',
+      text2: 'decrease -1 successfully 👋',
+      visibilityTime: 2000
     });
   };
 
@@ -72,7 +86,7 @@ const ProductPage = () => {
     }
   };
   const {images} = product;
-  // navigate.navigate(CartPage)
+
   const dispatch = useDispatch();
   const addToCartHandler = product => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -87,6 +101,22 @@ const ProductPage = () => {
       navigate.navigate('Chart');
     } else {
       navigate.navigate('SignIn');
+    }
+  };
+  const price = (p) => {
+    /* eslint eqeqeq: 0 */
+    if (p == 0) {
+      return (
+        <Text style={{ fontSize: 7, color: 'red' }}>
+          Please place an order for a quotation. Once the order is placed, our support team will call you.
+        </Text>
+      );
+    } else {
+      return (
+        <Text style={{ fontSize: 16, color: 'green' }}>
+          Rs {p}
+        </Text>
+      );
     }
   };
   const discountPrice = (d) => {
@@ -185,7 +215,7 @@ const ProductPage = () => {
             <View style={styles.priceContainer}>
               <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
                   {product?.stock?.length === 0 ? (
-                    <Text style={styles.priceText}>{prices(product?.price)}</Text>
+                    <Text style={styles.priceText}>{price(product?.price)}</Text>
                   ) : (
                     <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
                       {product?.stock &&
@@ -333,6 +363,7 @@ const ProductPage = () => {
       <View style={{marginTop: 20}}>
         <BottomTab />
       </View>
+      <Toast />
     </View>
   );
 };
