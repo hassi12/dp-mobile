@@ -67,7 +67,7 @@ const HomePage = () => {
         </View>
       </SafeAreaView>
       {/* main slider */}
-      <View style={styles.sliderviewstyle}>
+      {/* <View style={styles.sliderviewstyle}>
         <SliderBox
           images={images}
           dotColor="white"
@@ -79,7 +79,23 @@ const HomePage = () => {
           sliderBoxHeight={hp(25)}
           autoplay={true}
         />
+      </View> */}
+      <View style={styles.shadowContainer}>
+        <View style={styles.sliderviewstyle}>
+          <SliderBox
+            images={images}
+            dotColor="white"
+            inactiveDotColor="white"
+            dotstyle
+            circleLoop={true}
+            borderRadius={20}
+            resizeMode="cover"
+            sliderBoxHeight={hp(25)}
+            autoplay={true}
+          />
+        </View>
       </View>
+
       {/* main slider end */}
       {/* categories */}
       <View style={styles.petsview}>
@@ -130,15 +146,30 @@ const styles = StyleSheet.create({
   },
   petsview: {
     width: wp(99.5),
-    height: hp(18),
+    height: hp(15),
     borderColor: 'black',
     paddingTop: 12,
   },
   petstyle: {
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: 'bold',
     color: 'black',
     paddingLeft: 15,
+  },
+  // sliderviewstyle: {
+  //   height: hp(24.5),
+  //   width: wp(95),
+  //   borderRadius: 15,
+  //   overflow: 'hidden',
+  // },
+  shadowContainer: {
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 5, // This is for Android
+    borderRadius: 15,
+    overflow: 'hidden', // Important to clip the shadow within the borderRadius
   },
   sliderviewstyle: {
     height: hp(24.5),
@@ -146,6 +177,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     overflow: 'hidden',
   },
+
   container11: {
     flex: 1,
     justifyContent: 'center',
@@ -164,6 +196,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
     marginLeft: 10,
+    fontSize: 14,
   },
   seeAllText: {
     fontWeight: 'bold',
