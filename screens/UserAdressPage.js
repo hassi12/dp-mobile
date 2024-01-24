@@ -127,16 +127,25 @@ const UserAdressPage = () => {
               <Text
                 style={{
                   marginLeft: 10,
-                  marginTop: 10,
+                  marginTop: 8,
                   color: 'black',
                   fontWeight: 'bold',
                   width: wp(70),
                 }}>
-                {address.first_name} {address.last_name}
+                {address?.first_name} {address?.last_name}
               </Text>
               <Text style={{marginLeft: 6, width: wp(85), color: 'black'}}>
                 {' '}
-                {item.address}{' '}
+                {item?.address}{' '}
+              </Text>
+              <Text
+                style={{
+                  marginLeft: 8,
+                  width: wp(85),
+                  color: 'black',
+                  // marginTop: 0,
+                }}>
+                {item?.email_address} 
               </Text>
               <Text
                 style={{
@@ -146,7 +155,7 @@ const UserAdressPage = () => {
                   marginTop: 5,
                 }}>
                 {' '}
-                (+92) {item.phone_number}
+                (+92) {item?.phone_number}
               </Text>
             </View>
           </View>
@@ -164,7 +173,7 @@ const style = StyleSheet.create({
   },
   card: {
     width: wp(94),
-    height: heightPercentageToDP(20),
+    height: heightPercentageToDP(15),
     backgroundColor: 'white',
     borderRadius: 10,
     padding: 5,
