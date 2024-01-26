@@ -19,6 +19,7 @@ import BottomTab from '../components/BottomTab';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import ProfilePage from './ProfilePage';
 import Tabs from '../tabs/tabs';
+import Toast from 'react-native-toast-message';
 
 const SignIn = () => {
   const handleBackPress = () => {
@@ -41,8 +42,15 @@ const SignIn = () => {
         navigate.navigate('Tabs');
         setUsername('');
         setPassword('');
+        
       } else {
-        console.log('error name and password');
+        Toast.show({
+          type: 'error',
+          text1: 'Login Failed',
+          text2: 'Your email or password is incorrect, Please try again.',
+          visibilityTime: 3000,
+          color: 'red',
+        });
       }
     } catch (error) {
       console.log('error');
@@ -112,6 +120,7 @@ const SignIn = () => {
       {/* <View style={{position: 'absolute', bottom: 0, left: 0, right: 0}}>
         <BottomTab />
       </View> */}
+      <Toast />
     </View>
   );
 };
@@ -121,7 +130,7 @@ export default SignIn;
 const styles = StyleSheet.create({
   mainview: {
     flex: 1,
-  
+
     padding: 20,
   },
   welcome: {

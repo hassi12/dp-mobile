@@ -12,9 +12,11 @@ import {useNavigation} from '@react-navigation/native';
 import HomePageSearch from '../components/HomePagesearch';
 import PetProfile from '../components/PetProfile';
 import {SliderBox} from 'react-native-image-slider-box';
-import DetailPage from './DetailPage';
+
 import {getProducts} from '../services/Products_services';
 import CardData from '../components/CardData';
+import ProductDetailPage from './productDetailPage';
+import AllProductPage from './AllProductPage';
 
 const HomePage = () => {
   const {height, width} = Dimensions.get('window');
@@ -119,7 +121,7 @@ const HomePage = () => {
           <Text style={styles.titleText}>Top Rated products</Text>
           <Text
             style={styles.seeAllText}
-            onPress={() => navigate.navigate(DetailPage)}>
+            onPress={() => navigate.navigate(AllProductPage)}>
             See All
           </Text>
         </View>

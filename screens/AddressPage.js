@@ -16,7 +16,7 @@ import {useNavigation} from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import UserAdressPage from './UserAdressPage';
 
-const AddressPage = () => {
+const AddAddressPage = () => {
   const navigate = useNavigation();
 
   return (
@@ -59,7 +59,7 @@ const AddressPage = () => {
 
       <View style={styles.container}>
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>Email</Text>
+          <Text style={styles.label}>Name</Text>
           <TextInput
             style={styles.input}
             placeholder="Enter your Name"
@@ -161,4 +161,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddressPage;
+export default AddAddressPage;

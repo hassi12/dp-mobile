@@ -145,7 +145,7 @@ const UserAdressPage = () => {
                   color: 'black',
                   // marginTop: 0,
                 }}>
-                {item?.email_address} 
+                {item?.email_address}
               </Text>
               <Text
                 style={{
