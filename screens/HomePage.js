@@ -60,14 +60,14 @@ const HomePage = () => {
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <SafeAreaView>
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
         <View style={styles.bottomview}>
           <HomePageSearch />
         </View>
-      </SafeAreaView>
-      {/* main slider */}
-      {/* <View style={styles.sliderviewstyle}>
+
+        {/* main slider */}
+        {/* <View style={styles.sliderviewstyle}>
         <SliderBox
           images={images}
           dotColor="white"
@@ -80,56 +80,57 @@ const HomePage = () => {
           autoplay={true}
         />
       </View> */}
-      <View style={styles.shadowContainer}>
-        <View style={styles.sliderviewstyle}>
-          <SliderBox
-            images={images}
-            dotColor="white"
-            inactiveDotColor="white"
-            dotstyle
-            circleLoop={true}
-            borderRadius={20}
-            resizeMode="cover"
-            sliderBoxHeight={hp(25)}
-            autoplay={true}
-          />
+        <View style={styles.shadowContainer}>
+          <View style={styles.sliderviewstyle}>
+            <SliderBox
+              images={images}
+              dotColor="white"
+              inactiveDotColor="white"
+              dotstyle
+              circleLoop={true}
+              borderRadius={20}
+              resizeMode="cover"
+              sliderBoxHeight={hp(25)}
+              autoplay={true}
+            />
+          </View>
         </View>
-      </View>
 
-      {/* main slider end */}
-      {/* categories */}
-      <View style={styles.petsview}>
-        <Text style={styles.petstyle}>Select Your Pet</Text>
-        <ScrollView horizontal>
-          {/* <PetProfile /> */}
-          {category &&
-            category.map((category, index) => {
-              return (
-                // <Text key={index}>{item.name}</Text>
-                <PetProfile category={category} />
-              );
-            })}
-        </ScrollView>
-      </View>
-      {/* categories end */}
-      <Text style={{color: '#bfbfbf', width: wp(95), textAlign: 'center'}}>
-        ____________________________________________________
-      </Text>
-      <View style={styles.containertext}>
-        <Text style={styles.titleText}>Top Rated products</Text>
-        <Text
-          style={styles.seeAllText}
-          onPress={() => navigate.navigate(DetailPage)}>
-          See All
+        {/* main slider end */}
+        {/* categories */}
+        <View style={styles.petsview}>
+          <Text style={styles.petstyle}>Select Your Pet</Text>
+          <ScrollView horizontal>
+            {/* <PetProfile /> */}
+            {category &&
+              category.map((category, index) => {
+                return (
+                  // <Text key={index}>{item.name}</Text>
+                  <PetProfile category={category} />
+                );
+              })}
+          </ScrollView>
+        </View>
+        {/* categories end */}
+        <Text style={{color: '#bfbfbf', width: wp(95), textAlign: 'center'}}>
+          ____________________________________________________
         </Text>
-      </View>
+        <View style={styles.containertext}>
+          <Text style={styles.titleText}>Top Rated products</Text>
+          <Text
+            style={styles.seeAllText}
+            onPress={() => navigate.navigate(DetailPage)}>
+            See All
+          </Text>
+        </View>
 
-      {/* products */}
-      <View style={styles.container11}>
-        <CardData products={products} loading={loading} error={error} />
-      </View>
-      {/* products end */}
-    </ScrollView>
+        {/* products */}
+        <View style={styles.container11}>
+          <CardData products={products} loading={loading} error={error} />
+        </View>
+        {/* products end */}
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

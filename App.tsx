@@ -56,7 +56,6 @@ const App = () => {
           <Stack.Screen name="chat" component={ChatPage} />
           <Stack.Screen name="DetailPage" component={DetailPage} />
           <Stack.Screen name="ProductPage" component={ProductPage} />
-          <Stack.Screen name="CartPage" component={CartPage} />
           <Stack.Screen name="CheckoutPage" component={CheckoutPage} />
           <Stack.Screen name="AddressPage" component={AddressPage} />
           <Stack.Screen name="FavouritePage" component={FavouritePage} />

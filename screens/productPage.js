@@ -26,6 +26,8 @@ import HomePage from './HomePage';
 import moment from 'moment';
 import Star from '../components/Star';
 import Toast from 'react-native-toast-message';
+import {SliderBox} from 'react-native-image-slider-box';
+
 
 
 const ProductPage = () => {
@@ -178,6 +180,8 @@ const ProductPage = () => {
         </View>
       </SafeAreaView>
       <View style={styles.productview}>
+
+        {/* slider image */}
         <View
           style={{
             position: 'relative',
