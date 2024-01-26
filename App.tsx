@@ -8,11 +8,7 @@ import HomePage from './screens/HomePage';
 import ChartPage from './screens/ChartPage';
 import ProfilePage from './screens/ProfilePage';
 import ChatPage from './screens/ChatPage';
-import DetailPage from './screens/DetailPage';
-import ProductPage from './screens/productPage';
-import CartPage from './screens/cartpage';
 import CheckoutPage from './screens/CheckoutPage';
-import AddressPage from './screens/AddressPage';
 import Sucessfullorder from './screens/Sucessfullorder';
 import SignUp from './screens/SignUp';
 import SignIn from './screens/SignIn';
@@ -24,6 +20,9 @@ import APITesting from './screens/APITesting';
 import UserAdressPage from './screens/UserAdressPage';
 import UserAddAddressPage from './screens/UserAddAddressPage';
 import CommentPage from './screens/CommentPage';
+import ProductDetailPage from './screens/productDetailPage';
+import AddAddressPage from './screens/AddressPage';
+import AllProductPage from './screens/AllProductPage';
 // import {Provider} from 'react-redux';
 // import {store} from './store/store';
 // import { persistStore } from "redux-persist";
@@ -54,10 +53,13 @@ const App = () => {
           <Stack.Screen name="Chart" component={ChartPage} />
           <Stack.Screen name="ProfilePage" component={ProfilePage} />
           <Stack.Screen name="chat" component={ChatPage} />
-          <Stack.Screen name="DetailPage" component={DetailPage} />
-          <Stack.Screen name="ProductPage" component={ProductPage} />
+          <Stack.Screen name="AllProductPage" component={AllProductPage} />
+          <Stack.Screen
+            name="ProductDetailPage"
+            component={ProductDetailPage}
+          />
           <Stack.Screen name="CheckoutPage" component={CheckoutPage} />
-          <Stack.Screen name="AddressPage" component={AddressPage} />
+          <Stack.Screen name="AddAddressPage" component={AddAddressPage} />
           <Stack.Screen name="FavouritePage" component={FavouritePage} />
           <Stack.Screen name="APITesting" component={APITesting} />
           <Stack.Screen name="Sucessfullorder" component={Sucessfullorder} />

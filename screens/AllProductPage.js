@@ -17,8 +17,9 @@ import {
 } from 'react-native-responsive-screen';
 import CardData from '../components/CardData';
 import {getProducts} from '../services/Products_services';
+import BottomTab from '../components/BottomTab';
 
-const DetailPage = () => {
+const AllProductPage = () => {
   useEffect(() => {
     handleProducts();
   }, []);
@@ -43,7 +44,7 @@ const DetailPage = () => {
   };
 
   return (
-    <ScrollView style={styles.maincontainer}>
+    <View style={styles.maincontainer}>
       <View style={styles.container1}>
         <TouchableOpacity onPress={handleBackPress}>
           <AntDesign
@@ -58,11 +59,15 @@ const DetailPage = () => {
       <Text style={{color: '#bfbfbf', width: wp(98), textAlign: 'center'}}>
         ______________________________________________________
       </Text>
+      <ScrollView >
       <View style={styles.container11}>
         <CardData products={products} loading={loading} error={error} />
       </View>
       <View style={{padding: 5}}></View>
     </ScrollView>
+    <BottomTab style={{position: 'absolute'}}/>
+    </View>
+   
   );
 };
 
@@ -160,4 +165,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DetailPage;
+export default AllProductPage;

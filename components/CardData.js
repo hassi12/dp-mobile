@@ -9,6 +9,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useNavigation} from '@react-navigation/native';
 import {ScrollView} from 'react-native-gesture-handler';
 import Star from '../components/Star';
+import ProductDetailPage from '../screens/productDetailPage';
 
 // import { useSelector } from 'react-redux';
 const CardData = ({products, loading, error}) => {
@@ -57,7 +58,7 @@ const CardData = ({products, loading, error}) => {
             <View style={styles.card}>
               <TouchableOpacity
                 onPress={() =>
-                  navigate.navigate(`ProductPage`, {productId: item.id})
+                  navigate.navigate(`ProductDetailPage`, {productId: item.id})
                 }
                 style={{width: wp(35)}}>
                 <Image

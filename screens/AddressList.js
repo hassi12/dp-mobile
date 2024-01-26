@@ -18,6 +18,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import AddAddressPage from './AddressPage';
 
 const AddressList = () => {
   const [address, setAddress] = useState([]);
@@ -97,7 +98,7 @@ const AddressList = () => {
             color: 'red',
             marginTop: 10,
           }}
-          onPress={() => navigate.navigate(AddressPage)}>
+          onPress={() => navigate.navigate(AddAddressPage)}>
           Add
         </Text>
       </View>
@@ -136,9 +137,9 @@ const AddressList = () => {
                   color: 'black',
                   marginTop: 5,
                 }}>
-                {item?.address} 
+                {item?.address}
               </Text>
-              
+
               <Text
                 style={{
                   marginLeft: 8,
@@ -146,7 +147,7 @@ const AddressList = () => {
                   color: 'black',
                   // marginTop: 0,
                 }}>
-                {item?.email_address} 
+                {item?.email_address}
               </Text>
 
               <Text

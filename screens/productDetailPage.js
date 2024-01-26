@@ -28,7 +28,7 @@ import Star from '../components/Star';
 import Toast from 'react-native-toast-message';
 import {SliderBox} from 'react-native-image-slider-box';
 
-const ProductPage = () => {
+const ProductDetailPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState([]);
   const [comments, setComments] = useState([]);
@@ -191,7 +191,7 @@ const ProductPage = () => {
               borderRadius={20}
               resizeMode="cover"
               sliderBoxHeight={hp(25)}
-              autoplay={true}
+              autoplay={false}
             />
           </View>
         </View>
@@ -589,4 +589,4 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
 });
-export default ProductPage;
+export default ProductDetailPage;
