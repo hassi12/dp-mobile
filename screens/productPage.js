@@ -28,8 +28,6 @@ import Star from '../components/Star';
 import Toast from 'react-native-toast-message';
 import {SliderBox} from 'react-native-image-slider-box';
 
-
-
 const ProductPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState([]);
@@ -51,7 +49,7 @@ const ProductPage = () => {
       type: 'success',
       text1: 'Quantity',
       text2: 'increase +1 successfully 👋',
-      visibilityTime: 2000
+      visibilityTime: 2000,
     });
   };
 
@@ -67,7 +65,7 @@ const ProductPage = () => {
       type: 'error',
       text1: 'Quantity',
       text2: 'decrease -1 successfully 👋',
-      visibilityTime: 2000
+      visibilityTime: 2000,
     });
   };
 
@@ -88,6 +86,9 @@ const ProductPage = () => {
     }
   };
   const {images} = product;
+  const imageUrls = Array.isArray(images)
+    ? images.map(image => image.image_url)
+    : [];
 
   const dispatch = useDispatch();
   const addToCartHandler = product => {
@@ -105,32 +106,29 @@ const ProductPage = () => {
       navigate.navigate('SignIn');
     }
   };
-  const price = (p) => {
+  const price = p => {
     /* eslint eqeqeq: 0 */
     if (p == 0) {
       return (
-        <Text style={{ fontSize: 7, color: 'red' }}>
-          Please place an order for a quotation. Once the order is placed, our support team will call you.
+        <Text style={{fontSize: 7, color: 'red'}}>
+          Please place an order for a quotation. Once the order is placed, our
+          support team will call you.
         </Text>
       );
     } else {
-      return (
-        <Text style={{ fontSize: 16, color: 'green' }}>
-          Rs {p}
-        </Text>
-      );
+      return <Text style={{fontSize: 16, color: 'green'}}>Rs {p}</Text>;
     }
   };
-  const discountPrice = (d) => {
+  const discountPrice = d => {
     if (d == 0) {
-      return "";
+      return '';
     } else {
       return `Rs ${parseFloat(d).toFixed(0)}`;
     }
   };
-  const prices = (p) => {
+  const prices = p => {
     if (p == 0) {
-      return "";
+      return '';
     } else {
       return `Rs ${parseFloat(p).toFixed(0)}`;
     }
@@ -180,9 +178,24 @@ const ProductPage = () => {
         </View>
       </SafeAreaView>
       <View style={styles.productview}>
-
         {/* slider image */}
-        <View
+
+        <View style={styles.shadowContainer}>
+          <View style={styles.sliderviewstyle}>
+            <SliderBox
+              images={imageUrls}
+              dotColor="white"
+              inactiveDotColor="white"
+              dotstyle
+              circleLoop={true}
+              borderRadius={20}
+              resizeMode="cover"
+              sliderBoxHeight={hp(25)}
+              autoplay={true}
+            />
+          </View>
+        </View>
+        {/* <View
           style={{
             position: 'relative',
             borderRadius: 10,
@@ -199,7 +212,7 @@ const ProductPage = () => {
             source={{uri: product.images && product.images[0]?.image_url}}
             style={styles.image}
           />
-        </View>
+        </View> */}
 
         <View style={styles.container111}>
           <View style={styles.parallelView1}>
@@ -217,25 +230,31 @@ const ProductPage = () => {
               <Text style={{marginLeft: 10}}>{product?.category}</Text>
             </ScrollView>
             <View style={styles.priceContainer}>
-              <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
-                  {product?.stock?.length === 0 ? (
-                    <Text style={styles.priceText}>{price(product?.price)}</Text>
-                  ) : (
-                    <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
-                      {product?.stock &&
-                      product?.stock.length > 0 &&
-                      product?.stock[0]?.discount_price !== undefined &&
-                      product?.stock[0]?.discount_price > 0 ? (
-                        <>
-                          <Text style={styles.priceText}>{discountPrice(product?.stock[0]?.discount_price)}</Text>
-                          
-                          <Text style={styles.priceTextLine}>{prices(product?.price)}</Text>
-                        </>
-                      ) : (
-                        <Text style={styles.priceText}>{prices(product?.price)}</Text>
-                      )}
-                    </View>
-                  )}
+              <View style={{flexDirection: 'row', alignItems: 'baseline'}}>
+                {product?.stock?.length === 0 ? (
+                  <Text style={styles.priceText}>{price(product?.price)}</Text>
+                ) : (
+                  <View style={{flexDirection: 'row', alignItems: 'baseline'}}>
+                    {product?.stock &&
+                    product?.stock.length > 0 &&
+                    product?.stock[0]?.discount_price !== undefined &&
+                    product?.stock[0]?.discount_price > 0 ? (
+                      <>
+                        <Text style={styles.priceText}>
+                          {discountPrice(product?.stock[0]?.discount_price)}
+                        </Text>
+
+                        <Text style={styles.priceTextLine}>
+                          {prices(product?.price)}
+                        </Text>
+                      </>
+                    ) : (
+                      <Text style={styles.priceText}>
+                        {prices(product?.price)}
+                      </Text>
+                    )}
+                  </View>
+                )}
               </View>
               <View style={styles.stars}>
                 <Star stars={product?.average_rating} />
@@ -310,7 +329,7 @@ const ProductPage = () => {
       </View>
       {/* comment section  */}
       {comments.length === 0 ? (
-        <View style={{padding: 10, marginTop:15}}>
+        <View style={{padding: 10, marginTop: 15}}>
           <Text style={{textAlign: 'center', color: 'black'}}>
             This product has no reviews.
           </Text>
@@ -450,18 +469,7 @@ const styles = StyleSheet.create({
     alignItems: 'center', // Center content vertically
   },
 
-  // verifedagent: {
-  //   backgroundColor: '#477200',
-  //   borderWidth: 0.5,
-  //   borderRadius: 20,
-  //   width: wp(60),
-  //   height: hp(6),
-  //   // marginLeft: wp(20),
-  //   marginTop: 12,
-
-  // },
   verfiedagenttext: {
-    // marginTop: 8,
     textAlign: 'center',
     color: 'white',
     fontSize: 18,
@@ -521,7 +529,7 @@ const styles = StyleSheet.create({
     marginLeft: 4,
     fontFamily: 'Arial, sans-serif',
     textTransform: 'uppercase',
-    textDecorationLine: 'line-through'
+    textDecorationLine: 'line-through',
   },
 
   quantityText: {
@@ -563,6 +571,22 @@ const styles = StyleSheet.create({
   starouline1: {
     color: 'lightgray',
     marginTop: 10,
+  },
+
+  shadowContainer: {
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 5,
+    borderRadius: 15,
+    overflow: 'hidden',
+  },
+  sliderviewstyle: {
+    height: hp(24.5),
+    width: wp(95),
+    borderRadius: 15,
+    overflow: 'hidden',
   },
 });
 export default ProductPage;
