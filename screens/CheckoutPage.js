@@ -20,7 +20,6 @@ import {rotationHandlerName} from 'react-native-gesture-handler/lib/typescript/h
 import Tabs from '../tabs/tabs';
 import {useNavigation} from '@react-navigation/native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import CartPage from './cartpage';
 import AddressPage from './AddressPage';
 import Sucessfullorder from './Sucessfullorder';
 import AddressList from './AddressList';
