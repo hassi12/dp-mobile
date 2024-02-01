@@ -27,7 +27,6 @@ import {
   clearCart,
 } from '../store/cartSlice';
 
-
 const CartPage = () => {
   const handleBackPress = () => {
     navigate.navigate('Tabs');
@@ -75,7 +74,9 @@ const CartPage = () => {
   const handleCheckOut = () => {
     if (cartProducts.length === 0) {
       // Cart is empty, show an alert or handle it accordingly
-      alert('Your cart is empty. Please add items to your cart before checking out.');
+      alert(
+        'Your cart is empty. Please add items to your cart before checking out.',
+      );
     } else {
       // Cart is not empty, navigate to the CheckoutPage
       navigate.navigate('CheckoutPage');
@@ -115,7 +116,7 @@ const CartPage = () => {
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, backgroundColor: 'white'}}>
       <View
         style={{
           width: wp(100),
@@ -126,8 +127,9 @@ const CartPage = () => {
           shadowOffset: {width: 0, height: 2},
           shadowOpacity: 0.3,
           shadowRadius: 4,
-          borderBottomWidth: 0.2,
           flexDirection: 'row',
+          justifyContent: 'space-between',
+          paddingHorizontal: 20,
         }}>
         <TouchableOpacity>
           <AntDesign
@@ -145,26 +147,47 @@ const CartPage = () => {
           style={{
             fontWeight: 'bold',
             color: 'black',
-            marginLeft: 100,
             marginTop: 10,
             fontSize: 20,
           }}>
           My Chart
         </Text>
-      </View>
 
+        <View
+          style={{
+            backgroundColor: '#e0e0e0',
+            borderRadius: 10,
+            padding: 10,
+            shadowColor: '#00599D',
+            shadowOffset: {
+              width: 0,
+              height: 1,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+            elevation: 5,
+          }}>
+          <TouchableOpacity>
+            <AntDesign
+              name="delete"
+              size={22}
+              color={'black'}
+              onPress={() => clear()}
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
       <ScrollView>
         {cartProducts.length === 0 ? (
-          <Text
+          <Image
+            source={require('../assets/empty-cart.png')}
             style={{
-              fontWeight: 'bold',
-              fontSize: 16,
-              color: 'red',
-              textAlign: 'center',
-              marginTop: 100,
-            }}>
-            No Items are add in Cart
-          </Text>
+              height: hp(40),
+              width: wp(80),
+              alignContent: 'center',
+              margin: 20,
+            }}
+          />
         ) : (
           ''
         )}
@@ -224,7 +247,6 @@ const CartPage = () => {
                   width: 40,
                   backgroundColor: '#00599D',
                   borderWidth: 1,
-                  borderTopRightRadius: 25,
                   borderBottomLeftRadius: 25,
                 }}>
                 <TouchableOpacity onPress={() => handleRemove(cartProducts.id)}>
@@ -241,13 +263,13 @@ const CartPage = () => {
           );
         })}
       </ScrollView>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={() => clear()}
         style={{alignItems: 'center', marginVertical: 10}}>
         <Text style={{fontWeight: 'bold', fontSize: 16, color: 'red'}}>
           Clear Cart
         </Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       <View
         style={{
@@ -255,8 +277,15 @@ const CartPage = () => {
           width: wp(100),
           borderTopRightRadius: 25,
           borderTopLeftRadius: 25,
-          backgroundColor: 'white',
-          borderWidth: 0.5,
+          borderRadius: 10,
+          shadowColor: '#00599D',
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.84,
+          elevation: 5,
         }}>
         <Text
           style={{
@@ -268,7 +297,7 @@ const CartPage = () => {
             fontWeight: '900',
             color: 'black',
           }}>
-          {totalItems} Items in the cart
+          {totalItems} Item in the cart
         </Text>
         <View
           style={{
@@ -277,20 +306,18 @@ const CartPage = () => {
             paddingHorizontal: 50,
           }}>
           <View>
-            <Text style={{fontWeight: '900', color: 'black'}}>Sub total</Text>
-            <Text style={{fontWeight: '900', color: 'black'}}>
-              Delivery Cost
+            <Text style={{fontWeight: '900'}}>Sub total</Text>
+            <Text style={{fontWeight: '900'}}>Delivery Cost</Text>
+            <Text style={{fontWeight: '900'}}>Discount</Text>
+            <Text style={{fontWeight: '900', color: 'black', fontSize: 20}}>
+              Total Price
             </Text>
-            <Text style={{fontWeight: '900', color: 'black'}}>Discount</Text>
-            <Text style={{fontWeight: '900', color: 'black'}}>Total</Text>
           </View>
           <View>
-            <Text style={{fontWeight: '900', color: 'black'}}>
-              {total(totalAmount)}
-            </Text>
-            <Text style={{fontWeight: '900', color: 'black'}}>RS. --</Text>
-            <Text style={{fontWeight: '900', color: 'black'}}>RS. -</Text>
-            <Text style={{fontWeight: '900', color: 'black'}}>
+            <Text style={{fontWeight: '900'}}>{total(totalAmount)}</Text>
+            <Text style={{fontWeight: '900'}}>RS. --</Text>
+            <Text style={{fontWeight: '900'}}>RS. -</Text>
+            <Text style={{fontWeight: '900', color: 'black', fontSize: 20}}>
               Rs {total(totalAmount) + deliveryPrice(deliveryCharge)}
             </Text>
           </View>
@@ -312,16 +339,19 @@ const CartPage = () => {
 
 const styles = StyleSheet.create({
   cart1: {
-    marginTop: 5,
-    height: 130,
+    marginTop: 15,
+    height: hp(18),
     alignContent: 'center',
     width: wp(90),
-    margin: 5,
     marginHorizontal: 25,
-    backgroundColor: '#ffffff',
     flexDirection: 'row',
-    borderRadius: 30,
     borderWidth: 0.5,
+    backgroundColor: 'white',
+    borderRadius: 4,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
   container: {
     flexDirection: 'row',
@@ -349,7 +379,7 @@ const styles = StyleSheet.create({
   verifedagent: {
     backgroundColor: '#00599D',
     borderWidth: 0.5,
-    borderRadius: 20,
+    borderRadius: 10,
     width: wp(80),
     height: hp(6),
     marginLeft: wp(10),

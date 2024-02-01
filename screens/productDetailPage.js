@@ -461,7 +461,7 @@ const styles = StyleSheet.create({
   verifedagent: {
     backgroundColor: '#477200',
     borderWidth: 0.5,
-    borderRadius: 20,
+    borderRadius: 12,
     width: wp(70),
     height: hp(6),
     marginTop: 12,
