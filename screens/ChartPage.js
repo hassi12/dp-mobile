@@ -201,17 +201,37 @@ const CartPage = () => {
               <View>
                 <Text
                   style={{
-                    marginTop: 30,
+                    marginTop: 15,
                     fontSize: 15,
                     fontWeight: 'bold',
                     color: '#333',
                     fontFamily: 'Arial, sans-serif',
                     textTransform: 'uppercase',
                   }}>
-                  {cartProducts?.title.substring(0, 11)}
+                  Product: {cartProducts?.title.substring(0, 11)}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 15,
+                    fontWeight: 'bold',
+                    color: '#333',
+                    fontFamily: 'Arial, sans-serif',
+                    textTransform: 'uppercase',
+                    marginTop: 5,
+                  }}>
+                  Rs: {TotalPrice(cartProducts?.totalPrice)}
                 </Text>
 
                 <View style={styles.container}>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      fontWeight: 'bold',
+                      color: '#333',
+                      fontFamily: 'Arial, sans-serif',
+                    }}>
+                    QTY
+                  </Text>
                   <TouchableOpacity
                     style={styles.button}
                     onPress={() => handleDecrement(cartProducts.id)}>
@@ -225,17 +245,6 @@ const CartPage = () => {
                     onPress={() => handleIncrement(cartProducts.id)}>
                     <Text style={styles.buttonText}>+</Text>
                   </TouchableOpacity>
-                  <Text
-                    style={{
-                      marginLeft: 50,
-                      fontSize: 15,
-                      fontWeight: 'bold',
-                      color: '#333',
-                      fontFamily: 'Arial, sans-serif',
-                      textTransform: 'uppercase',
-                    }}>
-                    Rs {TotalPrice(cartProducts?.totalPrice)}
-                  </Text>
                 </View>
               </View>
               <View
@@ -247,6 +256,7 @@ const CartPage = () => {
                   width: 40,
                   backgroundColor: '#00599D',
                   borderWidth: 1,
+                  borderTopLeftRadius: 25,
                 }}>
                 <TouchableOpacity onPress={() => handleRemove(cartProducts.id)}>
                   <AntDesign
@@ -355,12 +365,12 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 2,
     marginLeft: 15,
-
   },
   container: {
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 5,
+    alignContent: 'flex-end',
   },
   button: {
     width: 30,
@@ -370,6 +380,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 5,
     marginHorizontal: 4,
+    marginLeft: 10,
   },
   buttonText: {
     color: 'white',
