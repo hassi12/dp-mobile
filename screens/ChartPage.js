@@ -120,7 +120,7 @@ const CartPage = () => {
       <View
         style={{
           width: wp(100),
-          height: 45,
+          height: hp(7),
           backgroundColor: 'white',
           borderRadius: 4,
           shadowColor: '#000',
@@ -152,7 +152,6 @@ const CartPage = () => {
           }}>
           My Chart
         </Text>
-
         <View
           style={{
             backgroundColor: '#e0e0e0',
@@ -166,6 +165,7 @@ const CartPage = () => {
             shadowOpacity: 0.25,
             shadowRadius: 3.84,
             elevation: 5,
+            marginTop: 5,
           }}>
           <TouchableOpacity>
             <AntDesign
@@ -185,7 +185,7 @@ const CartPage = () => {
               height: hp(40),
               width: wp(80),
               alignContent: 'center',
-              margin: 20,
+              marginLeft: 20,
             }}
           />
         ) : (
@@ -241,20 +241,19 @@ const CartPage = () => {
               <View
                 style={{
                   position: 'absolute',
-                  top: 1,
+                  top: 88,
                   right: 1,
                   height: 40,
                   width: 40,
                   backgroundColor: '#00599D',
                   borderWidth: 1,
-                  borderBottomLeftRadius: 25,
                 }}>
                 <TouchableOpacity onPress={() => handleRemove(cartProducts.id)}>
                   <AntDesign
                     name="delete"
                     style={{marginLeft: 10}}
                     size={20}
-                    marginTop={8}
+                    marginTop={10}
                     color={'#ffffff'}
                   />
                 </TouchableOpacity>
@@ -342,16 +341,21 @@ const styles = StyleSheet.create({
     marginTop: 15,
     height: hp(18),
     alignContent: 'center',
-    width: wp(90),
-    marginHorizontal: 25,
+
+    width: wp(92),
     flexDirection: 'row',
-    borderWidth: 0.5,
-    backgroundColor: 'white',
-    borderRadius: 4,
+    borderTopRightRadius: 5,
+    borderRadius: 10,
     shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 2,
+    marginLeft: 15,
+
   },
   container: {
     flexDirection: 'row',
