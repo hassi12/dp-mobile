@@ -157,7 +157,7 @@ const CheckoutPage = () => {
             fontFamily: 'Arial, sans-serif',
             textTransform: 'uppercase',
           }}>
-          Billing address
+          Bill Details
         </Text>
         <Text
           style={{
