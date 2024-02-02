@@ -149,6 +149,10 @@ const CartPage = () => {
             color: 'black',
             marginTop: 10,
             fontSize: 20,
+            fontWeight: 'bold',
+            color: '#333',
+            fontFamily: 'Arial, sans-serif',
+            textTransform: 'uppercase',
           }}>
           My Chart
         </Text>

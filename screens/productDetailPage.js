@@ -168,10 +168,12 @@ const ProductDetailPage = () => {
           <Text
             style={{
               fontWeight: 'bold',
-              color: 'black',
               marginLeft: 100,
               marginTop: 10,
               fontSize: 20,
+              color: '#333',
+              fontFamily: 'Arial, sans-serif',
+              textTransform: 'uppercase',
             }}>
             Product Detail
           </Text>

@@ -31,10 +31,10 @@ const CheckoutPage = () => {
   const [address, setAddress] = useState([]);
   const User = useSelector(state => state.user);
   const UserId = User.user.id;
-  const [selectedAddressPhone, setSelectedAddressPhone] = useState('')
-  const [selectedAddressEmail, setSelectedAddressEmail] = useState('')
-  const [selectedAddress, setSelectedAddress] = useState('')
-  const [selectedAddressId, setSelectedAddressId] = useState('')
+  const [selectedAddressPhone, setSelectedAddressPhone] = useState('');
+  const [selectedAddressEmail, setSelectedAddressEmail] = useState('');
+  const [selectedAddress, setSelectedAddress] = useState('');
+  const [selectedAddressId, setSelectedAddressId] = useState('');
 
   const usertoken = useSelector(state => state.user.token);
   let headers = {};
@@ -52,7 +52,7 @@ const CheckoutPage = () => {
     deliveryCharge,
   } = useSelector(state => state.cart);
   // const navigate = useNavigate()
-console.log('cartProducts',cartProducts)
+  console.log('cartProducts', cartProducts);
   useEffect(() => {
     dispatch(getCartTotal());
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -96,11 +96,15 @@ console.log('cartProducts',cartProducts)
     try {
       let res = await UserDetail(UserId, headers);
       setAddress(res);
-      console.log('user',res);
-      setSelectedAddressPhone(res && res.addresses && res.addresses[0].phone_number)
-            setSelectedAddressEmail(res && res.addresses && res.addresses[0].email_address)
-            setSelectedAddress(res && res.addresses && res.addresses[0].address)
-            setSelectedAddressId(res && res.addresses && res.addresses[0].id)
+      console.log('user', res);
+      setSelectedAddressPhone(
+        res && res.addresses && res.addresses[0].phone_number,
+      );
+      setSelectedAddressEmail(
+        res && res.addresses && res.addresses[0].email_address,
+      );
+      setSelectedAddress(res && res.addresses && res.addresses[0].address);
+      setSelectedAddressId(res && res.addresses && res.addresses[0].id);
     } catch (error) {
       console.log(error);
     }
@@ -135,12 +139,26 @@ console.log('cartProducts',cartProducts)
               fontSize: 18,
               marginLeft: 100,
               marginTop: 5,
+              fontWeight: 'bold',
+              color: '#333',
+              fontFamily: 'Arial, sans-serif',
+              textTransform: 'uppercase',
             }}>
             CheckOut
           </Text>
         </View>
       </View>
       <View style={style.cart1}>
+        <Text
+          style={{
+            marginLeft: 125,
+            fontWeight: 'bold',
+            color: '#333',
+            fontFamily: 'Arial, sans-serif',
+            textTransform: 'uppercase',
+          }}>
+          Billing address
+        </Text>
         <Text
           style={{
             marginTop: 5,
@@ -158,19 +176,41 @@ console.log('cartProducts',cartProducts)
             />
           </TouchableOpacity>
         </Text>
-        <View style={{ marginLeft:15 }}>
-              <Text>{selectedAddress}</Text>
-              <Text>{selectedAddressEmail}</Text>
-              <Text>{selectedAddressPhone}</Text>
-          {/* <Text>{address?.addresses[0]?.address}</Text> */}
+        <View style={{marginLeft: 15}}>
+          <Text style={{fontWeight: 500}}>Address:</Text>
+          <Text
+            style={{
+              fontSize: 15,
+              fontWeight: 'bold',
+              color: '#333',
+              fontFamily: 'Arial, sans-serif',
+              textTransform: 'uppercase',
+            }}>
+            {selectedAddress}
+          </Text>
+          <Text style={{fontWeight: 500}}>Email:</Text>
+          <Text
+            style={{
+              fontSize: 15,
+              fontWeight: 'bold',
+              color: '#333',
+              fontFamily: 'Arial, sans-serif',
+              textTransform: 'uppercase',
+            }}>
+            {selectedAddressEmail}
+          </Text>
+          <Text style={{fontWeight: 500}}>Contact Number: </Text>
+          <Text
+            style={{
+              fontSize: 15,
+              fontWeight: 'bold',
+              color: '#333',
+              fontFamily: 'Arial, sans-serif',
+              textTransform: 'uppercase',
+            }}>
+            {selectedAddressPhone}
+          </Text>
         </View>
-        <Text
-          style={{
-            fontSize: 13,
-            width: wp(85),
-            color: 'black',
-            marginLeft: 10,
-          }}></Text>
 
         <Text style={{width: wp(100), marginLeft: 15, fontWeight: '100'}}>
           ____________________________________________________________
@@ -183,7 +223,7 @@ console.log('cartProducts',cartProducts)
             fontSize: 15,
             fontWeight: 'bold',
           }}>
-          Bill to the same address
+          Bill to the same address {'            '}
           <AntDesign
             name="right"
             style={{
@@ -193,7 +233,13 @@ console.log('cartProducts',cartProducts)
           />
         </Text>
       </View>
-      <View style={{height: 70, backgroundColor: 'white', margin: 10}}>
+      <View
+        style={{
+          height: hp(10),
+          width: wp(95),
+          backgroundColor: 'white',
+          marginLeft: 10,
+        }}>
         <Text
           style={{
             marginTop: 5,
@@ -202,7 +248,7 @@ console.log('cartProducts',cartProducts)
             marginLeft: 10,
             fontSize: 15,
           }}>
-          Payment method : 
+          Payment method :
         </Text>
         <Text style={{marginLeft: 10, marginTop: 5, justifyContent: 'center'}}>
           Cash on Delivery
@@ -283,11 +329,18 @@ console.log('cartProducts',cartProducts)
       </ScrollView>
       <View style={style.bottomView}>
         <View>
-          <Text>
+          <Text
+            style={{
+              fontSize: 15,
+              fontWeight: 'bold',
+              color: '#333',
+              fontFamily: 'Arial, sans-serif',
+              textTransform: 'uppercase',
+            }}>
             Total:
             <Text style={{color: 'red'}}>
               {' '}
-              Rs {total(totalAmount) + deliveryPrice(deliveryCharge)}
+              Rs: {total(totalAmount) + deliveryPrice(deliveryCharge)}
             </Text>
           </Text>
           <Text>VAT included where applicable</Text>
@@ -308,7 +361,7 @@ const style = StyleSheet.create({
   },
   cart1: {
     marginTop: 5,
-    height: 160,
+    height: hp(35),
     alignContent: 'center',
     width: wp(95),
     marginLeft: 10,
