@@ -80,7 +80,7 @@ const OrderPage = () => {
               marginLeft: 70,
               marginTop: 3,
             }}>
-            Order List
+            Order History
           </Text>
         </View>
       </View>
