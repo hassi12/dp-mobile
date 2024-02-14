@@ -1,4 +1,4 @@
-import 'react-native-gesture-handler';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -6,42 +6,38 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Image,
+  FlatList,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
+import { Userorders } from '../services/order_services';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import ProfilePage from './ProfilePage';
-import {useNavigation} from '@react-navigation/native';
-import OrderDetail from './OrderDetail';
-import Tabs from '../tabs/tabs';
-import {useSelector} from 'react-redux';
-import {Userorders} from '../services/order_services';
-import {FlatList} from 'react-native';
 
 const OrderPage = () => {
   const [orders, setOrders] = useState([]);
 
   const navigate = useNavigation();
-  const User = useSelector(state => state.user);
-  const UserId = User.user.id;
+  const user = useSelector(state => state.user);
+  const userId = user.user.id;
 
-  const usertoken = useSelector(state => state.user.token);
+  const userToken = useSelector(state => state.user.token);
 
   let headers = {};
-  if (usertoken) {
+  if (userToken) {
     headers = {
       'Content-Type': 'application/json',
-      Authorization: `Token ${usertoken}`,
+      Authorization: `Token ${userToken}`,
     };
   }
   useEffect(() => {
-    Handleorders();
+    handleOrders();
   }, []);
 
-  const Handleorders = async () => {
+  const handleOrders = async () => {
     try {
       let data = await Userorders(headers);
       setOrders(data.results);
@@ -52,133 +48,31 @@ const OrderPage = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View
-        style={{
-          flexDirection: 'row',
-          backgroundColor: 'white',
-          height: hp(6),
-          width: wp(99),
-        }}>
+      <View style={styles.header}>
         <TouchableOpacity
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            paddingHorizontal: 10,
-          }}>
-          <AntDesign
-            name="left"
-            size={25}
-            color={'black'}
-            onPress={() => navigate.navigate('Tabs')}
-          />
+          style={styles.backButton}
+          onPress={() => navigate.navigate('Tabs')}>
+          <AntDesign name="left" size={25} color={'black'} />
         </TouchableOpacity>
-        <View style={{marginTop: 5}}>
-          <Text
-            style={{
-              color: 'black',
-              fontSize: 18,
-              marginLeft: 70,
-              marginTop: 3,
-            }}>
-            Order History
-          </Text>
-        </View>
+        <Text style={styles.headerText}>Order History</Text>
       </View>
       <FlatList
         data={orders}
-        renderItem={({item}) => (
-          <View style={styles.cart1}>
-            <View
-              style={{
-                height: 128,
-                width: 110,
-                borderTopLeftRadius: 10,
-                borderBottomLeftRadius: 10,
-                borderRightWidth: 0.2,
-              }}>
-              <Image
-                source={require('../assets/petfood32.png')}
-                style={styles.itemimage}
-              />
-            </View>
-            <View>
-              <Text
-                style={{
-                  marginTop: 15,
-                  color: 'black',
-                  marginLeft: 10,
-                }}>
-                RS. {item.total_amount}
-              </Text>
-            </View>
-            <View
-              style={{
-                position: 'absolute',
-                top: 0,
-                right: 10,
-                height: 40,
-                width: 90,
-                borderRadius: 10,
-              }}>
-              <TouchableOpacity>
-                <Text
-                  style={{
-                    color: '#555',
-                    textAlign: 'center',
-                    marginTop: 7,
-                    fontWeight: 'bold',
-                    marginRight: 20,
-                  }}>
-                  Status: {item.status}
-                </Text>
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <View style={styles.orderItem}>
+            <Text style={styles.orderText}>
+              Total Amount: {item.total_amount}
+            </Text>
+            <Text style={styles.orderText}>Order Date: {item.order_date}</Text>
+            <View style={styles.statusContainer}>
+              <Text style={styles.statusText}>Status: {item.status}</Text>
+              <TouchableOpacity onPress={() => console.log('Cancel Order pressed')}>
+                <Text style={styles.cancelButton}>Cancel Order</Text>
               </TouchableOpacity>
             </View>
-            <TouchableOpacity onPress={() => navigate.navigate(OrderDetail)}>
-              <View
-                style={{
-                  top: 95,
-                  right: 50, // Adjusted left property
-                  height: 30,
-                  width: 100,
-                  borderWidth: 0.3,
-                  borderRadius: 5,
-                  backgroundColor: '#0e4183',
-                  borderColor: '#f7454a',
-                }}>
-                <Text
-                  style={{
-                    color: 'white',
-                    textAlign: 'center',
-                    marginTop: 5,
-                    fontSize: 13,
-                  }}>
-                  Order Details
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => console.log('Cancel Order pressed')}>
-              <View
-                style={{
-                  top: 95,
-                  right: 30, // Adjusted left property
-                  height: 30,
-                  width: 100,
-                  borderWidth: 0.3,
-                  borderRadius: 5,
-                  backgroundColor: '#0e4183',
-                  borderColor: '#f7454a',
-                }}>
-                <Text
-                  style={{
-                    color: 'white',
-                    textAlign: 'center',
-                    marginTop: 5,
-                    fontSize: 13,
-                  }}>
-                  Cancel Order
-                </Text>
-              </View>
+            <TouchableOpacity style={styles.detailsButton} onPress={() => navigate.navigate('OrderDetail')}>
+              <Text style={styles.detailsButtonText}>Order Details</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -190,28 +84,60 @@ const OrderPage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'white',
   },
-  mainView: {
-    flex: 1,
-    marginTop: 10,
-    margin: 10,
-  },
-
-  cart1: {
-    marginTop: 15,
-    height: 140,
-    alignContent: 'center',
-    width: wp(95),
-    backgroundColor: '#ffffff',
+  header: {
     flexDirection: 'row',
-    borderRadius: 5,
-    borderWidth: 0.2,
-    margin: 5,
+    alignItems: 'center',
+    height: hp(6),
+    paddingHorizontal: wp(2),
   },
-  itemimage: {
-    width: wp(29),
-    height: hp(16),
-    marginTop: 8,
+  backButton: {
+    paddingRight: wp(4),
+  },
+  headerText: {
+    color: 'black',
+    fontSize: hp(2.5),
+    marginLeft: wp(10),
+  },
+  orderItem: {
+    marginTop: hp(1),
+    padding: wp(4),
+    backgroundColor: '#ffffff',
+    borderRadius: wp(2),
+    borderWidth: wp(0.2),
+    marginHorizontal: wp(2),
+  },
+  orderText: {
+    color: 'black',
+    fontSize: hp(2),
+    marginBottom: hp(1),
+  },
+  statusContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  statusText: {
+    color: '#555',
+    fontWeight: 'bold',
+  },
+  cancelButton: {
+    color: 'red',
+    fontSize: hp(2),
+    fontWeight: 'bold',
+  },
+  detailsButton: {
+    marginTop: hp(2),
+    backgroundColor: '#0e4183',
+    borderRadius: wp(1),
+    paddingVertical: hp(1),
+    paddingHorizontal: wp(2),
+    alignSelf: 'flex-start',
+  },
+  detailsButtonText: {
+    color: 'white',
+    fontSize: hp(1.8),
   },
 });
 
