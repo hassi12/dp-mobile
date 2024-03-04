@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import {
   View,
   Text,
@@ -15,9 +15,50 @@ import CheckoutPage from './CheckoutPage';
 import {useNavigation} from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import UserAdressPage from './UserAdressPage';
+import { useSelector } from 'react-redux';
+import Toast from 'react-native-toast-message';
+import { CreateAddress } from '../services/Address_services';
 
 const AddAddressPage = () => {
   const navigate = useNavigation();
+
+  const [phone_number, setPhone_number] = useState("");
+  const [email_address, setEmail_address] = useState("");
+  const [address, setAddress] = useState("");
+  const userToken = useSelector((state) => state.user.token);
+
+  let headers = {};
+  if (userToken) {
+    headers = {
+      "Content-Type": "application/json",
+      Authorization: `Token ${userToken}`,
+    };
+  }
+  const addAddress = async () => {
+    // e.preventDefault();
+    const payload = {
+        phone_number: phone_number,
+        email_address: email_address,
+        address: address,
+    }
+    try {
+        await CreateAddress(payload, headers);
+      Toast.show({
+        type: 'success',
+        text1: 'New Address ',
+        text2: 'Added Successfully!',
+        visibilityTime: 3000,
+        color: 'green',
+      });
+      setAddress("");
+      setEmail_address("");
+      setPhone_number("");
+      navigate.navigate(CheckoutPage)
+    // userList();
+    } catch (error) {
+      console.log("add error", error);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container1}>
@@ -62,16 +103,19 @@ const AddAddressPage = () => {
           <Text style={styles.label}>Name</Text>
           <TextInput
             style={styles.input}
-            placeholder="Enter your Name"
+            placeholder="Enter your Email"
             placeholderTextColor="#888"
+            value={email_address}
+            onChangeText={text => setEmail_address(text)}
           />
         </View>
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Phone Number</Text>
           <TextInput
             style={styles.input}
-            placeholder="Enter your Phone Number"
-            placeholderTextColor="#888"
+            placeholder="Enter your phone number"
+            value={phone_number}
+            onChangeText={text => setPhone_number(text)}
           />
         </View>
         <View style={styles.inputContainer}>
@@ -79,7 +123,8 @@ const AddAddressPage = () => {
           <TextInput
             style={styles.input}
             placeholder="Enter your address"
-            placeholderTextColor="#888"
+            value={address}
+            onChangeText={text => setAddress(text)}
           />
         </View>
 
@@ -87,11 +132,12 @@ const AddAddressPage = () => {
           <TouchableOpacity>
             <Text
               style={styles.verfiedagenttext}
-              onPress={() => navigate.navigate(CheckoutPage)}>
+              onPress={addAddress}>
               SAVE
             </Text>
           </TouchableOpacity>
         </View>
+        <Toast />
       </View>
     </SafeAreaView>
   );
