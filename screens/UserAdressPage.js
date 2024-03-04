@@ -103,7 +103,7 @@ const UserAdressPage = () => {
             marginTop: 10,
           }}
           onPress={() => navigate.navigate(UserAddAddressPage)}>
-          Add
+          Add 
         </Text>
       </View>
 
