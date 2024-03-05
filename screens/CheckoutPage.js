@@ -62,20 +62,12 @@ const CheckoutPage = () => {
     console.warn('place order');
   };
 
-  const TotalPrice = p => {
-    /* eslint eqeqeq: 0 */
-    if (p == 0) {
-      return `-`;
-    } else {
-      return `${p}`;
-    }
-  };
   const total = p => {
     /* eslint eqeqeq: 0 */
     if (p == 0) {
       return `-`;
     } else {
-      return `${p}`;
+      return `${parseFloat(p).toFixed(0)}`;
     }
   };
   const deliveryPrice = p => {
@@ -83,9 +75,34 @@ const CheckoutPage = () => {
     if (p == 0) {
       return `-`;
     } else {
-      return `${p}`;
+      return `${parseFloat(p).toFixed(0)}`;
     }
   };
+  const TotalPrice = p => {
+    /* eslint eqeqeq: 0 */
+    if (p == 0) {
+      return `-`;
+    } else {
+      return `${parseFloat(p).toFixed(0)}`;
+    }
+  };
+
+  const discountPrice = (d) => {
+    if (d == 0) {
+      return "";
+    } else {
+      return `Rs ${parseFloat(d).toFixed(0)}`;
+    }
+  };
+
+  const price = (p) => {
+    /* eslint eqeqeq: 0 */
+    if (p == 0) {
+      return `-`
+    } else {
+      return `${parseFloat(p).toFixed(0)}`
+    }
+  }
 
   useEffect(() => {
     HandleUsers();
@@ -195,7 +212,7 @@ const CheckoutPage = () => {
               fontWeight: 'bold',
               color: '#333',
               fontFamily: 'Arial, sans-serif',
-              textTransform: 'uppercase',
+              // textTransform: 'uppercase',
             }}>
             {selectedAddressEmail}
           </Text>
@@ -298,16 +315,27 @@ const CheckoutPage = () => {
                     style={{marginLeft: 10, fontWeight: '600', width: wp(70)}}>
                     {cartProducts?.category}
                   </Text>
-                  <Text
-                    style={{
-                      marginLeft: 10,
-                      marginTop: 10,
-                      color: 'black',
-                      fontWeight: '600',
-                      width: wp(70),
-                    }}>
-                    Rs {TotalPrice(cartProducts?.totalPrice)}
-                  </Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
+                  {cartProducts?.stock.length === 0 ? (
+                    <Text style={style.priceText}>Rs {price(cartProducts?.price)}</Text>
+                  ) : (
+                    <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
+                      {cartProducts?.stock[0]?.discount_price > 0 ? (
+                        <>
+                          <Text style={style.priceText}>
+                            {discountPrice(cartProducts?.stock[0]?.discount_price)}
+                          </Text>
+
+                          <Text style={style.priceTextLine}>
+                           Rs {price(cartProducts?.price)}
+                          </Text>
+                        </>
+                      ) : (
+                        <Text style={style.priceText}>Rs {price(cartProducts?.price)}</Text>
+                      )}
+                    </View>
+                  )}
+                </View>
                   <Text
                     style={{
                       marginLeft: 235,
@@ -441,6 +469,18 @@ const style = StyleSheet.create({
   placeOrderButtonText: {
     color: 'white',
   },
+  priceTextLine: {
+    fontSize: 10,
+    fontWeight: 'bolder',
+    color: 'gray',
+    marginLeft: 4,
+    fontFamily: 'Arial, sans-serif',
+    textTransform: 'uppercase',
+    textDecorationLine: 'line-through'
+  },
+  priceText: {
+    marginLeft: 10
+  }
 });
 
 export default CheckoutPage;
