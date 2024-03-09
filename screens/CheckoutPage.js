@@ -201,7 +201,7 @@ const CheckoutPage = () => {
               fontWeight: 'bold',
               color: '#333',
               fontFamily: 'Arial, sans-serif',
-              textTransform: 'uppercase',
+              // textTransform: 'uppercase',
             }}>
             {selectedAddress}
           </Text>
@@ -212,7 +212,6 @@ const CheckoutPage = () => {
               fontWeight: 'bold',
               color: '#333',
               fontFamily: 'Arial, sans-serif',
-              // textTransform: 'uppercase',
             }}>
             {selectedAddressEmail}
           </Text>
@@ -223,7 +222,7 @@ const CheckoutPage = () => {
               fontWeight: 'bold',
               color: '#333',
               fontFamily: 'Arial, sans-serif',
-              textTransform: 'uppercase',
+              // textTransform: 'uppercase',
             }}>
             {selectedAddressPhone}
           </Text>
