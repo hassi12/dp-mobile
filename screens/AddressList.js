@@ -23,9 +23,11 @@ import AddAddressPage from './AddressPage';
 const AddressList = () => {
   const [address, setAddress] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
+  const [selectedAddressId, setSelectedAddressId] = useState(null);
 
-  const handleCheckboxToggle = () => {
-    setIsChecked(!isChecked);
+  const handleCheckboxToggle = (id, phone_number, email_address, address) => {
+    setSelectedAddressId(id)
+    console.log('data',id, phone_number, email_address, address)
   };
 
   const navigate = useNavigation();
@@ -50,7 +52,7 @@ const AddressList = () => {
     try {
       let data = await UserDetail(UserId, headers);
       setAddress(data);
-      console.log(data);
+      // console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -105,61 +107,71 @@ const AddressList = () => {
       <FlatList
         data={address.addresses}
         renderItem={({item}) => (
-          <View style={style.card}>
-            <View style={{position: 'absolute', top: 20, right: 10}}>
-              <Text>Edit</Text>
-            </View>
-            <View style={{position: 'absolute', top: 60, right: 10}}>
-              <CheckBox
-                isChecked={isChecked}
-                onClick={handleCheckboxToggle}
-                style={{justifyContent: 'flex-end'}}
-                checkBoxColor="red"
-                checkedCheckBoxColor="red"
-              />
-            </View>
-            <View style={{marginTop: 10}}>
-              <Text
-                style={{
-                  marginLeft: 10,
-                  marginTop: 2,
-                  color: 'black',
-                  fontWeight: 'bold',
-                  width: wp(70),
-                }}>
-                {address?.first_name} {address?.last_name}
-              </Text>
+          <TouchableOpacity  onPress={() =>
+            handleCheckboxToggle(
+              item.id,
+              item?.phone_number,
+              item?.email_address,
+              item?.address
+            )
+          }>
+            <View style={style.card}>
+                {/* <View style={{position: 'absolute', top: 20, right: 10}}>
+                          <Text>Edit</Text>
+                </View> */}
+                <View style={{position: 'absolute', top: 60, right: 10}} >
+                             
+                          <CheckBox
+                            // isChecked={isChecked}
+                            isChecked={selectedAddressId === item.id}
+                            style={{justifyContent: 'flex-end'}}
+                            checkBoxColor="red"
+                            checkedCheckBoxColor="red"
+                          />
+                </View>
+                <View style={{marginTop: 10}}>
+                          <Text
+                            style={{
+                              marginLeft: 10,
+                              marginTop: 2,
+                              color: 'black',
+                              fontWeight: 'bold',
+                              width: wp(70),
+                            }}>
+                            {address?.first_name} {address?.last_name}
+                          </Text>
 
-              <Text
-                style={{
-                  marginLeft: 8,
-                  width: wp(85),
-                  color: 'black',
-                  marginTop: 5,
-                }}>
-                {item?.address}
-              </Text>
+                          <Text
+                            style={{
+                              marginLeft: 8,
+                              width: wp(85),
+                              color: 'black',
+                              marginTop: 5,
+                            }}>
+                            {item?.address}
+                          </Text>
 
-              <Text
-                style={{
-                  marginLeft: 8,
-                  width: wp(85),
-                  color: 'black',
-                  // marginTop: 0,
-                }}>
-                {item?.email_address}
-              </Text>
+                          <Text
+                            style={{
+                              marginLeft: 8,
+                              width: wp(85),
+                              color: 'black',
+                              // marginTop: 0,
+                            }}>
+                            {item?.email_address}
+                          </Text>
 
-              <Text
-                style={{
-                  marginLeft: 8,
-                  color: 'black',
-                  marginTop: 5,
-                }}>
-                (+92) {item?.phone_number}
-              </Text>
-            </View>
-          </View>
+                          <Text
+                            style={{
+                              marginLeft: 8,
+                              color: 'black',
+                              marginTop: 5,
+                            }}>
+                            (+92) {item?.phone_number}
+                          </Text>
+                </View>
+              </View>
+          </TouchableOpacity>
         )}
       />
     </SafeAreaView>
