@@ -16,11 +16,11 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import OrderPage from './OrderPage';
 import {useNavigation} from '@react-navigation/native';
 import Feather from 'react-native-vector-icons/Feather';
-import {UserorderDetail} from '../services/order_services';
+import {UserorderDetail, OrderCancel} from '../services/order_services';
 import {useSelector} from 'react-redux';
 import {useRoute} from '@react-navigation/native';
 import moment from 'moment';
-import {FlatList} from 'react-native-gesture-handler';
+import Toast from 'react-native-toast-message';
 
 const OrderDetail = () => {
   const [orderdetail, setOrderDetail] = useState();
@@ -52,19 +52,66 @@ const OrderDetail = () => {
     }
   };
 
-  const price = (p) => {
+  const price = p => {
     if (p == 0) {
       return `-`;
     } else {
       return `Rs ${parseFloat(p).toFixed(0)}`;
     }
   };
-  const discountPrice = (d) => {
+  const discountPrice = d => {
     if (d == 0) {
-      return "";
+      return '';
     } else {
       return `Rs ${parseFloat(d).toFixed(0)}`;
     }
+  };
+
+  const orderStatusHeadings = status => {
+    if (status == 'canceled') {
+      /* eslint eqeqeq: 0 */
+      return 'canceled';
+    } else if (status == 'completed') {
+      return 'completed';
+    } else if (status == 'placed') {
+      return 'confirmed';
+    } else if (status == 'received') {
+      return 'received';
+    } else if (status == 'processed') {
+      return 'processed';
+    }
+    return '';
+  };
+
+  const orderCancelButton = (status, id) => {
+    if (status == 'canceled') {
+      return '';
+    }
+    return (
+      <TouchableOpacity
+        style={styles.cancelOrderButton}
+        onPress={() => cancelOrder(id)}>
+        <Text style={{color: 'white'}}> Cancel Order</Text>
+      </TouchableOpacity>
+    );
+  };
+
+  const cancelOrder = async id => {
+    try {
+      let res = await OrderCancel(id, headers);
+      setOrderDetail(res);
+      Toast.show({
+        type: 'error',
+        text1: 'Order Cancel',
+        text2: 'Your Order is Cancel Sucessfully.',
+        visibilityTime: 3000,
+        color: 'red',
+      });
+      console.log(id);
+    } catch (error) {
+      console.log(error);
+    }
+    
   };
 
   const navigate = useNavigation();
@@ -114,20 +161,34 @@ const OrderDetail = () => {
           height: hp(18),
           width: wp(99),
         }}>
-        <Text style={{marginLeft: 15, fontSize: 17}}>Ship & bill to</Text>
-        <Text
-          style={{
-            marginLeft: 15,
-            marginTop: 10,
-            color: 'black',
-            fontWeight: '500',
-          }}>
-          {User?.user.username}
+        <Text style={{marginLeft: 15, fontSize: 17}}>DjangoPets</Text>
+        <Text style={{marginLeft: 15, fontSize: 10}}>
+          Your order is {orderStatusHeadings(orderdetail?.status)}
         </Text>
         <Text
           style={{
             marginLeft: 15,
-            marginTop: 10,
+            marginTop: 1,
+            color: 'black',
+            fontWeight: '500',
+          }}>
+          Hello {User?.user.username}
+        </Text>
+        <Text
+          style={{
+            marginLeft: 15,
+            marginTop: 2,
+            color: 'black',
+            fontWeight: '500',
+            fontSize: 10,
+          }}>
+          your order has been {orderStatusHeadings(orderdetail?.status)} and our
+          support team will contact you shortly. Thank You!
+        </Text>
+        <Text
+          style={{
+            marginLeft: 15,
+            marginTop: 5,
             color: 'black',
             fontWeight: '500',
           }}>
@@ -171,40 +232,37 @@ const OrderDetail = () => {
                   />
                 </View>
                 <View>
-                  <Text
-                    style={{
-                      marginTop: 30,
-                      color: 'black',
-                    }}>
-                    {item.item.title.substring(0, 30)}
+                  <Text style={{marginTop: 30, color: 'black', fontSize: 12}}>
+                    {item.item.title.substring(0, 35)}
                   </Text>
-                  <Text style={{}}>
-                    Category {item.item.category}
-                  </Text>
-                  {/* <Text style={{color: 'black', fontWeight: '600'}}>
-                    RS {parseFloat(item.item?.price).toFixed(0)}
-                  </Text> */}
-                  <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
-                  {item.item?.stock.length === 0 ? (
-                    <Text style={styles.priceText}>{price(item.item?.price)}</Text>
-                  ) : (
-                    <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
-                      {item.item?.stock[0]?.discount_price > 0 ? (
-                        <>
+                  <Text>Category {item.item.category}</Text>
+                  <View style={{flexDirection: 'row', alignItems: 'baseline'}}>
+                    {item.item?.stock.length === 0 ? (
+                      <Text style={styles.priceText}>
+                        {price(item.item?.price)}
+                      </Text>
+                    ) : (
+                      <View
+                        style={{flexDirection: 'row', alignItems: 'baseline'}}>
+                        {item.item?.stock[0]?.discount_price > 0 ? (
+                          <>
+                            <Text style={styles.priceText}>
+                              {discountPrice(
+                                item.item?.stock[0]?.discount_price,
+                              )}
+                            </Text>
+                            <Text style={styles.priceTextLine}>
+                              {price(item?.price)}
+                            </Text>
+                          </>
+                        ) : (
                           <Text style={styles.priceText}>
-                            {discountPrice(item.item?.stock[0]?.discount_price)}
+                            {price(item.item?.price)}
                           </Text>
-
-                          <Text style={styles.priceTextLine}>
-                            {price(item?.price)}
-                          </Text>
-                        </>
-                      ) : (
-                        <Text style={styles.priceText}>{price(item.item?.price)}</Text>
-                      )}
-                    </View>
-                  )}
-                </View>
+                        )}
+                      </View>
+                    )}
+                  </View>
                   <Text>X {item?.quantity}</Text>
                 </View>
                 <View
@@ -224,7 +282,7 @@ const OrderDetail = () => {
                       fontWeight: 'bold',
                       color: 'red',
                     }}>
-                    {orderdetail && orderdetail.status}
+                    {orderdetail && orderdetail?.status}
                   </Text>
                 </View>
                 <TouchableOpacity>
@@ -247,36 +305,39 @@ const OrderDetail = () => {
                     </Text>
                   </View>
                 </TouchableOpacity>
-                <TouchableOpacity>
-                  <View
-                    style={{
-                      top: 130,
-                      right: 40,
-                      height: 30,
-                      width: 120,
-                      borderWidth: 1,
-                      borderColor: '#f7454a',
-                    }}>
-                    <Text
-                      style={{color: 'red', textAlign: 'center', marginTop: 5}}>
-                      WRITE A REVIEW
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity>
-                  <View
-                    style={{
-                      top: 180,
-                      right: 400,
-                      height: 30,
-                      width: 120,
-                    }}>
-                    <Text style={{textAlign: 'center', marginTop: 5}}>
-                      <Feather name="package" style={{color: 'red'}} />
-                      {''} Track package
-                    </Text>
-                  </View>
-                </TouchableOpacity>
+                {orderdetail?.status == 'completed' &&
+                item?.has_comment == false ? (
+                  <TouchableOpacity>
+                    <View
+                      style={{
+                        top: 130,
+                        right: 40,
+                        height: 30,
+                        width: 120,
+                        borderWidth: 1,
+                        borderColor: '#f7454a',
+                      }}>
+                      <Text
+                        style={{
+                          color: 'red',
+                          textAlign: 'center',
+                          marginTop: 5,
+                        }}>
+                        WRITE A REVIEW
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                ) : (
+                  ''
+                )}
+                {/* <TouchableOpacity>
+    <View style={{ top: 180, right: 400, height: 30, width: 120 }}>
+      <Text style={{ textAlign: 'center', marginTop: 5 }}>
+        <Feather name="package" style={{ color: 'red' }} />
+        {''} Track package
+      </Text>
+    </View>
+  </TouchableOpacity> */}
               </View>
             ))}
         </ScrollView>
@@ -295,7 +356,10 @@ const OrderDetail = () => {
           Placed{' '}
           {moment(orderdetail && orderdetail?.created_at).format('MM-DD-YYYY')}
         </Text>
-        {/* <Text style={{marginLeft: 10}}>Paid on 03 june 2022 14:03</Text> */}
+        <Text style={{marginLeft: 10, fontSize: 10}}>
+          We will be sending a shipping confirmation email when the item is
+          shipped!
+        </Text>
       </View>
       <View
         style={{
@@ -328,9 +392,9 @@ const OrderDetail = () => {
           width: wp(99),
           alignItems: 'flex-end',
         }}>
-        <Text style={{marginRight: 20, color: 'black'}}>
+        {/* <Text style={{marginRight: 20, color: 'black'}}>
           1 item , 1 pacakage
-        </Text>
+        </Text> */}
         <Text style={{marginRight: 20, color: 'black'}}>
           Total:{' '}
           <Text style={{color: 'red'}}>
@@ -343,6 +407,9 @@ const OrderDetail = () => {
             Cash on Delivery
           </Text>{' '}
         </Text>
+        {orderdetail?.status == 'completed'
+          ? ''
+          : orderCancelButton(orderdetail?.status, orderdetail?.id)}
       </View>
       <View
         style={{
@@ -354,12 +421,11 @@ const OrderDetail = () => {
         }}>
         <TouchableOpacity
           style={styles.placeOrderButton}
-          onPress={() => {
-            // Handle place order action
-          }}>
-          <Text style={{color: 'white'}}> Buy Again</Text>
+          onPress={() => navigate.navigate('Tabs')}>
+          <Text style={{color: 'white'}}> Continue Shopping</Text>
         </TouchableOpacity>
       </View>
+      <Toast />
     </SafeAreaView>
   );
 };
@@ -371,8 +437,8 @@ const styles = StyleSheet.create({
   },
   placeOrderButton: {
     backgroundColor: 'orange',
-    height: 40,
-    width: 100,
+    height: 35,
+    width: 200,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 7,
@@ -391,6 +457,15 @@ const styles = StyleSheet.create({
     marginLeft: 4,
     fontFamily: 'Arial, sans-serif',
     textTransform: 'uppercase',
-    textDecorationLine: 'line-through'
+    textDecorationLine: 'line-through',
+  },
+  cancelOrderButton: {
+    backgroundColor: 'red',
+    height: 25,
+    width: 150,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 10,
+    marginTop: 4,
   },
 });

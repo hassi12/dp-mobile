@@ -15,3 +15,9 @@ export async function UserorderDetail(headers, orderId) {
   );
   return response.data;
 }
+
+export async function OrderCancel(id,headers){
+  let finalURL = `http://ec2-43-206-254-199.ap-northeast-1.compute.amazonaws.com/api/v1/orders/` + `${id}/canceled_order/`
+  const resp = await axios.post(finalURL,{}, { headers: headers })
+  return resp.data
+}
