@@ -23,49 +23,29 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 5,
+    marginTop: hp(1),
   },
   image: {
     width: wp(16),
     height: wp(16),
-    borderRadius: wp(9),
-    marginRight: wp(3),
-    borderWidth: 1,
+    borderRadius: wp(8), // Half of the width and height for circular image
+    marginRight: wp(6),
+    borderWidth: wp(0.5),
     borderColor: 'rgba(0, 0, 0, 0.1)', // border color with transparency
     shadowColor: 'black',
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 2,
+    shadowRadius: wp(2),
+    elevation: wp(2),
   },
   firstImage: {
-    marginLeft: wp(1.5),
-    borderWidth: 1,
+    marginLeft: wp(1),
+    borderWidth: wp(0.5),
   },
   dogtext: {
     color: 'black',
     fontWeight: '800',
     textAlign: 'center',
-    fontSize: 12
-  },
-  dogtext2: {
-    paddingLeft: 27,
-    color: 'black',
-    fontWeight: '800',
-  },
-  dogtext3: {
-    paddingLeft: 28,
-    color: 'black',
-    fontWeight: '800',
-  },
-  dogtext4: {
-    paddingLeft: 10,
-    color: 'black',
-    fontWeight: '800',
-  },
-  dogtext5: {
-    paddingLeft: 25,
-    color: 'black',
-    fontWeight: '800',
+    fontSize: hp(1.5), // Adjust text size based on screen height
   },
 });

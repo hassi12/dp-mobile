@@ -319,7 +319,7 @@ const ProductDetailPage = () => {
             </Text>
           </View>
           {/* {comments.length > 0 && ( */}
-          <View style={{marginLeft: 230}}>
+          <View style={{marginLeft: wp(50)}}>
             <Text
               style={{color: 'black', fontWeight: 'bold'}}
               onPress={() => navigate.navigate('CommentPage', {productId})}>
