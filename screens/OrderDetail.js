@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
+  ScrollView,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {
@@ -17,10 +18,14 @@ import {useNavigation} from '@react-navigation/native';
 import Feather from 'react-native-vector-icons/Feather';
 import {UserorderDetail} from '../services/order_services';
 import {useSelector} from 'react-redux';
+import {useRoute} from '@react-navigation/native';
+import moment from 'moment';
+import {FlatList} from 'react-native-gesture-handler';
 
 const OrderDetail = () => {
   const [orderdetail, setOrderDetail] = useState();
-
+  const route = useRoute();
+  const {orderId} = route.params;
   const usertoken = useSelector(state => state.user.token);
   const User = useSelector(state => state.user);
   const UserId = User.user.id;
@@ -35,19 +40,35 @@ const OrderDetail = () => {
 
   useEffect(() => {
     HandleordersDetails();
-  }, []);
+  }, [orderId]);
 
   const HandleordersDetails = async () => {
     try {
-      let data = await UserorderDetail(headers, UserId);
-      console.log(data);
+      let data = await UserorderDetail(headers, orderId);
+      console.log('idddddddd', data);
       setOrderDetail(data);
     } catch (error) {
       console.log(error);
     }
   };
 
+  const price = (p) => {
+    if (p == 0) {
+      return `-`;
+    } else {
+      return `Rs ${parseFloat(p).toFixed(0)}`;
+    }
+  };
+  const discountPrice = (d) => {
+    if (d == 0) {
+      return "";
+    } else {
+      return `Rs ${parseFloat(d).toFixed(0)}`;
+    }
+  };
+
   const navigate = useNavigation();
+
   return (
     <SafeAreaView style={styles.container}>
       <View
@@ -86,7 +107,6 @@ const OrderDetail = () => {
       {/* header ends here */}
 
       {/* body starts here  */}
-
       <View
         style={{
           marginTop: 5,
@@ -102,7 +122,7 @@ const OrderDetail = () => {
             color: 'black',
             fontWeight: '500',
           }}>
-          atif
+          {User?.user.username}
         </Text>
         <Text
           style={{
@@ -116,7 +136,7 @@ const OrderDetail = () => {
             orderdetail.address.phone_number}
         </Text>
         <Text style={{marginLeft: 15, width: wp(85)}}>
-          {orderdetail && orderdetail.address && orderdetail.address.address}
+          {orderdetail && orderdetail?.address && orderdetail?.address.address}
         </Text>
       </View>
       <View
@@ -124,104 +144,142 @@ const OrderDetail = () => {
           marginTop: 5,
           height: hp(30),
           width: wp(99),
-          flexDirection: 'row',
           backgroundColor: 'white',
         }}>
-        <View
-          style={{
-            height: 100,
-            width: 80,
-            marginLeft: 5,
-            marginTop: 20,
-          }}>
-          <Image
-            source={require('../assets/petfood32.png')}
-            style={styles.itemimage}
-          />
-        </View>
-        <View>
-          <Text
-            style={{
-              marginTop: 30,
-              color: 'black',
-            }}>
-            Areon Gel Perfume (black Crystal)
-          </Text>
-          <Text style={{}}>No Warranty available</Text>
-          <Text style={{color: 'black', fontWeight: '600'}}>
-            RS{' '}
-            {orderdetail &&
-              orderdetail.order_items &&
-              orderdetail.order_items[0] &&
-              orderdetail.order_items[0].total_amount}
-          </Text>
-          <Text>X {orderdetail && orderdetail.total_quantity}</Text>
-        </View>
-        <View
-          style={{
-            position: 'absolute',
-            top: 0,
-            right: 5,
-            height: 40,
-            width: 90,
-            borderRadius: 10,
-          }}>
-          <Text
-            style={{
-              color: '#555',
-              textAlign: 'center',
-              marginTop: 7,
-              fontWeight: 'bold',
-              color: 'red',
-            }}>
-            {orderdetail && orderdetail.status}
-          </Text>
-        </View>
-        <TouchableOpacity>
-          <View
-            style={{
-              position: 'absolute',
-              top: 130,
-              right: 50,
-              height: 30,
-              width: 120,
-              borderWidth: 1,
-            }}>
-            <Text style={{color: 'black', textAlign: 'center', marginTop: 5}}>
-              Initiate Return
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <View
-            style={{
-              top: 130,
-              right: 40,
-              height: 30,
-              width: 120,
-              borderWidth: 1,
-              borderColor: '#f7454a',
-            }}>
-            <Text style={{color: 'red', textAlign: 'center', marginTop: 5}}>
-              WRITE A REVIEW
-            </Text>
-          </View>
-        </TouchableOpacity>
+        <ScrollView vertical>
+          {orderdetail &&
+            orderdetail.order_items?.map((item, index) => (
+              <View
+                key={index}
+                style={{
+                  marginTop: 5,
+                  height: hp(30),
+                  width: wp(99),
+                  flexDirection: 'row',
+                  backgroundColor: 'white',
+                }}>
+                <View
+                  style={{
+                    height: 100,
+                    width: 80,
+                    marginLeft: 5,
+                    marginTop: 20,
+                  }}>
+                  <Image
+                    source={{uri: item.item?.images[0]?.image_url}}
+                    style={styles.itemimage}
+                  />
+                </View>
+                <View>
+                  <Text
+                    style={{
+                      marginTop: 30,
+                      color: 'black',
+                    }}>
+                    {item.item.title.substring(0, 30)}
+                  </Text>
+                  <Text style={{}}>
+                    Category {item.item.category}
+                  </Text>
+                  {/* <Text style={{color: 'black', fontWeight: '600'}}>
+                    RS {parseFloat(item.item?.price).toFixed(0)}
+                  </Text> */}
+                  <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
+                  {item.item?.stock.length === 0 ? (
+                    <Text style={styles.priceText}>{price(item.item?.price)}</Text>
+                  ) : (
+                    <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
+                      {item.item?.stock[0]?.discount_price > 0 ? (
+                        <>
+                          <Text style={styles.priceText}>
+                            {discountPrice(item.item?.stock[0]?.discount_price)}
+                          </Text>
 
-        <TouchableOpacity>
-          <View
-            style={{
-              top: 180,
-              right: 400,
-              height: 30,
-              width: 120,
-            }}>
-            <Text style={{textAlign: 'center', marginTop: 5}}>
-              <Feather name="package" style={{color: 'red'}} />
-              {''} Track package
-            </Text>
-          </View>
-        </TouchableOpacity>
+                          <Text style={styles.priceTextLine}>
+                            {price(item?.price)}
+                          </Text>
+                        </>
+                      ) : (
+                        <Text style={styles.priceText}>{price(item.item?.price)}</Text>
+                      )}
+                    </View>
+                  )}
+                </View>
+                  <Text>X {item?.quantity}</Text>
+                </View>
+                <View
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    right: 5,
+                    height: 40,
+                    width: 90,
+                    borderRadius: 10,
+                  }}>
+                  <Text
+                    style={{
+                      color: '#555',
+                      textAlign: 'center',
+                      marginTop: 7,
+                      fontWeight: 'bold',
+                      color: 'red',
+                    }}>
+                    {orderdetail && orderdetail.status}
+                  </Text>
+                </View>
+                <TouchableOpacity>
+                  <View
+                    style={{
+                      position: 'absolute',
+                      top: 130,
+                      right: 50,
+                      height: 30,
+                      width: 120,
+                      borderWidth: 1,
+                    }}>
+                    <Text
+                      style={{
+                        color: 'black',
+                        textAlign: 'center',
+                        marginTop: 5,
+                      }}>
+                      Initiate Return
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <View
+                    style={{
+                      top: 130,
+                      right: 40,
+                      height: 30,
+                      width: 120,
+                      borderWidth: 1,
+                      borderColor: '#f7454a',
+                    }}>
+                    <Text
+                      style={{color: 'red', textAlign: 'center', marginTop: 5}}>
+                      WRITE A REVIEW
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <View
+                    style={{
+                      top: 180,
+                      right: 400,
+                      height: 30,
+                      width: 120,
+                    }}>
+                    <Text style={{textAlign: 'center', marginTop: 5}}>
+                      <Feather name="package" style={{color: 'red'}} />
+                      {''} Track package
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            ))}
+        </ScrollView>
       </View>
       <View
         style={{
@@ -231,12 +289,13 @@ const OrderDetail = () => {
           width: wp(99),
         }}>
         <Text style={{marginLeft: 10, color: '#0e4183', fontSize: 20}}>
-          Order # {orderdetail && orderdetail.order_number}
+          Order # {orderdetail && orderdetail?.order_number}
         </Text>
         <Text style={{marginLeft: 10}}>
-          Placed {orderdetail && orderdetail.created_at}
+          Placed{' '}
+          {moment(orderdetail && orderdetail?.created_at).format('MM-DD-YYYY')}
         </Text>
-        <Text style={{marginLeft: 10}}>Paid on 03 june 2022 14:03</Text>
+        {/* <Text style={{marginLeft: 10}}>Paid on 03 june 2022 14:03</Text> */}
       </View>
       <View
         style={{
@@ -254,7 +313,7 @@ const OrderDetail = () => {
         </View>
         <View style={{alignContent: 'flex-end', marginTop: 5}}>
           <Text style={{color: 'black'}}>
-            RS {orderdetail && orderdetail.amount}
+            RS {parseFloat(orderdetail?.total_amount).toFixed(0)}
           </Text>
           <Text style={{marginTop: 10, color: 'black'}}>
             {' '}
@@ -275,7 +334,7 @@ const OrderDetail = () => {
         <Text style={{marginRight: 20, color: 'black'}}>
           Total:{' '}
           <Text style={{color: 'red'}}>
-            Rs. {orderdetail && orderdetail.total_amount}
+            Rs. {parseFloat(orderdetail?.total_amount).toFixed(0)}
           </Text>
         </Text>
         <Text style={{marginRight: 20}}>
@@ -285,7 +344,6 @@ const OrderDetail = () => {
           </Text>{' '}
         </Text>
       </View>
-
       <View
         style={{
           marginTop: 30,
@@ -325,5 +383,14 @@ const styles = StyleSheet.create({
     width: wp(20),
     height: hp(12),
     marginTop: 8,
+  },
+  priceTextLine: {
+    fontSize: 10,
+    fontWeight: 'bolder',
+    color: 'gray',
+    marginLeft: 4,
+    fontFamily: 'Arial, sans-serif',
+    textTransform: 'uppercase',
+    textDecorationLine: 'line-through'
   },
 });
