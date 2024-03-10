@@ -16,6 +16,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import moment from 'moment';
 
 const OrderPage = () => {
   const [orders, setOrders] = useState([]);
@@ -40,6 +41,7 @@ const OrderPage = () => {
   const handleOrders = async () => {
     try {
       let data = await Userorders(headers);
+      // console.log('order-check',data.results);
       setOrders(data.results);
     } catch (error) {
       console.log(error);
@@ -62,18 +64,17 @@ const OrderPage = () => {
         renderItem={({ item }) => (
           <View style={styles.orderItem}>
             <Text style={styles.orderText}>
-              Total Amount: {item.total_amount}
+              Total Amount: {parseFloat(item?.total_amount).toFixed(0)}
             </Text>
-            <Text style={styles.orderText}>Order Date: {item.order_date}</Text>
+            <Text style={styles.orderText}>Order Date: {moment(item?.created_at).format("MM-DD-YYYY")}</Text>
+            <Text style={styles.orderText}>Order ID: {item?.order_number}</Text>
+            <Text style={styles.orderText}>Quantity: {item?.total_quantity}</Text>
             <View style={styles.statusContainer}>
               <Text style={styles.statusText}>Status: {item.status}</Text>
-              <TouchableOpacity onPress={() => console.log('Cancel Order pressed')}>
-                <Text style={styles.cancelButton}>Cancel Order</Text>
-              </TouchableOpacity>
-            </View>
-            <TouchableOpacity style={styles.detailsButton} onPress={() => navigate.navigate('OrderDetail')}>
+              <TouchableOpacity style={styles.detailsButton} onPress={() => navigate.navigate('OrderDetail', {orderId: item?.id})}>
               <Text style={styles.detailsButtonText}>Order Details</Text>
             </TouchableOpacity>
+            </View>
           </View>
         )}
       />
@@ -98,15 +99,22 @@ const styles = StyleSheet.create({
   headerText: {
     color: 'black',
     fontSize: hp(2.5),
-    marginLeft: wp(10),
+    marginLeft: wp(20),
   },
   orderItem: {
     marginTop: hp(1),
-    padding: wp(4),
-    backgroundColor: '#ffffff',
-    borderRadius: wp(2),
-    borderWidth: wp(0.2),
-    marginHorizontal: wp(2),
+  padding: wp(4),
+  backgroundColor: '#ffffff',
+  borderRadius: wp(2),
+  borderWidth: wp(0.2),
+  marginHorizontal: wp(2),
+  // Android shadow5 
+  elevation: 3,
+  // iOS shadow
+  shadowColor: '#000',
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.3,
+  shadowRadius: 3,
   },
   orderText: {
     color: 'black',
