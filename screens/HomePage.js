@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
   },
   petsview: {
     width: wp(99.5),
-    height: hp(15),
+    height: hp(17),
     borderColor: 'black',
     paddingTop: 12,
   },

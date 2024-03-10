@@ -72,9 +72,16 @@ const CardData = ({products, loading, error}) => {
                     {item?.title.substring(0, 11)}
                   </Text>
                   <View style={styles.discountContainer}>
-                    {
-                      item?.stock.length === 0 ? ('') : ( <Text style={styles.discountText}>{parseFloat(item?.stock[0]?.discount_percentage).toFixed(0)}% OFF</Text>)
-                    }
+                    {item?.stock.length === 0 ? (
+                      ''
+                    ) : (
+                      <Text style={styles.discountText}>
+                        {parseFloat(
+                          item?.stock[0]?.discount_percentage,
+                        ).toFixed(0)}
+                        % OFF
+                      </Text>
+                    )}
                   </View>
                 </View>
                 <Text style={{paddingLeft: 8, fontSize: 10}}>
@@ -84,11 +91,12 @@ const CardData = ({products, loading, error}) => {
                   <Star stars={item?.average_rating} />
                 </View>
 
-                <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
+                <View style={{flexDirection: 'row', alignItems: 'baseline'}}>
                   {item?.stock.length === 0 ? (
                     <Text style={styles.priceText}>{price(item?.price)}</Text>
                   ) : (
-                    <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
+                    <View
+                      style={{flexDirection: 'row', alignItems: 'baseline'}}>
                       {item?.stock[0]?.discount_price > 0 ? (
                         <>
                           <Text style={styles.priceText}>
@@ -100,7 +108,9 @@ const CardData = ({products, loading, error}) => {
                           </Text>
                         </>
                       ) : (
-                        <Text style={styles.priceText}>{price(item?.price)}</Text>
+                        <Text style={styles.priceText}>
+                          {price(item?.price)}
+                        </Text>
                       )}
                     </View>
                   )}
@@ -153,7 +163,7 @@ const styles = StyleSheet.create({
   },
   card: {
     width: wp(45),
-    height: hp(27),
+    height: hp(28),
     backgroundColor: 'white',
     borderRadius: 10,
     padding: 5,
@@ -192,6 +202,6 @@ const styles = StyleSheet.create({
     marginLeft: 4,
     fontFamily: 'Arial, sans-serif',
     textTransform: 'uppercase',
-    textDecorationLine: 'line-through'
+    textDecorationLine: 'line-through',
   },
 });
