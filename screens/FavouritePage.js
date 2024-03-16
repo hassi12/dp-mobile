@@ -24,11 +24,11 @@ const FavouritePage = () => {
     };
   }
   useEffect(() => {
-    getFavuritedata();
+    handleFavList();
 
     console.log(usertoken);
   }, []);
-  const getFavuritedata = async () => {
+  const handleFavList = async () => {
     try {
       let data = await FavouriteItems(headers);
       setProducts(data);
@@ -83,7 +83,7 @@ const FavouritePage = () => {
         </Text>
       </View>
             {/* body  */}
-      <CardData products={products} />
+            <CardData products={products} handleFavList={handleFavList} />
     </View>
 
   );

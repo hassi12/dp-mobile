@@ -61,7 +61,7 @@ const AllProductPage = () => {
       </Text>
       <ScrollView >
       <View style={styles.container11}>
-        <CardData products={products} loading={loading} error={error} />
+        <CardData products={products} loading={loading} error={error} handleFavList={handleProducts} />
       </View>
       <View style={{padding: 5}}></View>
     </ScrollView>

@@ -1,5 +1,5 @@
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {FlatList, ActivityIndicator} from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -7,25 +7,58 @@ import {
 } from 'react-native-responsive-screen';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useNavigation} from '@react-navigation/native';
-import {ScrollView} from 'react-native-gesture-handler';
 import Star from '../components/Star';
-import ProductDetailPage from '../screens/productDetailPage';
+import axios from 'axios';
+import {useSelector} from 'react-redux';
 
-// import { useSelector } from 'react-redux';
-const CardData = ({products, loading, error}) => {
+const CardData = ({products, loading, error, handleFavList}) => {
   const navigate = useNavigation();
-  // const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
 
-  // const handleProductPress = (item) => {
-  //   if (isAuthenticated) {
-  //     navigate.navigate('ProductPage', { productId: item.id });
-  //   } else {
-  //     // Redirect to SignIn page or show a message
-  //     navigate.navigate('SignIn');
-  //     // Alternatively, you can show a message to the user.
-  //     // Example: Alert.alert('Please sign in to view the product details');
-  //   }
-  // };
+  const [itemFavourite, setItemFavourite] = useState({});
+
+  const isAuthenticated = useSelector(state => state.user.isAuthenticated);
+
+  const usertoken = useSelector(state => state.user.token);
+  let headers = {};
+  if (usertoken) {
+    headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Token ${usertoken}`,
+    };
+  }
+
+  const handleFav = async id => {
+    // let AddFavURL = BASE_URL + API_VERSION() + FAV_ENDPOINT();
+    let AddFavURL = `http://ec2-43-206-254-199.ap-northeast-1.compute.amazonaws.com/api/v1/favourite/items/`;
+    axios
+      .post(
+        AddFavURL,
+        {item_id: id},
+        {
+          headers: headers,
+        },
+      )
+      .then(result => {
+        // console.log(result);
+        if (result.data.message.includes('remove')) {
+          let idata = itemFavourite;
+          idata[id] = false;
+          setItemFavourite(idata);
+        } else {
+          let data = itemFavourite;
+          data[id] = true;
+          setItemFavourite(data);
+        }
+        handleFavList();
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    if (!isAuthenticated) {
+      navigate.navigate('SignIn');
+    }
+  };
+
   const price = p => {
     if (p == 0) {
       return '';
@@ -120,8 +153,21 @@ const CardData = ({products, loading, error}) => {
                     position: 'absolute',
                     bottom: 12,
                     right: 5,
-                  }}>
-                  <AntDesign name="heart" size={20} color="red" />
+                  }}
+                  onPress={() => handleFav(item.id)}>
+                  <AntDesign
+                    name={
+                      (itemFavourite && item.id in itemFavourite && itemFavourite[item.id]) || item.is_favourite
+                        ? 'heart'
+                        : 'hearto'
+                    }
+                    size={20}
+                    color={
+                      itemFavourite && itemFavourite[item.id] && itemFavourite
+                        ? 'red'
+                        : 'red'
+                    }
+                  />
                 </TouchableOpacity>
               </View>
             </View>
