@@ -128,7 +128,7 @@ const HomePage = () => {
 
         {/* products */}
         <View style={styles.container11}>
-          <CardData products={products} loading={loading} error={error} />
+          <CardData products={products} loading={loading} error={error} handleFavList={ProductCategoryList} />
         </View>
         {/* products end */}
       </ScrollView>
