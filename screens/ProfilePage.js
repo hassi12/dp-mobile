@@ -9,6 +9,7 @@ import AddressList from './AddressList';
 import {logout} from '../store/authSlice';
 import FavouritePage from './FavouritePage';
 import APITesting from './APITesting';
+import UserProfilePage from './UserProfilePage';
 
 const ProfilePage = () => {
   const navigate = useNavigation();
@@ -99,7 +100,7 @@ const ProfilePage = () => {
 
       {/* Pet Information */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>User Profile</Text>
+        <Text style={styles.sectionTitle} onPress={()=> navigate.navigate(UserProfilePage)}>User Profile</Text>
         {/* Display pet information here */}
       </View>
 
