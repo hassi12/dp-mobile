@@ -23,6 +23,8 @@ import CommentPage from './screens/CommentPage';
 import ProductDetailPage from './screens/productDetailPage';
 import AddAddressPage from './screens/AddressPage';
 import AllProductPage from './screens/AllProductPage';
+import UserProfilePage from './screens/UserProfilePage';
+import UserProfileEditPage from './screens/UserProfileEditPage';
 // import {Provider} from 'react-redux';
 // import {store} from './store/store';
 // import { persistStore } from "redux-persist";
@@ -74,6 +76,8 @@ const App = () => {
             component={UserAddAddressPage}
           />
           <Stack.Screen name="CommentPage" component={CommentPage} />
+          <Stack.Screen name="UserProfilePage" component={UserProfilePage}/>
+          <Stack.Screen name="UserProfileEditPage" component={UserProfileEditPage} />
         </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>

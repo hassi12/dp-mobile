@@ -31,7 +31,7 @@ export default function HomePageSearch() {
   return (
     <View style={styles.container}>
       <TextInput
-        placeholder="Search here ..."
+        placeholder="Search here..."
         clearButtonMode="always"
         autoCapitalize="none"
         autoCorrect={false}
