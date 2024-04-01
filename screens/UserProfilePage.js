@@ -4,22 +4,24 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import ProfilePage from './ProfilePage';
 import {useNavigation} from '@react-navigation/native';
 import UserProfileEditPage from './UserProfileEditPage';
+import { useSelector} from 'react-redux';
 
 const UserProfilePage = () => {
   // Sample user data
-  const user = {
-    name: 'John Doe',
-    email: 'johndoe@example.com',
-    contactAddress: '123 Main Street, City, Country',
+  const user2 = {
+    // name: 'John Doe',
+    // email: 'johndoe@example.com',
+    // contactAddress: '123 Main Street, City, Country',
     photo: require('../assets/dog2.jpg'),
-    Contact: '03337861942',
+    // Contact: '03337861942',
   };
   const navigate = useNavigation();
+
+  const user = useSelector(state => state.user);
 
 
   return (
@@ -43,16 +45,16 @@ const UserProfilePage = () => {
           />
         </TouchableOpacity>
       </View>
-      <Image source={user.photo} style={styles.photo} />
+      <Image source={user2.photo} style={styles.photo} />
       <View style={styles.userInfo}>
-        <Text style={styles.label}>Name:</Text>
-        <Text style={styles.text}>{user.name}</Text>
-        <Text style={styles.label}>Email:</Text>
-        <Text style={styles.text}>{user.email}</Text>
-        <Text style={styles.label}>Contact:</Text>
-        <Text style={styles.text}>{user.Contact}</Text>
-        <Text style={styles.label}>Address:</Text>
-        <Text style={styles.text}>{user.contactAddress}</Text>
+        <Text style={styles.label}>User Name:</Text>
+        <Text style={styles.text}>{user?.user?.username}</Text>
+        <Text style={styles.label}>Full Name:</Text>
+        <Text style={styles.text}>{user?.user?.first_name} {user?.user?.last_name}</Text>
+        <Text style={styles.label}>Email Address:</Text>
+        <Text style={styles.text}>{user?.user?.email}</Text>
+        <Text style={styles.label}>Contact Number:</Text>
+        <Text style={styles.text}>{user?.user?.phone_number}</Text> 
       </View>
       <View style={styles.BtnVerifedagent}>
         <TouchableOpacity
