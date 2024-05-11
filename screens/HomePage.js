@@ -1,9 +1,7 @@
 import 'react-native-gesture-handler';
 import React, {useState, useEffect} from 'react';
-import axios from 'axios';
 import {View, Text, StyleSheet, ScrollView, Dimensions} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -12,19 +10,36 @@ import {useNavigation} from '@react-navigation/native';
 import HomePageSearch from '../components/HomePagesearch';
 import PetProfile from '../components/PetProfile';
 import {SliderBox} from 'react-native-image-slider-box';
-
-import {getProducts} from '../services/Products_services';
+import {getProducts, ProductsCategory,searchProducts} from '../services/Products_services';
 import CardData from '../components/CardData';
-import ProductDetailPage from './productDetailPage';
 import AllProductPage from './AllProductPage';
+import { useSelector } from 'react-redux';
 
-const HomePage = () => {
+
+const HomePage = ({ route }) => {
   const {height, width} = Dimensions.get('window');
+  // const queryParams = new URLSearchParams(window.location.search)
+  // let search_name = queryParams.get("search");
+  const userToken = useSelector((state) => state.user.token);
+  const { search } = route.params || {};
 
   useEffect(() => {
     handleProducts();
     ProductCategoryList();
   }, []);
+  useEffect(() => {
+    handleSerarchProducts()
+  }, [search]);
+
+
+
+  let headers = {}
+  if (userToken) {
+      headers = {
+          'Content-Type': "application/json",
+          Authorization: `Token ${userToken}`
+      }
+  }
 
   const navigate = useNavigation();
   const [products, setProducts] = useState([]);
@@ -49,13 +64,21 @@ const HomePage = () => {
       setError(error.message);
     }
   };
+  const handleSerarchProducts = async () => {
+    try {
+      let res = await searchProducts(headers, search);
+      setProducts(res.results);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setError(error.message);
+    }
+  };
   const ProductCategoryList = async () => {
     try {
-      let res = await axios.get(
-        `http://ec2-43-206-254-199.ap-northeast-1.compute.amazonaws.com/api/v1/category/`,
-      );
-      console.log('categories', res.data.results);
-      setCategory(res.data.results);
+      let res = await ProductsCategory();
+      console.log('categories', res.results);
+      setCategory(res.results);
     } catch (error) {
       console.log(error);
     }
@@ -69,19 +92,6 @@ const HomePage = () => {
         </View>
 
         {/* main slider */}
-        {/* <View style={styles.sliderviewstyle}>
-        <SliderBox
-          images={images}
-          dotColor="white"
-          inactiveDotColor="white"
-          dotstyle
-          circleLoop={true}
-          borderRadius={20}
-          resizeMode="cover"
-          sliderBoxHeight={hp(25)}
-          autoplay={true}
-        />
-      </View> */}
         <View style={styles.shadowContainer}>
           <View style={styles.sliderviewstyle}>
             <SliderBox
@@ -101,7 +111,7 @@ const HomePage = () => {
         {/* main slider end */}
         {/* categories */}
         <View style={styles.petsview}>
-          <Text style={styles.petstyle}>Select Your Pet</Text>
+          <Text style={styles.petstyle}>Select Your Pet {search}</Text>
           <ScrollView horizontal>
             {/* <PetProfile /> */}
             {category &&
@@ -121,7 +131,7 @@ const HomePage = () => {
           <Text style={styles.titleText}>Top Rated products</Text>
           <Text
             style={styles.seeAllText}
-            onPress={() => navigate.navigate(AllProductPage)}>
+            onPress={() => navigate.navigate('AllProductPage', { category_name: ' ' })}>
             See All
           </Text>
         </View>
@@ -149,7 +159,7 @@ const styles = StyleSheet.create({
   },
   petsview: {
     width: wp(99.5),
-    height: hp(17),
+    height: hp(16),
     borderColor: 'black',
     paddingTop: 12,
   },
@@ -159,12 +169,6 @@ const styles = StyleSheet.create({
     color: 'black',
     paddingLeft: 15,
   },
-  // sliderviewstyle: {
-  //   height: hp(24.5),
-  //   width: wp(95),
-  //   borderRadius: 15,
-  //   overflow: 'hidden',
-  // },
   shadowContainer: {
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 2},
@@ -194,6 +198,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingBottom: 5,
+    paddingTop: 5
   },
   titleText: {
     fontWeight: 'bold',

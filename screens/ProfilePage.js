@@ -49,6 +49,15 @@ const ProfilePage = () => {
     }
   }
 
+  const UserProfile = () => {
+    if (isAuthenticated) {
+      navigate.navigate(UserProfilePage)
+    }
+    else {
+      navigate.navigate('SignIn')
+    }
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.profileSection}>
@@ -100,7 +109,7 @@ const ProfilePage = () => {
 
       {/* Pet Information */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle} onPress={()=> navigate.navigate(UserProfilePage)}>User Profile</Text>
+        <Text style={styles.sectionTitle} onPress={()=> UserProfile()}>User Profile</Text>
         {/* Display pet information here */}
       </View>
 

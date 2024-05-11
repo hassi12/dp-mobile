@@ -28,6 +28,15 @@ export default function HomePageSearch() {
 
   const navigate = useNavigation();
 
+  const [searchValue, setSearchValue] = useState('');
+
+  const handleSearchTerm = () => {
+    console.log('search', searchValue);
+    // Add your navigation logic here
+    navigate.navigate('Home', { search: searchValue })
+    
+  }
+
   return (
     <View style={styles.container}>
       <TextInput
@@ -36,9 +45,11 @@ export default function HomePageSearch() {
         autoCapitalize="none"
         autoCorrect={false}
         style={styles.searchInput}
+        value={searchValue}
+        onChangeText={setSearchValue}
+        onSubmitEditing={handleSearchTerm}
       />
-
-      <TouchableOpacity>
+      <TouchableOpacity onPress={handleSearchTerm}>
         <Feather name="search" size={25} color={'black'} />
       </TouchableOpacity>
       <TouchableOpacity style={styles.whatsapp_style}>

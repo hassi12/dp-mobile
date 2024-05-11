@@ -7,6 +7,7 @@ import {
   Image,
   ScrollView,
   SafeAreaView,
+  Alert,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -16,26 +17,52 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import CardData from '../components/CardData';
-import {getProducts} from '../services/Products_services';
+import {getProducts, ProductsCategory} from '../services/Products_services';
 import BottomTab from '../components/BottomTab';
+import {SelectList} from 'react-native-dropdown-select-list';
+import axios from 'axios';
+import {useSelector} from 'react-redux';
+import {useRoute} from '@react-navigation/native';
 
 const AllProductPage = () => {
+  const userToken = useSelector(state => state.user.token);
   useEffect(() => {
     handleProducts();
+    categoryData();
   }, []);
+
+  let headers = {};
+  if (userToken) {
+    headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Token ${userToken}`,
+    };
+  }
+
+  const route = useRoute();
+  const {category_name} = route.params;
+  if (!category_name) {
+    category_name = '';
+  }
 
   const navigation = useNavigation();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [sortTerm, setSortTerm] = useState('')
 
   const handleBackPress = () => {
     navigation.navigate('Tabs');
   };
   const handleProducts = async () => {
     try {
-      let res = await getProducts();
-      setProducts(res.results);
+      // category_name = ''
+      // let res = await getProducts();
+      let res = await axios.get(
+        `http://ec2-43-206-254-199.ap-northeast-1.compute.amazonaws.com/api/v1/items/?category__name=${category_name}`,
+        {headers: headers},
+      );
+      setProducts(res.data.results);
       setLoading(false);
     } catch (error) {
       console.error(error);
@@ -43,6 +70,75 @@ const AllProductPage = () => {
     }
   };
 
+  const [categoriesData, setCategoriesData] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState([]);
+  const [cat, setCat] = useState('');
+  const categoryData = async () => {
+    try {
+      let res = await ProductsCategory();
+      // setSelectedCategory(res.results.map(item => ({ key: item.id.toString(), value: item.name })))
+      const categories = res.results.map(item => ({
+        key: item.id.toString(),
+        value: item.name,
+      }));
+
+      // Add "All Categories" option to the beginning of the categories list
+      const categoriesWithAll = [
+        {key: 'all-categories', value: 'all-categories'},
+        ...categories,
+      ];
+
+      setSelectedCategory(categoriesWithAll);
+
+      // setCategoriesData(res.results[3].name);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const categoryList = async selectedValue => {
+    let val = selectedValue;
+    if (val == 'all-categories') {
+      val = '';
+    }
+    setCat(val);
+    console.log('new', val);
+    let finalURL = `http://ec2-43-206-254-199.ap-northeast-1.compute.amazonaws.com/api/v1/items/?category__name=${val}`;
+
+    try {
+      const response = await axios.get(finalURL, {
+        headers: headers,
+      });
+      setProducts(response.data.results);
+    } catch (error) {
+      console.log(error);
+    }
+    // Update the category_name query parameter value with the selected category
+    // navigation.setParams({ category_name: val });
+  };
+
+  const [sort, SetSort] = useState('');
+  
+  const data = [
+      {key:'price', value:'Price: Low to High'},
+      {key:'-price', value:'Price: High to Low'},
+      {key:'title', value:'Alphabets: A-Z'},
+      {key:'-title', value:'Alphabets: Z-A'},
+      {key:'created_a', value:'Latest'},
+      {key:'-created_a', value:'Old'},
+  ]
+  const swappedData = data.map(item => ({
+    key: item.value,
+    value: item.key,
+  }));
+  const handleSort = async (e) =>{
+    let val = e
+    SetSort(val)
+    console.log(sort)
+    let res = await axios.get(`http://ec2-43-206-254-199.ap-northeast-1.compute.amazonaws.com/api/v1/items/?ordering=${val}`)
+    console.log('-------------------------',res.data.results)
+    setProducts(res.data.results);
+  }
   return (
     <View style={styles.maincontainer}>
       <View style={styles.container1}>
@@ -59,15 +155,41 @@ const AllProductPage = () => {
       <Text style={{color: '#bfbfbf', width: wp(98), textAlign: 'center'}}>
         ______________________________________________________
       </Text>
-      <ScrollView >
-      <View style={styles.container11}>
-        <CardData products={products} loading={loading} error={error} handleFavList={handleProducts} />
+      <View>
+        <Text>Sort By:</Text>
+        <SelectList
+          setSelected={handleSort} 
+          data={swappedData} 
+          save="key"
+          // onSelect={() => alert(selected)} 
+          label="Categories"
+          search={false} 
+        />
       </View>
-      <View style={{padding: 5}}></View>
-    </ScrollView>
-    <BottomTab style={{position: 'absolute'}}/>
+      <View>
+        <Text style={{color: '#bfbfbf', textAlign: 'center'}}>
+          {category_name ? category_name : 'NO'}
+        </Text>
+        <Text>Select an option:</Text>
+        <SelectList
+          setSelected={categoryList}
+          data={selectedCategory}
+          save="value"
+        />
+      </View>
+      <ScrollView>
+        <View style={styles.container11}>
+          <CardData
+            products={products}
+            loading={loading}
+            error={error}
+            handleFavList={handleProducts}
+          />
+        </View>
+        <View style={{padding: 5}}></View>
+      </ScrollView>
+      <BottomTab style={{position: 'absolute'}} />
     </View>
-   
   );
 };
 

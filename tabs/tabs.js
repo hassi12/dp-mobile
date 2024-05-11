@@ -16,6 +16,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {getCartTotal} from '../store/cartSlice';
 
+
 const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
@@ -39,119 +40,103 @@ const Tabs = () => {
 
   return (
     <Tab.Navigator
-      screenOptions={{
-        showLabel: false,
-        headerShown: false,
-        position: 'absolute',
-        tabBarHideOnKeyboard: true,
-        tabBarStyle: {
-          height: 53,
-          backgroundColor: '#0e4183',
-          borderTopLeftRadius: 15,
-          borderTopRightRadius: 15,
-        },
-
-        tabBarLabel: () => null,
-      }}>
-      <Tab.Screen
-        name="Home"
-        component={HomePage}
-        options={{
-          tabBarIcon: ({focused}) => (
-            <View>
-              <FontAwesome5
-                name="home"
-                size={25}
-                resizeMode="contain"
-                style={styles.image_css}
-              />
-              <Text style={{color: focused ? 'white' : '#748c94'}}>Home</Text>
-            </View>
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Chart"
-        component={ChartPage}
-        options={{
-          tabBarIcon: ({focused}) => (
-            <TouchableOpacity onPress={handleChartPress}>
-              <View>
-                <Feather
-                  name="shopping-cart"
-                  size={25}
-                  style={styles.image_css}
-                  resizeMode="contain"
-                />
-                <Text style={{color: focused ? 'white' : '#748c94'}}>
-                  Chart({totalItems})
-                </Text>
-              </View>
-            </TouchableOpacity>
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Chat"
-        component={ChatPage}
-        options={{
-          tabBarIcon: ({focused}) => (
-            <View>
-              <Entypo
-                name="chat"
-                size={25}
-                style={styles.image_css}
-                resizeMode="contain"
-              />
-              <Text style={{color: focused ? 'white' : '#748c94'}}>Chat</Text>
-            </View>
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={ProfilePage}
-        options={{
-          tabBarIcon: ({focused}) => (
-            <View>
-              <MaterialCommunityIcons
-                name="account"
-                size={27}
-                resizeMode="contain"
-                style={styles.account_css}
-              />
-              <Text style={{color: focused ? 'white' : '#748c94'}}>
-                Profile
-              </Text>
-            </View>
-          ),
-        }}
-      />
-    </Tab.Navigator>
+    screenOptions={{
+      tabBarShowLabel: false,
+      headerShown: false,
+      tabBarHideOnKeyboard: true,
+      tabBarStyle: styles.tabBarStyle,
+    }}
+  >
+    <Tab.Screen
+      name="Home"
+      component={HomePage}
+      options={{
+        tabBarIcon: ({ focused }) => (
+          <View style={styles.tabIconContainer}>
+            <FontAwesome5
+              name="home"
+              size={25}
+              style={[styles.tabIcon, focused && styles.tabIconFocused]}
+            />
+            <Text style={[styles.tabLabel, focused && styles.tabLabelFocused]}>Home</Text>
+          </View>
+        ),
+      }}
+    />
+    <Tab.Screen
+      name="Chart"
+      component={ChartPage}
+      options={{
+        tabBarIcon: ({ focused }) => (
+          <TouchableOpacity onPress={handleChartPress} style={styles.tabIconContainer}>
+            <Feather
+              name="shopping-cart"
+              size={25}
+              style={[styles.tabIcon, focused && styles.tabIconFocused]}
+            />
+            <Text style={[styles.tabLabel, focused && styles.tabLabelFocused]}>Cart({totalItems})</Text>
+          </TouchableOpacity>
+        ),
+      }}
+    />
+    <Tab.Screen
+      name="Chat"
+      component={ChatPage}
+      options={{
+        tabBarIcon: ({ focused }) => (
+          <View style={styles.tabIconContainer}>
+            <Entypo
+              name="chat"
+              size={25}
+              style={[styles.tabIcon, focused && styles.tabIconFocused]}
+            />
+            <Text style={[styles.tabLabel, focused && styles.tabLabelFocused]}>Chat</Text>
+          </View>
+        ),
+      }}
+    />
+    <Tab.Screen
+      name="Profile"
+      component={ProfilePage}
+      options={{
+        tabBarIcon: ({ focused }) => (
+          <View style={styles.tabIconContainer}>
+            <MaterialCommunityIcons
+              name="account"
+              size={27}
+              style={[styles.tabIcon, focused && styles.tabIconFocused]}
+            />
+            <Text style={[styles.tabLabel, focused && styles.tabLabelFocused]}>Profile</Text>
+          </View>
+        ),
+      }}
+    />
+  </Tab.Navigator>
   );
 };
 
 const styles = StyleSheet.create({
-  tab_navigator: {
-    position: 'absolute',
-    bottom: 40,
-    left: 60,
-    right: 20,
-    elevation: 40,
-    borderRadius: 15,
-    height: 70,
+  tabBarStyle: {
+    height: 51,
+    backgroundColor: '#0e4183',
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
   },
-  image_css: {
+  tabIconContainer: {
+    alignItems: 'center',
+  },
+  tabIcon: {
     width: 25,
     height: 25,
-    marginLeft: 2,
+    color: '#748c94',
+  },
+  tabIconFocused: {
     color: 'white',
   },
-  account_css: {
-    width: 25,
-    height: 25,
-    justifyContent: 'flex-end',
-    marginLeft: 5,
+  tabLabel: {
+    color: '#748c94',
+  },
+  tabLabelFocused: {
     color: 'white',
   },
 });
