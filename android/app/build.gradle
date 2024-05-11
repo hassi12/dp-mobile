@@ -111,9 +111,6 @@ android {
             keyPassword 'android'
         }
     }
-     
-       
-  
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
