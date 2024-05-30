@@ -58,6 +58,7 @@ const HomePage = ({ route }) => {
     try {
       let res = await getProducts();
       setProducts(res.results);
+      
       setLoading(false);
     } catch (error) {
       console.error(error);
