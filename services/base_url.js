@@ -1,2 +1,2 @@
 
-export const BASE_URL = `https://dev.wadinushakal.com/`;
+export const BASE_URL = `http://dev.wadinushakal.com/`;
