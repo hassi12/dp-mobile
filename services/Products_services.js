@@ -22,6 +22,6 @@ export async function ProductsCategory(){
 }
 
 export async function FavouriteItems(headers){
-    let response = await axios.get(`${BASE_URL}/api/v1/favourite/items/`, {headers:headers})
+    let response = await axios.get(`${BASE_URL}api/v1/favourite/items/`, {headers:headers})
     return response.data
 }

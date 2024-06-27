@@ -10,6 +10,7 @@ import {useNavigation} from '@react-navigation/native';
 import Star from '../components/Star';
 import axios from 'axios';
 import {useSelector} from 'react-redux';
+import { BASE_URL } from '../services/base_url';
 
 const CardData = ({products, loading, error, handleFavList}) => {
   const navigate = useNavigation();
@@ -29,7 +30,7 @@ const CardData = ({products, loading, error, handleFavList}) => {
 
   const handleFav = async id => {
     // let AddFavURL = BASE_URL + API_VERSION() + FAV_ENDPOINT();
-    let AddFavURL = `http://ec2-43-206-254-199.ap-northeast-1.compute.amazonaws.com/api/v1/favourite/items/`;
+    let AddFavURL = `${BASE_URL}api/v1/favourite/items/`;
     axios
       .post(
         AddFavURL,

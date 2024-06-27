@@ -60,7 +60,7 @@ const AllProductPage = () => {
       // category_name = ''
       // let res = await getProducts();
       let res = await axios.get(
-        `${BASE_URL}/api/v1/items/?category__name=${category_name}`,
+        `${BASE_URL}api/v1/items/?category__name=${category_name}`,
         {headers: headers},
       );
       setProducts(res.data.results);
@@ -104,7 +104,7 @@ const AllProductPage = () => {
     }
     setCat(val);
     console.log('new', val);
-    let finalURL = `${BASE_URL}/api/v1/items/?category__name=${val}`;
+    let finalURL = `${BASE_URL}api/v1/items/?category__name=${val}`;
 
     try {
       const response = await axios.get(finalURL, {
@@ -136,7 +136,7 @@ const AllProductPage = () => {
     let val = e
     SetSort(val)
     console.log(sort)
-    let res = await axios.get(`${BASE_URL}/api/v1/items/?ordering=${val}`)
+    let res = await axios.get(`${BASE_URL}api/v1/items/?ordering=${val}`)
     console.log('-------------------------',res.data.results)
     setProducts(res.data.results);
   }

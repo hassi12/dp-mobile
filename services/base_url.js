@@ -1,1 +1,2 @@
-export const BASE_URL = process.env.NODE_ENV == 'development' ? `http://dev.wadinushakal.com/` : `https://api.cosmedicos.com/`;
+
+export const BASE_URL = `https://dev.wadinushakal.com/`;
