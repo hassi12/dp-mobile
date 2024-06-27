@@ -23,6 +23,7 @@ import {SelectList} from 'react-native-dropdown-select-list';
 import axios from 'axios';
 import {useSelector} from 'react-redux';
 import {useRoute} from '@react-navigation/native';
+import { BASE_URL } from '../services/base_url';
 
 const AllProductPage = () => {
   const userToken = useSelector(state => state.user.token);
@@ -59,7 +60,7 @@ const AllProductPage = () => {
       // category_name = ''
       // let res = await getProducts();
       let res = await axios.get(
-        `http://ec2-43-206-254-199.ap-northeast-1.compute.amazonaws.com/api/v1/items/?category__name=${category_name}`,
+        `${BASE_URL}/api/v1/items/?category__name=${category_name}`,
         {headers: headers},
       );
       setProducts(res.data.results);
@@ -103,7 +104,7 @@ const AllProductPage = () => {
     }
     setCat(val);
     console.log('new', val);
-    let finalURL = `http://ec2-43-206-254-199.ap-northeast-1.compute.amazonaws.com/api/v1/items/?category__name=${val}`;
+    let finalURL = `${BASE_URL}/api/v1/items/?category__name=${val}`;
 
     try {
       const response = await axios.get(finalURL, {
@@ -135,7 +136,7 @@ const AllProductPage = () => {
     let val = e
     SetSort(val)
     console.log(sort)
-    let res = await axios.get(`http://ec2-43-206-254-199.ap-northeast-1.compute.amazonaws.com/api/v1/items/?ordering=${val}`)
+    let res = await axios.get(`${BASE_URL}/api/v1/items/?ordering=${val}`)
     console.log('-------------------------',res.data.results)
     setProducts(res.data.results);
   }
