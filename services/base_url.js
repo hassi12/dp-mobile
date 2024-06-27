@@ -1,1 +1,1 @@
-export const BASE_URL = `https://35.77.160.222/`;
+export const BASE_URL = `https://dev.wadinushakal.com/`;
