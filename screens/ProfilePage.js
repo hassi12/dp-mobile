@@ -1,15 +1,11 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import SignIn from './SignIn';
 import {useNavigation} from '@react-navigation/native';
-import OrderPage from './OrderPage';
 import {useDispatch, useSelector} from 'react-redux';
-import AddressList from './AddressList';
 import {logout} from '../store/authSlice';
-import FavouritePage from './FavouritePage';
-import APITesting from './APITesting';
 import UserProfilePage from './UserProfilePage';
+import User_ques_ans_page from './User_ques_ans_page';
 
 const ProfilePage = () => {
   const navigate = useNavigation();
@@ -54,6 +50,14 @@ const ProfilePage = () => {
       navigate.navigate(UserProfilePage)
     }
     else {
+      navigate.navigate('SignIn')
+    }
+  }
+
+  const UserQuestion= () => {
+    if (isAuthenticated) {
+      navigate.navigate(User_ques_ans_page)
+    } else {
       navigate.navigate('SignIn')
     }
   }
@@ -115,7 +119,7 @@ const ProfilePage = () => {
 
       {/* Settings */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle} onPress={() => navigate.navigate(APITesting)} >Settings</Text>
+        <Text style={styles.sectionTitle} onPress={() => UserQuestion()} >Q & A</Text>
         {/* Display settings options here */}
       </View>
 

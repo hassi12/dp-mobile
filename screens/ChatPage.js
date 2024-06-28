@@ -1,16 +1,68 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, TextInput, TouchableOpacity } from 'react-native';
+import React, { useState,useEffect } from 'react';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { GetPublicQuestionListings,SubmitUserQuestion } from '../services/Ques_ans_service';
+import ChatsCardDtata from '../components/ChatCardData';
+import { useSelector } from "react-redux";
+import {useNavigation} from '@react-navigation/native';
+import SignIn from './SignIn';
+import Toast from 'react-native-toast-message';
 
 const ChatPage = () => {
+
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const handleSend = () => {
-    if (inputMessage.trim() !== '') {
-      setMessages([...messages, { id: messages.length, text: inputMessage, sender: 'user' }]);
-      setInputMessage('');
+  const userId = useSelector((state) => state.user.user?.id);
+  const userToken = useSelector((state) => state.user?.token);
+  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+  const navigate = useNavigation();
+
+
+  let headers = {};
+  if (userToken) {
+    headers = {
+      "Content-Type": "application/json",
+      Authorization: `Token ${userToken}`,
+    };
+  }
+
+  useEffect(() => {
+    publicQuestionListData()
+  },[])
+
+  const publicQuestionListData = async () => {
+    try {
+       let res = await GetPublicQuestionListings()
+       setData(res.results)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false);
     }
+  }
+
+  const handleSend = async () => {
+    const payload = {
+      user: userId,
+      question_text: inputMessage,
+    };
+    try {
+        await SubmitUserQuestion(payload, headers);
+          Toast.show({
+            type: 'success',
+            text1: 'Question Submited',
+            text2: 'Your Question is Submit Successfully.',
+            visibilityTime: 3000,
+            color: 'green',
+          });
+      setInputMessage('');
+    } catch (error) {
+      console.log(error);
+    }
+
   };
 
   return (
@@ -19,31 +71,27 @@ const ChatPage = () => {
       <View style={styles.header}>
         <Text style={styles.headerText}>Customer Support</Text>
       </View>
-
-      {/* Chat Messages */}
-      <FlatList
-        data={messages}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <View style={item.sender === 'user' ? styles.userMessage : styles.supportMessage}>
-            <Text style={styles.messageText}>{item.text}</Text>
-          </View>
-        )}
-        inverted
-      />
-
-      {/* Message Input Area */}
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Type your message..."
-          value={inputMessage}
-          onChangeText={(text) => setInputMessage(text)}
-        />
-        <TouchableOpacity onPress={handleSend}>
-          <Icon name="send" size={30} color="#3498db" />
-        </TouchableOpacity>
+      <View style={{ flex: 1 }}>
+          <ChatsCardDtata data={data} loading={loading} />
       </View>
+      {/* Chat Messages */}
+       <View style={styles.inputContainer}>
+      <TextInput
+        style={styles.input}
+        placeholder="Type your message..."
+        value={inputMessage}
+        onChangeText={(text) => setInputMessage(text)}
+      />
+      {isAuthenticated ? (
+        <TouchableOpacity onPress={handleSend}>
+        <Icon name="send" size={30} color="#3498db" />
+      </TouchableOpacity>
+      ) : 
+      (<TouchableOpacity onPress={() => navigate.navigate(SignIn)}>
+        <Icon name="send" size={30} color="#3498db" />
+      </TouchableOpacity>)} 
+    </View>
+    <Toast />
     </View>
   );
 };
@@ -51,7 +99,7 @@ const ChatPage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 2,
   },
   header: {
     alignItems: 'center',
@@ -61,35 +109,20 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
-  userMessage: {
-    alignSelf: 'flex-end',
-    backgroundColor: '#3498db',
-    padding: 10,
-    borderRadius: 8,
-    marginBottom: 10,
-    maxWidth: '80%',
-  },
-  supportMessage: {
-    alignSelf: 'flex-start',
-    backgroundColor: '#ecf0f1',
-    padding: 10,
-    borderRadius: 8,
-    marginBottom: 10,
-    maxWidth: '80%',
-  },
-  messageText: {
-    color: 'white',
-  },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    padding: 10,
+    borderTopWidth: 1,
+    borderColor: '#ccc',
   },
   input: {
     flex: 1,
-    padding: 10,
-    borderRadius: 8,
+    height: 40,
+    borderColor: '#ccc',
     borderWidth: 1,
-    borderColor: '#bdc3c7',
+    borderRadius: 5,
+    paddingHorizontal: 10,
     marginRight: 10,
   },
 });
