@@ -16,7 +16,6 @@ import OrderPage from './screens/OrderPage';
 import AddressList from './screens/AddressList';
 import OrderDetail from './screens/OrderDetail';
 import FavouritePage from './screens/FavouritePage';
-import APITesting from './screens/APITesting';
 import UserAdressPage from './screens/UserAdressPage';
 import UserAddAddressPage from './screens/UserAddAddressPage';
 import CommentPage from './screens/CommentPage';
@@ -25,6 +24,8 @@ import AddAddressPage from './screens/AddressPage';
 import AllProductPage from './screens/AllProductPage';
 import UserProfilePage from './screens/UserProfilePage';
 import UserProfileEditPage from './screens/UserProfileEditPage';
+import User_ques_ans_page from './screens/User_ques_ans_page';
+
 // import {Provider} from 'react-redux';
 // import {store} from './store/store';
 // import { persistStore } from "redux-persist";
@@ -63,7 +64,7 @@ const App = () => {
           <Stack.Screen name="CheckoutPage" component={CheckoutPage} />
           <Stack.Screen name="AddAddressPage" component={AddAddressPage} />
           <Stack.Screen name="FavouritePage" component={FavouritePage} />
-          <Stack.Screen name="APITesting" component={APITesting} />
+          <Stack.Screen name="User_ques_ans_page" component={User_ques_ans_page} />
           <Stack.Screen name="Sucessfullorder" component={Sucessfullorder} />
           <Stack.Screen name="SignUp" component={SignUp} />
           <Stack.Screen name="SignIn" component={SignIn} />
