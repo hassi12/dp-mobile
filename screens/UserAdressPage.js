@@ -13,14 +13,10 @@ import {
 } from 'react-native-responsive-screen';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useNavigation} from '@react-navigation/native';
-import CheckoutPage from './CheckoutPage';
-import AddressPage from './AddressPage';
 import CheckBox from 'react-native-check-box';
 import UserAddAddressPage from './UserAddAddressPage';
 import {useSelector} from 'react-redux';
 import {UserDetail} from '../services/User_services';
-import {add} from '../store/cartSlice';
-import Tabs from '../tabs/tabs';
 
 const UserAdressPage = () => {
   const [address, setAddress] = useState([]);
@@ -110,24 +106,15 @@ const UserAdressPage = () => {
       <FlatList
         data={address.addresses}
         renderItem={({item}) => (
-          <View style={style.card}>
-            <View style={{position: 'absolute', top: 20, right: 10}}>
+          <View style={style.addresscard}>
+            <View style={{position: 'absolute', top: 10, right: 10}}>
               <Text>Edit</Text>
-            </View>
-            <View style={{position: 'absolute', top: 60, right: 10}}>
-              <CheckBox
-                isChecked={isChecked}
-                onClick={handleCheckboxToggle}
-                style={{justifyContent: 'flex-end'}}
-                checkBoxColor="red"
-                checkedCheckBoxColor="red"
-              />
             </View>
             <View style={{marginTop: 10}}>
               <Text
                 style={{
                   marginLeft: 10,
-                  marginTop: 8,
+                  marginTop: 1,
                   color: 'black',
                   fontWeight: 'bold',
                   width: wp(70),
@@ -140,7 +127,7 @@ const UserAdressPage = () => {
               </Text>
               <Text
                 style={{
-                  marginLeft: 8,
+                  marginLeft: 10,
                   width: wp(85),
                   color: 'black',
                   // marginTop: 0,
@@ -152,7 +139,7 @@ const UserAdressPage = () => {
                   marginLeft: 8,
                   width: wp(85),
                   color: 'black',
-                  marginTop: 5,
+                  marginTop: 1,
                 }}>
                 {' '}
                 (+92) {item?.phone_number}
@@ -171,7 +158,7 @@ const style = StyleSheet.create({
   container1: {
     flex: 1,
   },
-  card: {
+  addresscard: {
     width: wp(94),
     height: heightPercentageToDP(15),
     backgroundColor: 'white',

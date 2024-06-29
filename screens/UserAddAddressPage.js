@@ -17,6 +17,7 @@ import UserAdressPage from './UserAdressPage';
 import { useSelector } from 'react-redux';
 import { CreateAddress } from '../services/Address_services';
 import Toast from 'react-native-toast-message';
+import {Picker} from '@react-native-picker/picker';
 
 const UserAddAddressPage = () => {
   const navigate = useNavigation();
@@ -24,6 +25,7 @@ const UserAddAddressPage = () => {
   const [phone_number, setPhone_number] = useState("");
   const [email_address, setEmail_address] = useState("");
   const [address, setAddress] = useState("");
+  const [province, setProvince] = useState('');
   const userToken = useSelector((state) => state.user.token);
 
   let headers = {};
@@ -39,6 +41,7 @@ const UserAddAddressPage = () => {
         phone_number: phone_number,
         email_address: email_address,
         address: address,
+        province: province,
     }
     try {
         await CreateAddress(payload, headers);
@@ -52,6 +55,7 @@ const UserAddAddressPage = () => {
       setAddress("");
       setEmail_address("");
       setPhone_number("");
+      setProvince("");
       navigate.navigate('Tabs')
     // userList();
     } catch (error) {
@@ -118,6 +122,23 @@ const UserAddAddressPage = () => {
             onChangeText={text => setPhone_number(text)}
           />
         </View>
+        <View style={{ marginTop: 10 }} >
+      <Text style={styles.label}>Select Province</Text>
+      <View style={styles.pickerContainer}>
+        <Picker
+          selectedValue={province}
+          onValueChange={(itemValue) => {
+            setProvince(itemValue);
+          }}
+        >
+          <Picker.Item label="Select Your Province" value="" />
+          <Picker.Item label="Balochistan" value="Balochistan" />
+          <Picker.Item label="Punjab" value="Punjab" />
+          <Picker.Item label="Sindh" value="Sindh" />
+          <Picker.Item label="KPK" value="KPK" />
+        </Picker>
+      </View>
+    </View>
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Address</Text>
           <TextInput
@@ -205,6 +226,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'white',
     fontSize: 20,
+  },
+  pickerContainer: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 4,
+    overflow: 'hidden',
   },
 });
 
