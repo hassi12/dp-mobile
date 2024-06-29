@@ -172,10 +172,5 @@ const style = StyleSheet.create({
     margin: 10,
     flexDirection: 'row',
   },
-  text: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
   checkboxstyle: {},
-  borderRadius: 50,
 });

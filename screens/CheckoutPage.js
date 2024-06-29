@@ -18,7 +18,7 @@ import {
 } from 'react-native-responsive-screen';
 import {rotationHandlerName} from 'react-native-gesture-handler/lib/typescript/handlers/RotationGestureHandler';
 import Tabs from '../tabs/tabs';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation,useRoute} from '@react-navigation/native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AddressPage from './AddressPage';
 import Sucessfullorder from './Sucessfullorder';
@@ -28,13 +28,16 @@ import {getCartTotal} from '../store/cartSlice';
 import {UserDetail} from '../services/User_services';
 
 const CheckoutPage = () => {
+  const route = useRoute();
+  const { id,phone_number, email_address, address1 } = route.params || {};
+  
   const [address, setAddress] = useState([]);
   const User = useSelector(state => state.user);
   const UserId = User.user.id;
-  const [selectedAddressPhone, setSelectedAddressPhone] = useState('');
-  const [selectedAddressEmail, setSelectedAddressEmail] = useState('');
-  const [selectedAddress, setSelectedAddress] = useState('');
-  const [selectedAddressId, setSelectedAddressId] = useState('');
+  const [selectedAddressPhone, setSelectedAddressPhone] = useState(phone_number || '');
+  const [selectedAddressEmail, setSelectedAddressEmail] = useState(email_address || '');
+  const [selectedAddress, setSelectedAddress] = useState(address1 || '');
+  const [selectedAddressId, setSelectedAddressId] = useState(id || '');
 
   const usertoken = useSelector(state => state.user.token);
   let headers = {};
@@ -106,22 +109,37 @@ const CheckoutPage = () => {
 
   useEffect(() => {
     HandleUsers();
-    console.log(usertoken);
   }, []);
+
+  useEffect(() => {
+    if (id) {
+      setSelectedAddressPhone(phone_number);
+      setSelectedAddressEmail(email_address);
+      setSelectedAddress(address1);
+      setSelectedAddressId(id);
+    }
+  }, [id, phone_number, email_address, address1]);
 
   const HandleUsers = async () => {
     try {
       let res = await UserDetail(UserId, headers);
       setAddress(res);
-      console.log('user', res);
-      setSelectedAddressPhone(
-        res && res.addresses && res.addresses[0].phone_number,
-      );
-      setSelectedAddressEmail(
-        res && res.addresses && res.addresses[0].email_address,
-      );
-      setSelectedAddress(res && res.addresses && res.addresses[0].address);
-      setSelectedAddressId(res && res.addresses && res.addresses[0].id);
+      // setSelectedAddressPhone(
+      //   res && res.addresses && res.addresses[0].phone_number,
+      // );
+      // setSelectedAddressEmail(
+      //   res && res.addresses && res.addresses[0].email_address,
+      // );
+      // setSelectedAddress(res && res.addresses && res.addresses[0].address);
+      // setSelectedAddressId(res && res.addresses && res.addresses[0].id);
+      const defaultAddress = res.addresses && res.addresses[0];
+      if (defaultAddress) {
+          setSelectedAddressPhone(defaultAddress.phone_number);
+          setSelectedAddressEmail(defaultAddress.email_address);
+          setSelectedAddress(defaultAddress.address);
+          // setSelectedProvinces(defaultAddress.province);
+          setSelectedAddressId(defaultAddress.id);          
+      }
     } catch (error) {
       console.log(error);
     }
