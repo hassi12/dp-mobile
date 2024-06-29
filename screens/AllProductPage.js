@@ -17,13 +17,13 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import CardData from '../components/CardData';
-import {getProducts, ProductsCategory} from '../services/Products_services';
+import {ProductsCategory} from '../services/Products_services';
 import BottomTab from '../components/BottomTab';
 import {SelectList} from 'react-native-dropdown-select-list';
 import axios from 'axios';
 import {useSelector} from 'react-redux';
 import {useRoute} from '@react-navigation/native';
-import { BASE_URL } from '../services/base_url';
+import {BASE_URL} from '../services/base_url';
 
 const AllProductPage = () => {
   const userToken = useSelector(state => state.user.token);
@@ -50,7 +50,9 @@ const AllProductPage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [sortTerm, setSortTerm] = useState('')
+  const [selectedCategoryValue, setSelectedCategoryValue] =
+    useState(category_name);
+  const [selectedCategory, setSelectedCategory] = useState([]);
 
   const handleBackPress = () => {
     navigation.navigate('Tabs');
@@ -71,13 +73,9 @@ const AllProductPage = () => {
     }
   };
 
-  const [categoriesData, setCategoriesData] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState([]);
-  const [cat, setCat] = useState('');
   const categoryData = async () => {
     try {
       let res = await ProductsCategory();
-      // setSelectedCategory(res.results.map(item => ({ key: item.id.toString(), value: item.name })))
       const categories = res.results.map(item => ({
         key: item.id.toString(),
         value: item.name,
@@ -91,19 +89,45 @@ const AllProductPage = () => {
 
       setSelectedCategory(categoriesWithAll);
 
-      // setCategoriesData(res.results[3].name);
+      // Set the selected category value if it's in the fetched categories
+      if (category_name) {
+        const matchedCategory = categoriesWithAll.find(
+          category =>
+            category.value.toLowerCase() === category_name.toLowerCase(),
+        );
+        if (matchedCategory) {
+          setSelectedCategoryValue(matchedCategory.value);
+        }
+      }
     } catch (error) {
       console.log(error);
     }
   };
+  // const categoryData = async () => {
+  //   try {
+  //     let res = await ProductsCategory();
+  //     const categories = res.results.map(item => ({
+  //       key: item.id.toString(),
+  //       value: item.name,
+  //     }));
+
+  //     // Add "All Categories" option to the beginning of the categories list
+  //     const categoriesWithAll = [
+  //       {key: 'all-categories', value: 'all-categories'},
+  //       ...categories,
+  //     ];
+
+  //     setSelectedCategory(categoriesWithAll);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const categoryList = async selectedValue => {
     let val = selectedValue;
     if (val == 'all-categories') {
       val = '';
     }
-    setCat(val);
-    console.log('new', val);
     let finalURL = `${BASE_URL}api/v1/items/?category__name=${val}`;
 
     try {
@@ -114,32 +138,29 @@ const AllProductPage = () => {
     } catch (error) {
       console.log(error);
     }
-    // Update the category_name query parameter value with the selected category
-    // navigation.setParams({ category_name: val });
   };
 
   const [sort, SetSort] = useState('');
-  
+
   const data = [
-      {key:'price', value:'Price: Low to High'},
-      {key:'-price', value:'Price: High to Low'},
-      {key:'title', value:'Alphabets: A-Z'},
-      {key:'-title', value:'Alphabets: Z-A'},
-      {key:'created_a', value:'Latest'},
-      {key:'-created_a', value:'Old'},
-  ]
+    {key: 'price', value: 'Price: Low to High'},
+    {key: '-price', value: 'Price: High to Low'},
+    {key: 'title', value: 'Alphabets: A-Z'},
+    {key: '-title', value: 'Alphabets: Z-A'},
+    {key: 'created_a', value: 'Latest'},
+    {key: '-created_a', value: 'Old'},
+  ];
   const swappedData = data.map(item => ({
     key: item.value,
     value: item.key,
   }));
-  const handleSort = async (e) =>{
-    let val = e
-    SetSort(val)
-    console.log(sort)
-    let res = await axios.get(`${BASE_URL}api/v1/items/?ordering=${val}`)
-    console.log('-------------------------',res.data.results)
+  const handleSort = async e => {
+    let val = e;
+    SetSort(val);
+    console.log(sort);
+    let res = await axios.get(`${BASE_URL}api/v1/items/?ordering=${val}`);
     setProducts(res.data.results);
-  }
+  };
   return (
     <View style={styles.maincontainer}>
       <View style={styles.container1}>
@@ -156,27 +177,30 @@ const AllProductPage = () => {
       <Text style={{color: '#bfbfbf', width: wp(98), textAlign: 'center'}}>
         ______________________________________________________
       </Text>
-      <View>
-        <Text>Sort By:</Text>
-        <SelectList
-          setSelected={handleSort} 
-          data={swappedData} 
-          save="key"
-          // onSelect={() => alert(selected)} 
-          label="Categories"
-          search={false} 
-        />
-      </View>
-      <View>
-        <Text style={{color: '#bfbfbf', textAlign: 'center'}}>
-          {category_name ? category_name : 'NO'}
-        </Text>
-        <Text>Select an option:</Text>
-        <SelectList
-          setSelected={categoryList}
-          data={selectedCategory}
-          save="value"
-        />
+      <View style={styles.containersort}>
+        <View style={styles.sortContainer}>
+          <Text style={styles.label}>Sort By:</Text>
+          <SelectList
+            setSelected={handleSort}
+            data={swappedData}
+            save="key"
+            search={false}
+            style={styles.selectList}
+          />
+        </View>
+        <View style={styles.categoryContainer}>
+          <Text style={styles.label}>Select Categories:</Text>
+          <SelectList
+            setSelected={categoryList}
+            data={selectedCategory}
+            save="value"
+            defaultOption={{
+              key: selectedCategoryValue,
+              value: selectedCategoryValue,
+            }}
+            style={styles.selectList}
+          />
+        </View>
       </View>
       <ScrollView>
         <View style={styles.container11}>
@@ -286,6 +310,32 @@ const styles = StyleSheet.create({
     color: 'black',
     marginLeft: 10,
   },
+  containersort: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10,
+    alignItems: 'center',
+  },
+  sortContainer: {
+    flex: 1,
+    marginRight: 10,
+  },
+  categoryContainer: {
+    flex: 1,
+  },
+  label: {
+    fontSize: 13,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  selectList: {
+    marginBottom: 10,
+  },
+  // categoryName: {
+  //   color: '#bfbfbf',
+  //   textAlign: 'center',
+  //   marginBottom: 5,
+  // },
 });
 
 export default AllProductPage;
