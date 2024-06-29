@@ -25,9 +25,15 @@ const AddressList = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [selectedAddressId, setSelectedAddressId] = useState(null);
 
-  const handleCheckboxToggle = (id, phone_number, email_address, address) => {
-    setSelectedAddressId(id)
-    console.log('data',id, phone_number, email_address, address)
+  const handleCheckboxToggle = (id, phone_number, email_address, address1) => {
+    setSelectedAddressId(id);
+    console.log('data', id, phone_number, email_address, address1);
+    navigate.navigate('CheckoutPage', {
+      id,
+      phone_number,
+      email_address,
+      address1,
+    });
   };
 
   const navigate = useNavigation();
@@ -107,70 +113,84 @@ const AddressList = () => {
       <FlatList
         data={address.addresses}
         renderItem={({item}) => (
-          <TouchableOpacity  onPress={() =>
-            handleCheckboxToggle(
-              item.id,
-              item?.phone_number,
-              item?.email_address,
-              item?.address
-            )
-          }>
+          <TouchableOpacity
+            onPress={() =>
+              handleCheckboxToggle(
+                item?.id,
+                item?.phone_number,
+                item?.email_address,
+                item?.address,
+              )
+            }>
             <View style={style.card}>
-                {/* <View style={{position: 'absolute', top: 20, right: 10}}>
+              {/* <View style={{position: 'absolute', top: 20, right: 10}}>
                           <Text>Edit</Text>
                 </View> */}
-                <View style={{position: 'absolute', top: 60, right: 10}} >
-                             
-                          <CheckBox
-                            // isChecked={isChecked}
-                            isChecked={selectedAddressId === item.id}
-                            style={{justifyContent: 'flex-end'}}
-                            checkBoxColor="red"
-                            checkedCheckBoxColor="red"
-                          />
-                </View>
-                <View style={{marginTop: 10}}>
-                          <Text
-                            style={{
-                              marginLeft: 10,
-                              marginTop: 2,
-                              color: 'black',
-                              fontWeight: 'bold',
-                              width: wp(70),
-                            }}>
-                            {address?.first_name} {address?.last_name}
-                          </Text>
-
-                          <Text
-                            style={{
-                              marginLeft: 8,
-                              width: wp(85),
-                              color: 'black',
-                              marginTop: 5,
-                            }}>
-                            {item?.address}
-                          </Text>
-
-                          <Text
-                            style={{
-                              marginLeft: 8,
-                              width: wp(85),
-                              color: 'black',
-                              // marginTop: 0,
-                            }}>
-                            {item?.email_address}
-                          </Text>
-
-                          <Text
-                            style={{
-                              marginLeft: 8,
-                              color: 'black',
-                              marginTop: 5,
-                            }}>
-                            (+92) {item?.phone_number}
-                          </Text>
-                </View>
+              {/* <View style={{position: 'absolute', top: 60, right: 10}}>
+                <CheckBox
+                  // isChecked={isChecked}
+                  isChecked={selectedAddressId === item.id}
+                  style={{justifyContent: 'flex-end'}}
+                  checkBoxColor="red"
+                  checkedCheckBoxColor="red"
+                />
+              </View> */}
+               <View style={{position: 'absolute', top: 60, right: 10}}>
+                <CheckBox
+                  isChecked={selectedAddressId === item.id}
+                  style={{justifyContent: 'flex-end'}}
+                  checkBoxColor="red"
+                  checkedCheckBoxColor="red"
+                  onClick={() => handleCheckboxToggle(
+                    item.id,
+                    item.phone_number,
+                    item.email_address,
+                    item.address
+                  )}
+                />
               </View>
+              <View style={{marginTop: 10}}>
+                <Text
+                  style={{
+                    marginLeft: 10,
+                    marginTop: 1,
+                    color: 'black',
+                    fontWeight: 'bold',
+                    width: wp(70),
+                  }}>
+                  {address?.first_name} {address?.last_name}
+                </Text>
+
+                <Text
+                  style={{
+                    marginLeft: 8,
+                    width: wp(85),
+                    color: 'black',
+                    marginTop: 5,
+                  }}>
+                  {item?.address}
+                </Text>
+
+                <Text
+                  style={{
+                    marginLeft: 8,
+                    width: wp(85),
+                    color: 'black',
+                    // marginTop: 0,
+                  }}>
+                  {item?.email_address}
+                </Text>
+
+                <Text
+                  style={{
+                    marginLeft: 8,
+                    color: 'black',
+                    marginTop: 1,
+                  }}>
+                  (+92) {item?.phone_number}
+                </Text>
+              </View>
+            </View>
           </TouchableOpacity>
         )}
       />
