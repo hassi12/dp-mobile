@@ -10,7 +10,7 @@ import {useNavigation} from '@react-navigation/native';
 import Star from '../components/Star';
 import axios from 'axios';
 import {useSelector} from 'react-redux';
-import { BASE_URL } from '../services/base_url';
+import {BASE_URL} from '../services/base_url';
 
 const CardData = ({products, loading, error, handleFavList}) => {
   const navigate = useNavigation();
@@ -28,33 +28,48 @@ const CardData = ({products, loading, error, handleFavList}) => {
     };
   }
 
+  // const handleFav = async id => {
+  //   // let AddFavURL = BASE_URL + API_VERSION() + FAV_ENDPOINT();
+  //   let AddFavURL = `${BASE_URL}api/v1/favourite/items/`;
+  //   axios
+  //     .post(
+  //       AddFavURL,
+  //       {item_id: id},
+  //       {
+  //         headers: headers,
+  //       },
+  //     )
+  //     .then(result => {
+  //       // console.log(result);
+  //       if (result.data.message.includes('remove')) {
+  //         let idata = itemFavourite;
+  //         idata[id] = false;
+  //         setItemFavourite(idata);
+  //       } else {
+  //         let data = itemFavourite;
+  //         data[id] = true;
+  //         setItemFavourite(data);
+  //       }
+  //       handleFavList();
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  //   if (!isAuthenticated) {
+  //     navigate.navigate('SignIn');
+  //   }
+  // };
+
   const handleFav = async id => {
-    // let AddFavURL = BASE_URL + API_VERSION() + FAV_ENDPOINT();
-    let AddFavURL = `${BASE_URL}api/v1/favourite/items/`;
-    axios
-      .post(
-        AddFavURL,
-        {item_id: id},
-        {
-          headers: headers,
-        },
-      )
-      .then(result => {
-        // console.log(result);
-        if (result.data.message.includes('remove')) {
-          let idata = itemFavourite;
-          idata[id] = false;
-          setItemFavourite(idata);
-        } else {
-          let data = itemFavourite;
-          data[id] = true;
-          setItemFavourite(data);
-        }
-        handleFavList();
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    const AddFavURL = `${BASE_URL}api/v1/favourite/items/`;
+    try {
+      const result = await axios.post(AddFavURL, {item_id: id}, {headers});
+      const isFavourite = result.data.message.includes('remove') ? false : true;
+      setItemFavourite(prevState => ({...prevState, [id]: isFavourite}));
+      handleFavList();
+    } catch (error) {
+      console.log(error);
+    }
     if (!isAuthenticated) {
       navigate.navigate('SignIn');
     }
@@ -78,14 +93,15 @@ const CardData = ({products, loading, error, handleFavList}) => {
   return (
     <View style={styles.horizontalView}>
       {loading ? (
-        <ActivityIndicator color="red" size="large" />
+        <View style={[styles.loaderConatiner, styles.horizontal]}>
+            <ActivityIndicator color="#00ff00" size="large" />
+        </View>
       ) : error ? (
         <Text color="red">{error}</Text>
       ) : (
         <FlatList
           data={products}
           numColumns={2}
-          // horizontal
           showsHorizontalScrollIndicator={false}
           keyExtractor={item => `${item.id}-${item.title}`}
           renderItem={({item}) => (
@@ -149,7 +165,7 @@ const CardData = ({products, loading, error, handleFavList}) => {
                     </View>
                   )}
                 </View>
-                <TouchableOpacity
+                {/* <TouchableOpacity
                   style={{
                     position: 'absolute',
                     bottom: 12,
@@ -167,6 +183,27 @@ const CardData = ({products, loading, error, handleFavList}) => {
                       itemFavourite && itemFavourite[item.id] && itemFavourite
                         ? 'red'
                         : 'red'
+                    }
+                  />
+                </TouchableOpacity> */}
+                <TouchableOpacity
+                  style={{
+                    position: 'absolute',
+                    bottom: 12,
+                    right: 5,
+                  }}
+                  onPress={() => handleFav(item.id)}>
+                  <AntDesign
+                    name={
+                      itemFavourite[item.id] || item.is_favourite
+                        ? 'heart'
+                        : 'hearto'
+                    }
+                    size={20}
+                    color={
+                      itemFavourite[item.id] || item.is_favourite
+                        ? 'red'
+                        : 'gray'
                     }
                   />
                 </TouchableOpacity>
@@ -251,4 +288,10 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     textDecorationLine: 'line-through',
   },
+  loaderConatiner:{
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 90
+  }
 });
