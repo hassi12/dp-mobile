@@ -4,10 +4,7 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Image,
   ScrollView,
-  SafeAreaView,
-  Alert,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -129,7 +126,6 @@ const AllProductPage = () => {
       val = '';
     }
     let finalURL = `${BASE_URL}api/v1/items/?category__name=${val}`;
-
     try {
       const response = await axios.get(finalURL, {
         headers: headers,
@@ -140,8 +136,6 @@ const AllProductPage = () => {
     }
   };
 
-  const [sort, SetSort] = useState('');
-
   const data = [
     {key: 'price', value: 'Price: Low to High'},
     {key: '-price', value: 'Price: High to Low'},
@@ -151,13 +145,12 @@ const AllProductPage = () => {
     {key: '-created_a', value: 'Old'},
   ];
   const swappedData = data.map(item => ({
-    key: item.value,
-    value: item.key,
+    key: item.key,
+    value: item.value,
   }));
+
   const handleSort = async e => {
     let val = e;
-    SetSort(val);
-    console.log(sort);
     let res = await axios.get(`${BASE_URL}api/v1/items/?ordering=${val}`);
     setProducts(res.data.results);
   };

@@ -1,6 +1,5 @@
-import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {View, Text, ScrollView, TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {FlatList, ActivityIndicator} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -10,8 +9,6 @@ import {useNavigation} from '@react-navigation/native';
 import {FavouriteItems} from '../services/Products_services';
 import {useSelector} from 'react-redux';
 import CardData from '../components/CardData';
-import { ScrollView } from 'react-native-gesture-handler';
-import Tabs from '../tabs/tabs';
 
 const FavouritePage = () => {
   const [products, setProducts] = useState([]);
@@ -32,7 +29,6 @@ const FavouritePage = () => {
     try {
       let data = await FavouriteItems(headers);
       setProducts(data);
-      console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -82,8 +78,9 @@ const FavouritePage = () => {
           Favourites
         </Text>
       </View>
-            {/* body  */}
+          <ScrollView>
             <CardData products={products} handleFavList={handleFavList} />
+          </ScrollView>
     </View>
 
   );

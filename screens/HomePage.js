@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
-import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, ScrollView, Dimensions} from 'react-native';
+import React, {useState, useEffect, useCallback} from 'react';
+import {View, Text, StyleSheet, ScrollView, Dimensions, RefreshControl} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {
   widthPercentageToDP as wp,
@@ -17,55 +17,45 @@ import { useSelector } from 'react-redux';
 
 
 const HomePage = ({ route }) => {
-  const {height, width} = Dimensions.get('window');
-  // const queryParams = new URLSearchParams(window.location.search)
-  // let search_name = queryParams.get("search");
+  const { height, width } = Dimensions.get('window');
   const userToken = useSelector((state) => state.user.token);
   const { search } = route.params || {};
+  const navigate = useNavigation();
+  
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [category, setCategory] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const headers = userToken ? {
+    'Content-Type': "application/json",
+    Authorization: `Token ${userToken}`
+  } : {};
 
   useEffect(() => {
     handleProducts();
     ProductCategoryList();
   }, []);
+
   useEffect(() => {
-    handleSerarchProducts()
+    if (search) {
+      handleSearchProducts();
+    }
   }, [search]);
-
-
-
-  let headers = {}
-  if (userToken) {
-      headers = {
-          'Content-Type': "application/json",
-          Authorization: `Token ${userToken}`
-      }
-  }
-
-  const navigate = useNavigation();
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [category, setCategory] = useState([]);
-
-  const images = [
-    require('../assets/dog1.jpg'),
-    require('../assets/cat1.jpg'),
-    require('../assets/birds1.jpg'),
-    require('../assets/pets.jpg'),
-  ];
 
   const handleProducts = async () => {
     try {
       let res = await getProducts();
       setProducts(res.results);
-      
       setLoading(false);
     } catch (error) {
       console.error(error);
       setError(error.message);
     }
   };
-  const handleSerarchProducts = async () => {
+
+  const handleSearchProducts = async () => {
     try {
       let res = await searchProducts(headers, search);
       setProducts(res.results);
@@ -75,19 +65,37 @@ const HomePage = ({ route }) => {
       setError(error.message);
     }
   };
+
   const ProductCategoryList = async () => {
     try {
       let res = await ProductsCategory();
-      console.log('categories', res.results);
       setCategory(res.results);
     } catch (error) {
       console.log(error);
     }
   };
 
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await handleProducts();
+    setRefreshing(false);
+  }, []);
+
+  const images = [
+    require('../assets/dog1.jpg'),
+    require('../assets/cat1.jpg'),
+    require('../assets/birds1.jpg'),
+    require('../assets/pets.jpg'),
+  ];
+
+
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ScrollView
+        contentContainerStyle={styles.scrollView}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         <View style={styles.bottomview}>
           <HomePageSearch />
         </View>
