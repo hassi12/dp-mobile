@@ -11,10 +11,8 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import CheckoutPage from './CheckoutPage';
 import {useNavigation} from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import UserAdressPage from './UserAdressPage';
 import { useSelector } from 'react-redux';
 import Toast from 'react-native-toast-message';
 import { CreateAddress } from '../services/Address_services';
@@ -57,7 +55,7 @@ const AddAddressPage = () => {
       setEmail_address("");
       setPhone_number("");
       setProvince("");
-      navigate.navigate(CheckoutPage)
+      navigate.navigate('CheckoutPage')
     // userList();
     } catch (error) {
       console.log("add error", error);
@@ -88,7 +86,7 @@ const AddAddressPage = () => {
               marginTop: 10,
               marginLeft: 10,
             }}
-            onPress={() => navigate.navigate(CheckoutPage)}
+            onPress={() => navigate.navigate('CheckoutPage')}
           />
         </TouchableOpacity>
         <Text

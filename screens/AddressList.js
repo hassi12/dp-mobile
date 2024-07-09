@@ -8,8 +8,6 @@ import {
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useNavigation} from '@react-navigation/native';
-import CheckoutPage from './CheckoutPage';
-import AddressPage from './AddressPage';
 import CheckBox from 'react-native-check-box';
 import {FlatList} from 'react-native';
 import {useSelector} from 'react-redux';
@@ -18,7 +16,6 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import AddAddressPage from './AddressPage';
 
 const AddressList = () => {
   const [address, setAddress] = useState([]);
@@ -87,7 +84,7 @@ const AddressList = () => {
               marginTop: 10,
               marginLeft: 10,
             }}
-            onPress={() => navigate.navigate(CheckoutPage)}
+            onPress={() => navigate.navigate('CheckoutPage')}
           />
         </TouchableOpacity>
         <Text
@@ -106,7 +103,7 @@ const AddressList = () => {
             color: 'red',
             marginTop: 10,
           }}
-          onPress={() => navigate.navigate(AddAddressPage)}>
+          onPress={() => navigate.navigate('AddAddressPage')}>
           Add
         </Text>
       </View>

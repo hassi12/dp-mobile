@@ -13,7 +13,6 @@ import {
 } from 'react-native-responsive-screen';
 import {useNavigation} from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import UserAdressPage from './UserAdressPage';
 import { useSelector } from 'react-redux';
 import { CreateAddress } from '../services/Address_services';
 import Toast from 'react-native-toast-message';
@@ -87,7 +86,7 @@ const UserAddAddressPage = () => {
               marginTop: 10,
               marginLeft: 10,
             }}
-            onPress={() => navigate.navigate(UserAdressPage)}
+            onPress={() => navigate.navigate('UserAdressPage')}
           />
         </TouchableOpacity>
         <Text

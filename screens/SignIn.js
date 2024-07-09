@@ -7,18 +7,11 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Import the icon library
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
 import SignUp from './SignUp';
 import {useNavigation} from '@react-navigation/native';
 import {signInUser} from '../store/authSlice';
 import {useDispatch, useSelector} from 'react-redux';
-import BottomTab from '../components/BottomTab';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import ProfilePage from './ProfilePage';
-import Tabs from '../tabs/tabs';
 import Toast from 'react-native-toast-message';
 
 const SignIn = () => {
@@ -44,10 +37,11 @@ const SignIn = () => {
         setPassword('');
         
       } else {
+        const errorMessage = loginData.payload?.message || "Invalid username or password";
         Toast.show({
           type: 'error',
           text1: 'Login Failed',
-          text2: 'Your email or password is incorrect, Please try again.',
+          text2: `${errorMessage}`,
           visibilityTime: 3000,
           color: 'red',
         });
