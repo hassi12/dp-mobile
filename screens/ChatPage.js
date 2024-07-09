@@ -5,12 +5,11 @@ import { GetPublicQuestionListings,SubmitUserQuestion } from '../services/Ques_a
 import ChatsCardDtata from '../components/ChatCardData';
 import { useSelector } from "react-redux";
 import {useNavigation} from '@react-navigation/native';
-import SignIn from './SignIn';
+// import SignIn from './SignIn';
 import Toast from 'react-native-toast-message';
 
 const ChatPage = () => {
 
-  const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -87,7 +86,7 @@ const ChatPage = () => {
         <Icon name="send" size={30} color="#3498db" />
       </TouchableOpacity>
       ) : 
-      (<TouchableOpacity onPress={() => navigate.navigate(SignIn)}>
+      (<TouchableOpacity onPress={() => navigate.navigate('SignIn')}>
         <Icon name="send" size={30} color="#3498db" />
       </TouchableOpacity>)} 
     </View>

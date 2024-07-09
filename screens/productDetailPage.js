@@ -20,9 +20,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {add} from '../store/cartSlice';
 import {useRoute} from '@react-navigation/native';
 import {getProductDetail} from '../services/Products_services';
-import CommentPage from './CommentPage';
 import BottomTab from '../components/BottomTab';
-import HomePage from './HomePage';
 import moment from 'moment';
 import Star from '../components/Star';
 import Toast from 'react-native-toast-message';
@@ -80,7 +78,6 @@ const ProductDetailPage = () => {
       let res = await getProductDetail(productId);
       setProduct(res.item);
       setComments(res.comments);
-      console.log(res.item);
     } catch (error) {
       console.log(error);
     }
@@ -167,7 +164,7 @@ const ProductDetailPage = () => {
           </TouchableOpacity>
           <Text
             style={{
-              fontWeight: 'bold',
+              // fontWeight: 'bold',
               marginLeft: 100,
               marginTop: 10,
               fontSize: 20,
@@ -193,28 +190,10 @@ const ProductDetailPage = () => {
               borderRadius={20}
               resizeMode="cover"
               sliderBoxHeight={hp(25)}
-              autoplay={false}
+              autoplay={true}
             />
           </View>
         </View>
-        {/* <View
-          style={{
-            position: 'relative',
-            borderRadius: 10,
-            height: hp(26),
-          }}>
-          <TouchableOpacity style={{position: 'absolute', top: 0, right: 0}}>
-            <AntDesign
-              name="heart"
-              size={20}
-              style={{color: 'red', marginRight: 15, marginTop: 10}}
-            />
-          </TouchableOpacity>
-          <Image
-            source={{uri: product.images && product.images[0]?.image_url}}
-            style={styles.image}
-          />
-        </View> */}
 
         <View style={styles.container111}>
           <View style={styles.parallelView1}>
@@ -225,7 +204,7 @@ const ProductDetailPage = () => {
                   color: 'black',
                   fontSize: 16,
                   marginLeft: 10,
-                  marginTop: 4,
+                  marginTop: 9,
                 }}>
                 {product?.title}
               </Text>
@@ -312,20 +291,28 @@ const ProductDetailPage = () => {
             {product?.description}
           </Text>
         </ScrollView>
-        <View style={{flexDirection: 'row', marginTop: 20}}>
-          <View>
-            <Text style={{color: 'black', fontWeight: 'bold', marginLeft: 15}}>
-              Reviews
-            </Text>
-          </View>
-          {/* {comments.length > 0 && ( */}
-          <View style={{marginLeft: wp(50)}}>
-            <Text
-              style={{color: 'black', fontWeight: 'bold'}}
-              onPress={() => navigate.navigate('CommentPage', {productId})}>
-              View more
-            </Text>
-          </View>
+        <View>
+          {comments.length === 0 ? (
+            <></>
+          ) : (
+            <View style={{flexDirection: 'row', marginTop: 20}}>
+              <View>
+                <Text
+                  style={{color: 'black', fontWeight: 'bold', marginLeft: 15}}>
+                  Reviews
+                </Text>
+              </View>
+              {/* {comments.length > 0 && ( */}
+              <View style={{marginLeft: wp(50)}}>
+                <Text
+                  style={{color: 'black', fontWeight: 'bold'}}
+                  onPress={() => navigate.navigate('CommentPage', {productId})}>
+                  View more
+                </Text>
+              </View>
+            </View>
+          )}
+
           {/* )} */}
         </View>
       </View>
@@ -422,7 +409,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-
   parallelView1: {
     width: wp(50),
     height: hp(15),
@@ -583,9 +569,11 @@ const styles = StyleSheet.create({
     elevation: 5,
     borderRadius: 15,
     overflow: 'hidden',
+    width: wp(95), // Ensuring consistent width
+    height: hp(25),
   },
   sliderviewstyle: {
-    height: hp(24.5),
+    height: hp(25),
     width: wp(95),
     borderRadius: 15,
     overflow: 'hidden',

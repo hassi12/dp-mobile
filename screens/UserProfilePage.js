@@ -5,7 +5,6 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import ProfilePage from './ProfilePage';
 import {useNavigation} from '@react-navigation/native';
 import UserProfileEditPage from './UserProfileEditPage';
 import { useSelector} from 'react-redux';

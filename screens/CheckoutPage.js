@@ -16,12 +16,11 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {rotationHandlerName} from 'react-native-gesture-handler/lib/typescript/handlers/RotationGestureHandler';
-import Tabs from '../tabs/tabs';
+// import {rotationHandlerName} from 'react-native-gesture-handler/lib/typescript/handlers/RotationGestureHandler';
 import {useNavigation,useRoute} from '@react-navigation/native';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import AddressPage from './AddressPage';
-import Sucessfullorder from './Sucessfullorder';
+// import FontAwesome from 'react-native-vector-icons/FontAwesome';
+// import AddressPage from './AddressPage';
+// import Sucessfullorder from './Sucessfullorder';
 import AddressList from './AddressList';
 import {useDispatch} from 'react-redux';
 import {getCartTotal} from '../store/cartSlice';

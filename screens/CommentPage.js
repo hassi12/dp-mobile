@@ -65,7 +65,7 @@ const CommentPage = () => {
               marginTop: 10,
               marginLeft: 10,
             }}
-            onPress={() => navigate.navigate('ProductPage', {productId})}
+            onPress={() => navigate.navigate('ProductDetailPage', {productId})}
           />
         </TouchableOpacity>
         <Text

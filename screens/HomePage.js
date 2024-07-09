@@ -12,7 +12,6 @@ import PetProfile from '../components/PetProfile';
 import {SliderBox} from 'react-native-image-slider-box';
 import {getProducts, ProductsCategory,searchProducts} from '../services/Products_services';
 import CardData from '../components/CardData';
-import AllProductPage from './AllProductPage';
 import { useSelector } from 'react-redux';
 
 

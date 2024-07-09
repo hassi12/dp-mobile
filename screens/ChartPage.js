@@ -1,7 +1,6 @@
 import {
   View,
   Text,
-  SafeAreaView,
   TouchableOpacity,
   Image,
   StyleSheet,
@@ -13,12 +12,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {rotationHandlerName} from 'react-native-gesture-handler/lib/typescript/handlers/RotationGestureHandler';
-import Tabs from '../tabs/tabs';
 import {useNavigation} from '@react-navigation/native';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {useState} from 'react';
-import CheckoutPage from './CheckoutPage';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   getCartTotal,
